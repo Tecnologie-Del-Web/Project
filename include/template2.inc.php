@@ -471,7 +471,7 @@ Class Template {
 			}
 			for($i=0;$i<count($finalContent[0]);$i++){
 				$currentParsedContentName = $finalContent[0][$i];
-				$currentParsedContentValue = $finalContent[1][$i] ?: "";
+				$currentParsedContentValue = $finalContent[1][$i];
 				$buffer = preg_replace("~{$this->escaped_tags['open']}$currentParsedContentName{$this->escaped_tags['close']}~Us",$currentParsedContentValue,$buffer,1);
 			}
 		} 
@@ -714,8 +714,11 @@ Class Template {
 		
 		if (isset($_SESSION['user'])) {
 		
-			$this->setContent("user.nome", $_SESSION['user']['nome']);
-			$this->setContent("user.cognome", $_SESSION['user']['cognome']);
+			$this->setContent("user.username", $_SESSION['user']['username']);
+			$this->setContent("user.name", $_SESSION['user']['name']);
+			$this->setContent("user.surname", $_SESSION['user']['surname']);
+			//$this->setContent("user.lastlogin", $_SESSION['user']['lastlogin']);
+		
 			$this->setContent("user.email", $_SESSION['user']['email']);
 		}
 
@@ -1501,7 +1504,7 @@ Class ForeachCode {
 	function setPlaceholderValue($placeholderName,$placeholderValue,$foreachName,$foreachCode){
 		$result = preg_match("~<\[$placeholderName\]>~Us",$foreachCode);
 		if($result){//Se c'? il placeholder lo istanzio
-			$foreachCode = preg_replace("~<\[$placeholderName\]>~Us",$placeholderValue?:"",$foreachCode,-1);
+			$foreachCode = preg_replace("~<\[$placeholderName\]>~Us",$placeholderValue,$foreachCode,-1);
 		}
 		else{// Se non c'? controllo se si trova nel codice del foreach pulito, nel caso in cui lo appendo 
 			$foreachCode=preg_replace("~<\[(foreach\d+_\d+)\]>.+<\[\/\\1\]>~Us","",$foreachCode,-1);//Elimino i vecchi foreach annidati, sono in una nuova iterazione	
@@ -1630,7 +1633,7 @@ Class Skin extends Template {
 		
 		if ((basename($_SERVER['SCRIPT_FILENAME']) != "error.php") and (!isset($_REQUEST['nocache']))) {
 			
-			if ($GLOBALS['config']['cache_mode'] == 'NONE') {
+			if ($GLOBALS['config']['cache_mode'] == NONE) { 
 				$result = true;
 			} elseif ($this->private) {
 				$result = true;
