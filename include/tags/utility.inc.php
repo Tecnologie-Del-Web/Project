@@ -2,9 +2,6 @@
 
     class utility extends taglibrary {
 
-        function dummy() {}
-
-        
         function notify($name, $data, $pars) {
 
             switch($data) {

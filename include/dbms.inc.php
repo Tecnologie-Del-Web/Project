@@ -1,10 +1,9 @@
 <?php
 
-    $host = "localhost";
-    $user = "root";
-    $pass = "viva1felice";
-    $name = "tdw_2122";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$name = "tdw_db";
 
-    $mysqli = new mysqli($host, $user, $pass, $name);
-    
-?>
+$mysqli = new mysqli($host, $user, $pass, $name);
+
