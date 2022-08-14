@@ -1,8 +1,8 @@
 <?php
 
 $host = "localhost";
-$user = "tdwUser";
-$pass = "tdwUserPwd";
+$user = "root";
+$pass = "password";
 $name = "tdw";
 
 $mysqli = new mysqli($host, $user, $pass, $name);
