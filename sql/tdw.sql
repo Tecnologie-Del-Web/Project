@@ -1,5 +1,5 @@
 -- Elimino il database se già esistente
-DROP DATABASE IF EXISTS tdw; 
+DROP DATABASE IF EXISTS tdw;
 
 -- Creo il database e lo seleziono come default
 CREATE DATABASE tdw;
@@ -18,6 +18,15 @@ CREATE TABLE `user` (
     email_address VARCHAR(25) NOT NULL
 );
 
+CREATE TABLE payment_method (
+	payment_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `type` ENUM('debit', 'credit', 'paypal') NOT NULL,
+    credentials VARCHAR(100) NOT NULL,
+    validity TIMESTAMP NOT NULL,
+    user_id INTEGER UNSIGNED NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
 CREATE TABLE `order` (
     order_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     total FLOAT NOT NULL,
@@ -28,6 +37,15 @@ CREATE TABLE `order` (
     FOREIGN KEY (payment_code) REFERENCES payment_method (payment_code) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+CREATE TABLE brand (
+    brand_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    brand_name VARCHAR(25) UNIQUE NOT NULL,
+    website VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    email_address VARCHAR(25) NOT NULL,
+    address VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE product (
     product_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(50) NOT NULL,
@@ -36,15 +54,6 @@ CREATE TABLE product (
     product_description TEXT NOT NULL,
     brand_code INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (brand_code) REFERENCES brand (brand_code) ON DELETE NO ACTION ON UPDATE CASCADE
-);
-
-CREATE TABLE brand (
-    brand_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    brand_name VARCHAR(25) UNIQUE NOT NULL,
-    website VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(15) NOT NULL,
-    email_address VARCHAR(25) NOT NULL,
-    address VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE product_variant (
@@ -68,15 +77,6 @@ CREATE TABLE discount (
     start_date TIMESTAMP NOT NULL,
     expiration_date TIMESTAMP NOT NULL,
     CHECK (percentage BETWEEN 0.00 AND 1.00)
-);
-
-CREATE TABLE payment_method (
-	payment_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `type` ENUM('debit', 'credit', 'paypal') NOT NULL,
-    credentials VARCHAR(100) NOT NULL,
-    validity TIMESTAMP NOT NULL,
-    user_id INTEGER UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE product_review (
