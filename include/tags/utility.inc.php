@@ -1,6 +1,9 @@
 <?php
 
-    class utility extends taglibrary {
+    // Richiedo il file nel quale è dichiarata e definita la classe TagLibrary
+    require_once $_SERVER['DOCUMENT_ROOT'] . "/Project/include/template2.inc.php";
+
+    class Utility extends TagLibrary {
 
         function notify($name, $data, $pars) {
 
@@ -33,8 +36,7 @@
         }
 
         function show($name, $data, $pars) {
-            global 
-                $mysqli;
+            global $mysqli;
             
             $main = new Template("skins/revision/dtml/slider.html");
 

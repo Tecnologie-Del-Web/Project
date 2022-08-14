@@ -1,9 +1,9 @@
 <?php
 
 $host = "localhost";
-$user = "root";
-$pass = "";
-$name = "tdw_db";
+$user = "tdwUser";
+$pass = "tdwUserPwd";
+$name = "tdw";
 
 $mysqli = new mysqli($host, $user, $pass, $name);
 
