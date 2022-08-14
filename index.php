@@ -1,7 +1,7 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/Project/include/dbms.inc.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/Project/include/tags/utility.inc.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/include/tags/utility.inc.php";
 
 /**
  * Routing page
@@ -13,6 +13,8 @@ $request = strtok($_SERVER["REQUEST_URI"], '?');
 const __CONTROLLERS__ = __DIR__ . '/controllers/';
 global $mysqli;
 
+echo $request;
+
 $query = "SELECT * FROM service WHERE '" . $request . "' like url ORDER BY LENGTH(url) DESC LIMIT 1;";
 $oid = $mysqli->query($query);
 
@@ -23,12 +25,12 @@ if ($oid->num_rows > 0) {
         // Carico il controller
         $controller = $oid['script'];
         // Carico la funzione da eseguire
-        $action = $oid['callback'];
+        $callback = $oid['callback'];
         // Carico il file del controller
         $controller = __CONTROLLERS__ . $controller;
         require $controller;
-        // Eseguo la funzione
-        $action();
+
+        $callback();
     } else
         // Se l'utente è autenticato
         if (isset($_SESSION['auth']) && $_SESSION['auth']) {
@@ -37,12 +39,12 @@ if ($oid->num_rows > 0) {
                 // Carico il controller
                 $controller = $oid['script'];
                 // Carico la funzione da eseguire
-                $action = $oid['callback'];
+                $callback = $oid['callback'];
                 // Carico il file del controller
                 $controller = __CONTROLLERS__ . $controller;
                 require $controller;
-                // Eseguo la funzione
-                $action();
+                
+                $callback();
             } else {
                 // Se è autenticato ma non ha accesso alla pagina, reindirizzo alla home
                 Header("Location: /");
@@ -54,7 +56,6 @@ if ($oid->num_rows > 0) {
             exit;
         }
 } else {
-    // TODO: creare controller, se opportuno
     // Se la pagina non esiste, carico il controller degli errori
-    // require __CONTROLLERS__ . 'errors.php';
+    require __CONTROLLERS__ . 'errors.php';
 }

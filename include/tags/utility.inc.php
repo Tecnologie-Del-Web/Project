@@ -1,7 +1,7 @@
 <?php
 
     // Richiedo il file nel quale è dichiarata e definita la classe TagLibrary
-    require_once $_SERVER['DOCUMENT_ROOT'] . "/Project/include/template2.inc.php";
+    require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
     class Utility extends TagLibrary {
 
