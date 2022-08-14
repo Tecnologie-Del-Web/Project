@@ -25,7 +25,7 @@ CREATE TABLE `order` (
     user_id INTEGER UNSIGNED NOT NULL,
     payment_code INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE NO ACTION ON UPDATE CASCADE,
-    FOREIGN KEY (payment_code) REFERENCES payment (payment_code) ON DELETE NO ACTION ON UPDATE CASCADE
+    FOREIGN KEY (payment_code) REFERENCES payment_method (payment_code) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE product (
