@@ -1,3 +1,5 @@
+# Vogliamo realizzare il routing tramite index.php
+
 RewriteEngine On
 
 RewriteBase /
@@ -7,5 +9,3 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^(.+)$ index.php [QSA,L]
-
-# File che redirige la richiesta all'index.php per il routing

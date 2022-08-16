@@ -13,7 +13,7 @@ $request = strtok($_SERVER["REQUEST_URI"], '?');
 const __CONTROLLERS__ = __DIR__ . '/controllers/';
 global $mysqli;
 
-echo $request;
+// echo "Request :" . $request;
 
 $query = "SELECT * FROM service WHERE '" . $request . "' like url ORDER BY LENGTH(url) DESC LIMIT 1;";
 $oid = $mysqli->query($query);
