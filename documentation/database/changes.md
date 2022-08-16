@@ -1,0 +1,2 @@
+- Aggiunto 'sku' a 'product', è un identificatore univoco del prodotto, utilizzato per distinguere i vari prodotto
+- Modificato expiration_date and start_date in discount con datetime, evita 
