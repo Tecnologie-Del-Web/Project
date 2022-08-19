@@ -32,6 +32,7 @@ CREATE TABLE `order` (
     FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (payment_code) REFERENCES payment_method (payment_code) ON DELETE NO ACTION ON UPDATE CASCADE
 );
+
 # todo secondo me il brand contiene troppi dati, come brand intendiamo il marchio
 # ad esempio nike, adidas ecc... possiamo lasciare solo brand_code e name, in modo da distinguere i vari marchi
 CREATE TABLE brand (
