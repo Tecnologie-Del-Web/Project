@@ -3,8 +3,6 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/tags/utility.inc.php";
 
-echo "Si è verificato un errore";
-
 if (!str_starts_with($_SERVER['REQUEST_URI'], "/skins/admin/")) {
 
     // TODO: Rendere parametrici i messaggi di errore
