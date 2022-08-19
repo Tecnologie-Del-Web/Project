@@ -6,8 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/tags/utility.inc.php";
 /**
  * Routing page
  */
-// TODO: sistemare
-// checkSession();
+checkSession();
 
 $request = strtok($_SERVER["REQUEST_URI"], '?');
 const __CONTROLLERS__ = __DIR__ . '/controllers/';

@@ -3,32 +3,27 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 require_once "include/dbms.inc.php";
 
-echo "Home page!";
-
-function test_home_callback(): void {
-    echo "Callback!";
-}
-
-/*
 function home(): void
 {
-    global $mysqli;
-    $main = setupMainUser();
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/wizym/dtml/home.html");
+    echo "Callback home invocata correttamente!";
 
-    $personalizzazione = $mysqli->query("SELECT titolo_descrizione, descrizione, immagine_about FROM personalizzazione WHERE id = 1")->fetch_assoc();
-    if ($personalizzazione) {
-        $body->setContent("titolo_descrizione", $personalizzazione["titolo_descrizione"]);
-        $body->setContent("descrizione", $personalizzazione["descrizione"]);
-        if ($personalizzazione["immagine_about"] != "") {
-            $body->setContent("immagine_about", "/uploads/".$personalizzazione["immagine_about"]);
+    /*
+    global $mysqli;
+    $main = setupUser();
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
+
+    $customization = $mysqli->query("SELECT about_info, personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
+    if ($customization) {
+        $body->setContent("about_info", $customization["about_info"]);
+        if ($customization["personal_image"] != "") {
+            $body->setContent("personal_image", "/uploads/".$customization["personal_image"]);
         } else {
-            $body->setContent("immagine_about", "https://via.placeholder.com/500");
+            $body->setContent("personal_image", "https://via.placeholder.com/500");
         }
     }
 
-    foreach ($personalizzazione as $key => $value) {
-        if ($key == "immagine_about" && $value != "") {
+    foreach ($customization as $key => $value) {
+        if ($key == "personal_image" && $value != "") {
             $value = "/uploads/" . $value;
         } else {
             $value = "https://via.placeholder.com/500";
@@ -36,9 +31,10 @@ function home(): void
         $body->setContent($key, $value);
     }
 
-    $oid = $mysqli->query("SELECT prodotti.id, prodotti.nome, prodotti.prezzo, o.percentuale as sconto
-                                FROM prodotti 
-                                LEFT JOIN offerte o on prodotti.id = o.prodotti_id
+    // TODO: completare query
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, o.percentuale as discount
+                                FROM product p
+                                LEFT JOIN discount d on p.product_id = o.prodotti_id
                                 WHERE prodotti.quantita_disponibile > 0 
                                 ORDER BY data_inserimento DESC, prodotti.id  
                                 LIMIT 10");
@@ -124,5 +120,5 @@ function home(): void
     $main->setContent("title", "HOME");
     $main->setContent("content", $body->get());
     $main->close();
+    */
 }
-*/

@@ -1,0 +1,2 @@
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Public', '/', 'home.php', 'home', '');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Public', '/test', 'test.php', 'test', '');
