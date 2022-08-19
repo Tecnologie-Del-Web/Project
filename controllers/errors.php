@@ -1,20 +1,20 @@
 <?php
 
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
-// require "include/dbms.inc.php";
-// global $mysqli;
+require_once $_SERVER["DOCUMENT_ROOT"] . "/include/tags/utility.inc.php";
 
 echo "Si è verificato un errore";
 
-/*
-if(!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")){
-    // TODO: parametrizzare i messaggi di errore
-    $error = "404";
-    $title = "Pagina non trovata";
-    $description = "La pagina che stai cercando non esiste";
+if (!str_starts_with($_SERVER['REQUEST_URI'], "/skins/admin/")) {
 
-    $main = setupMainUser();
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/wizym/dtml/error.html");
+    // TODO: Rendere parametrici i messaggi di errore
+
+    $error = "404";
+    $title = "Page not found";
+    $description = "The page your are looking for does not exist!";
+
+    $main = setupUser();
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
     $data = array(
         "error" => $error,
         "title" => $title,
@@ -26,9 +26,7 @@ if(!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")){
     }
 
     $main->setContent("content", $body->get());
-    $main->close();
 } else {
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/views/404.html");
-    $main->close();
+    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/404.html");
 }
-*/
+$main->close();
