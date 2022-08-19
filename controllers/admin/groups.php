@@ -11,14 +11,14 @@ function index()
     $oid = $mysqli->query("SELECT id, group_name FROM tdw_ecommerce.`groups`");
     $main = setupMainAdmin();
     // Creazione del contenuto
-    $crud = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/views/crud.html");
-    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/table.html");
+    $crud = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/crud.html");
+    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/table.html");
     // Riempimento della tabella
     $table->setContent("title", "Gruppi");
     foreach ($colnames as $value) {
         $table->setContent("colname", $value);
     }
-    $groups_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/specific_tables/groups.html");
+    $groups_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/specific_tables/groups.html");
     do {
         $groups = $oid->fetch_assoc();
         if ($groups) {
@@ -33,7 +33,7 @@ function index()
                 $groups_table->setContent("actions", "<div class='g-2 text-center'>-</div>");
 
             } else {
-                $actions = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/actions.html");
+                $actions = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/actions.html");
                 $groups_table->setContent("id", $groups["id"]);
                 $groups_table->setContent("group_name", $groups["group_name"]);
                 $actions->setContent("id", $groups["id"]);
@@ -58,7 +58,7 @@ function show()
         header("Location: /admin/groups");
     } else {
         $main = setupMainAdmin();
-        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/show.html");
+        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/show.html");
 
         //Inserisco i dati del gruppo nel template
         $group = $group->fetch_assoc();
@@ -80,7 +80,7 @@ function show()
 
         if ($tags->num_rows > 0) {
             //templete per la lista dei tag e dei loro poteri
-            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/powers.html");
+            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/powers.html");
             do {
                 $group_tags = $tags->fetch_assoc();
 
@@ -94,7 +94,7 @@ function show()
 
                         $powers_tmp->setContent("tag", $group_tags['tag']); //inserisco il tag nel template come titolo
                         //templete per la lista dei poteri di un tag
-                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/power.html");
+                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/power.html");
 
                         do {
                             $group_powers = $powers->fetch_assoc();
@@ -183,14 +183,14 @@ function create()
         }
     } else {
         $main = setupMainAdmin();
-        $edit = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/edit.html");
+        $edit = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/edit.html");
 
         //recupero tutti i tag dei servizi (eccetto i pubblici)
         $tags = $mysqli->query("SELECT DISTINCT services.tag FROM services WHERE services.tag NOT LIKE 'Public' AND services.tag NOT LIKE 'Gestione gruppi'");
 
         if ($tags->num_rows > 0) {
             //templete per la lista dei tag e dei loro poteri
-            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/powers.html");
+            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/powers.html");
             do {
                 $group_tags = $tags->fetch_assoc();
 
@@ -204,7 +204,7 @@ function create()
 
                         $powers_tmp->setContent("tag", $group_tags['tag']); //inserisco il tag nel template come titolo
                         //templete per la lista dei poteri di un tag
-                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/power.html");
+                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/groups/power.html");
 
                         do {
                             $group_powers = $powers->fetch_assoc();

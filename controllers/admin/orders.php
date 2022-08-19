@@ -17,14 +17,13 @@ function index()
         CONCAT(ifa.indirizzo,' ', ifa.citta,' ', ifa.cap,' ', ifa.provincia,' ', ifa.nazione) as indirizzo_fatturazione FROM tdw_db.ordini JOIN tdw_db.users as u on u.id=ordini.user_id JOIN tdw_db.indirizzi as isp on isp.id= ordini.indirizzi_spedizione JOIN tdw_db.indirizzi as ifa on ifa.id= ordini.indirizzi_fatturazione");
     $main = setupMainAdmin();
     // Creazione del contenuto
-    $crud = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/views/crud.html");
-    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/table.html");
-    // Riempimento della tabella
-    $table->setContent("title", "Ordini");
+    $crud = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/crud.html");
+    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/table.html");
+    $table->setContent("title", "Orders");
     foreach ($colnames as $value) {
         $table->setContent("colname", $value);
     }
-    $ordini_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/specific_tables/ordini.html");
+    $ordini_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/orders/orders.html");
     do {
         $ordini = $oid->fetch_assoc();
         if ($ordini) {
@@ -58,16 +57,16 @@ function show()
     } else {
         $ordine = $ordine->fetch_assoc();
         $main = setupMainAdmin();
-        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/orders/show.html");
+        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/orders/show.html");
         foreach ($ordine as $key => $value) {
             $show->setContent($key, $value);
         }
-        $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/simple_table.html");
+        $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/simple_table.html");
         $table->setContent("title", "Prodotti");
         foreach ($colnames as $value) {
             $table->setContent("colname", $value);
         }
-        $prodotti_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/specific_tables/prodotti_ordini.html");
+        $prodotti_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/specific_tables/prodotti_ordini.html");
         $oid= $mysqli-> query("SELECT p.nome as nome_prodotto, p.prezzo as prezzo_prodotto, op.quantita as quantita_prodotto FROM tdw_db.ordini_has_prodotti as op JOIN tdw_db.prodotti as p on p.id=op.prodotti_id WHERE op.ordini_id=".$id);
         do {
             $prodotti = $oid->fetch_assoc();
@@ -88,7 +87,7 @@ function accetta_ordine(){
     global $mysqli;
     $id = explode('/', $_SERVER['REQUEST_URI'])[3];
     $response = array();
-    $mysqli->query("UPDATE tdw_db.ordini SET stato='MEMORIZZATO' WHERE id=".$id);
+    $mysqli->query("UPDATE tdw.ordini SET stato='MEMORIZZATO' WHERE id=".$id);
     if ($mysqli->affected_rows == 1) {
         $response['success'] = "Prodotto modificato con successo";
     } elseif ($mysqli->affected_rows == 0) {
@@ -138,7 +137,4 @@ function edit_stato()
         }
         exit(json_encode($response));
     }
-}
-function delete()
-{
 }

@@ -28,7 +28,7 @@ if(!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")){
     $main->setContent("content", $body->get());
     $main->close();
 } else {
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/views/404.html");
+    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/404.html");
     $main->close();
 }
 */

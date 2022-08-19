@@ -5,10 +5,6 @@ DROP DATABASE IF EXISTS tdw;
 CREATE DATABASE tdw;
 USE tdw;
 
--- Creo un utente
-CREATE USER IF NOT EXISTS 'tdwUser'@'localhost' IDENTIFIED BY 'tdwUserPwd';
-GRANT select, insert, update, delete, execute ON tdw.* TO 'tdwUser'@'localhost';
-
 CREATE TABLE `user` (
     user_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) UNIQUE NOT NULL,
@@ -36,7 +32,8 @@ CREATE TABLE `order` (
     FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (payment_code) REFERENCES payment_method (payment_code) ON DELETE NO ACTION ON UPDATE CASCADE
 );
-
+# todo secondo me il brand contiene troppi dati, come brand intendiamo il marchio
+# ad esempio nike, adidas ecc... possiamo lasciare solo brand_code e name, in modo da distinguere i vari marchi
 CREATE TABLE brand (
     brand_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     brand_name VARCHAR(25) UNIQUE NOT NULL,
@@ -50,6 +47,7 @@ CREATE TABLE product (
     product_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(50) NOT NULL,
     price FLOAT NOT NULL,
+    sku VARCHAR(20) NOT NULL,
     quantity_available SMALLINT NOT NULL,
     product_description TEXT NOT NULL,
     brand_code INTEGER UNSIGNED NOT NULL,
@@ -74,8 +72,8 @@ CREATE TABLE discount (
 	discount_code INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `description` TEXT NULL,
     percentage DECIMAL(5,2) NOT NULL,
-    start_date TIMESTAMP NOT NULL,
-    expiration_date TIMESTAMP NOT NULL,
+    start_date DATETIME NOT NULL,
+    expiration_date DATETIME NOT NULL,
     CHECK (percentage BETWEEN 0.00 AND 1.00)
 );
 
@@ -142,6 +140,7 @@ CREATE TABLE user_has_service (
     FOREIGN KEY (service_id) REFERENCES service (service_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+# todo meglio chiamarlo order_item
 CREATE TABLE `contains` (
 	order_code INTEGER UNSIGNED,
     product_id INTEGER UNSIGNED,
@@ -152,6 +151,7 @@ CREATE TABLE `contains` (
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+# todo rinominiamo in product_category?
 CREATE TABLE belongs_to (
 	product_id INTEGER UNSIGNED,
     category_id INTEGER UNSIGNED,
@@ -160,6 +160,7 @@ CREATE TABLE belongs_to (
     FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+# todo rinominiamo in product_discount?
 CREATE TABLE discounted_by (
 	product_id INTEGER UNSIGNED,
     discount_code INTEGER UNSIGNED,
