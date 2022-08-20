@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="tdw.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
+    <script-file value="$PROJECT_DIR$/sql/tdw.sql" />
+    <script-file value="$PROJECT_DIR$/sql/routing.sql" />
+    <script-file value="$PROJECT_DIR$/sql/data.sql" />
+    <script-file value="$PROJECT_DIR$/sql/groups.sql" />
+    <script-mode>FILE</script-mode>
+    <data-source id="498393b6-aedc-4cc4-b90e-b496dab8561a" />
+    <method v="2" />
+  </configuration>
+</component>
