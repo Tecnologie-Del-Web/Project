@@ -16,9 +16,11 @@
 .toast.bs-toast {
   background-color: rgba($toast-background-color, $toast-bg-factor);
   z-index: $zindex-toast;
+
   .toast-header {
     padding-bottom: 0.5rem;
     position: relative;
+
     .btn-close {
       position: absolute;
       top: -8px;
@@ -41,6 +43,7 @@
       }
     }
   }
+
   .toast-header ~ .toast-body {
     padding-top: 0;
   }
@@ -52,6 +55,7 @@
   top: 4.1rem;
   right: 2.5rem;
 }
+
 // Placement Toast example
 .toast-placement-ex {
   position: fixed;

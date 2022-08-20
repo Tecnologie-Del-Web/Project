@@ -7,6 +7,7 @@
   text-transform: $form-label-text-transform;
   letter-spacing: $form-label-letter-spacing;
 }
+
 // Default (vertical ) form label size
 .form-label-lg {
   @include font-size($input-font-size-lg);

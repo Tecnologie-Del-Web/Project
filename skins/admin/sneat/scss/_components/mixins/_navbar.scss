@@ -25,6 +25,7 @@
         color: map-get($colors, color);
       }
     }
+
     .search-input-wrapper {
       .search-input,
       .search-toggler {
@@ -64,9 +65,9 @@
 
     .navbar-toggler-icon {
       background-image: if(
-        map-get($colors, active-color) == #fff,
-        $navbar-dark-toggler-icon-bg,
-        $navbar-light-toggler-icon-bg
+                      map-get($colors, active-color) == #fff,
+                      $navbar-dark-toggler-icon-bg,
+                      $navbar-light-toggler-icon-bg
       );
     }
 

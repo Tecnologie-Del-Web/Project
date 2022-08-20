@@ -7,14 +7,14 @@
 
   @if not $active-bg {
     $active-bg: rgba-to-hex(
-      rgba(map-get($colors, bg), 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
-      if($contrast-percent > 0.25, #fff, #000)
+                    rgba(map-get($colors, bg), 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
+                    if($contrast-percent > 0.25, #fff, #000)
     );
   }
 
   $menu-active-bg: rgba-to-hex(
-    rgba($active-bg, 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
-    if($contrast-percent > 0.25, #fff, #000)
+                  rgba($active-bg, 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
+                  if($contrast-percent > 0.25, #fff, #000)
   );
 
   #{$parent} {
@@ -25,6 +25,7 @@
     .menu-horizontal-prev,
     .menu-horizontal-next {
       color: map-get($colors, color);
+
       &:hover,
       &:focus {
         color: map-get($colors, active-color);
@@ -110,8 +111,8 @@
     .ps__thumb-y,
     .ps__rail-y.ps--clicking > .ps__thumb-y {
       background: rgba(
-        map-get($colors, active-color),
-        if($contrast-percent > 0.75, map-get($colors, opacity) - 0.4, map-get($colors, opacity) - 0.2)
+                      map-get($colors, active-color),
+                      if($contrast-percent > 0.75, map-get($colors, opacity) - 0.4, map-get($colors, opacity) - 0.2)
       ) !important;
     }
   }

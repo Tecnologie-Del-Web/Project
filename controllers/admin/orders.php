@@ -1,9 +1,9 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/include/template.inc.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 function index()
 {
-    global $mysqli;
+    /*global $mysqli;
     $colnames = array(
         "Numero ordine",
         "Utente",
@@ -35,9 +35,9 @@ function index()
     $table->setContent("sptable", $ordini_table->get());
     $crud->setContent("table", $table->get());
     $main->setContent("content", $crud->get());
-    $main->close();
+    $main->close();*/
 }
-
+/*
 function show()
 {
     global $mysqli;
@@ -137,4 +137,4 @@ function edit_stato()
         }
         exit(json_encode($response));
     }
-}
+}*/

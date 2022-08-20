@@ -37,26 +37,31 @@
       left: 100%;
     }
   }
+
   &.text-start {
     .divider-text {
       padding-left: 0;
     }
   }
+
   &.text-end {
     .divider-text {
       padding-right: 0;
     }
   }
+
   &.text-start-center {
     .divider-text {
       left: -25%;
     }
   }
+
   &.text-end-center {
     .divider-text {
       right: -25%;
     }
   }
+
   // Dotted Bordered Divider
   &.divider-dotted {
     .divider-text {
@@ -68,6 +73,7 @@
       }
     }
   }
+
   // Dashed Bordered Divider
   &.divider-dashed {
     .divider-text {

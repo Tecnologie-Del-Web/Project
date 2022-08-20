@@ -20,7 +20,9 @@ $oid = $mysqli->query($query);
 if ($oid->num_rows > 0) {
     $oid = $oid->fetch_assoc();
     // Se si accede a una pagina pubblica
-    if (!(str_starts_with($oid['script'], "user") || str_starts_with($oid['script'], "admin"))) {
+    //todo remove bypass
+
+    if (!(str_starts_with($oid['script'], "user") || str_starts_with($oid['script'], "bypass_admin"))) {
         // Carico il controller
         $controller = $oid['script'];
         // Carico la funzione da eseguire

@@ -4,9 +4,11 @@
 .card {
   background-clip: padding-box;
   box-shadow: $card-box-shadow;
+
   .card-link {
     display: inline-block;
   }
+
   // ! FIX: to remove padding top from first card-body if used with card-header
   .card-header + .card-body,
   .card-header + .card-content > .card-body:first-of-type {
@@ -31,16 +33,19 @@
     border: none;
     border-radius: 0;
   }
+
   // Alert
   .card-alert {
     position: absolute;
     width: 100%;
     z-index: 999;
+
     .alert {
       border-bottom-right-radius: 0px;
       border-bottom-left-radius: 0px;
     }
   }
+
   // Collapsed
   .card-header {
     &.collapsed {
@@ -52,29 +57,35 @@
   .card-header {
     display: flex;
     line-height: $component-line-height;
+
     .card-action-title {
       flex-grow: 1;
       margin-right: 0.5rem;
     }
+
     .card-action-element {
       flex-shrink: 0;
       background-color: inherit;
       top: 1rem;
       right: 1.5rem;
       color: $body-color;
+
       a {
         color: $body-color;
+
         .collapse-icon::after {
           margin-top: -0.15rem;
         }
       }
     }
   }
+
   // Block UI loader
   .blockUI {
     .sk-fold {
       margin: 0 auto;
     }
+
     h5 {
       color: $body-color;
       margin: 1rem 0 0 0;
@@ -87,6 +98,7 @@
 .card-footer {
   border-color: $card-inner-border-color;
 }
+
 .card hr {
   color: $card-inner-border-color;
 }
@@ -117,6 +129,7 @@
     padding-top: $card-spacer-y * 0.5;
     padding-bottom: $card-spacer-y * 0.5;
   }
+
   .card-header-elements {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
@@ -128,6 +141,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
   & + &,
   > * + * {
     margin-left: 0.25rem;

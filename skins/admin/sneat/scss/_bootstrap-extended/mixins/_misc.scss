@@ -80,9 +80,9 @@
 // BG Label
 @mixin bg-label-variant($parent, $background, $color: $background) {
   $label-background: if(
-    $dark-style,
-    shade-color($background, $btn-label-bg-shade-amount, $card-bg),
-    tint-color($background, $btn-label-bg-tint-amount, $card-bg)
+                  $dark-style,
+                  shade-color($background, $btn-label-bg-shade-amount, $card-bg),
+                  tint-color($background, $btn-label-bg-tint-amount, $card-bg)
   );
   #{$parent} {
     background-color: $label-background !important;
@@ -93,9 +93,9 @@
 // Border Label
 @mixin border-label-variant($parent, $background) {
   $label-background: if(
-    $dark-style,
-    shade-color($background, $border-shade-amount),
-    tint-color($background, $border-tint-amount)
+                  $dark-style,
+                  shade-color($background, $border-shade-amount),
+                  tint-color($background, $border-tint-amount)
   );
   #{$parent} {
     border: 3px solid $label-background !important;

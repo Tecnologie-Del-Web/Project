@@ -32,6 +32,7 @@
       }
     }
   }
+
   .modal-header {
     .btn-close {
       margin-top: -1.25rem;
@@ -83,18 +84,21 @@
     flex-direction: column;
   }
 }
+
 @include media-breakpoint-down(md) {
   .modal {
     .modal-dialog:not(.modal-fullscreen) {
       padding: 0 0.75rem;
       padding-left: 0.75rem !important;
     }
+
     .carousel-control-prev,
     .carousel-control-next {
       display: none;
     }
   }
 }
+
 @include media-breakpoint-up(sm) {
   .modal-content {
     box-shadow: $modal-content-box-shadow-sm-up;
@@ -103,6 +107,7 @@
     max-width: $modal-sm;
   }
 }
+
 @include media-breakpoint-up(xl) {
   .modal-xl .modal-dialog {
     max-width: $modal-xl;

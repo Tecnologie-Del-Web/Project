@@ -1,11 +1,10 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
-require_once "include/dbms.inc.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
 
 function home(): void
 {
-    echo "Callback home invocata correttamente!";
 
     /*
     global $mysqli;

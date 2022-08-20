@@ -12,6 +12,7 @@
       background-image: none !important;
     }
   }
+
   // Active accordion box shadow
   .accordion-item.active {
     box-shadow: $floating-component-shadow;
@@ -26,6 +27,7 @@
 .accordion-button.collapsed:focus {
   box-shadow: none;
 }
+
 .accordion-button {
   box-shadow: none;
 }
@@ -44,6 +46,7 @@
 .accordion-button {
   font-weight: inherit;
   @include border-top-radius($accordion-border-radius);
+
   &.collapsed {
     @include border-radius($accordion-border-radius);
   }

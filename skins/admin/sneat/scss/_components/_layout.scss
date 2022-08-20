@@ -45,6 +45,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 // Content backdrop
 .content-backdrop {
   // z-index: 1 (layout static)
@@ -53,6 +54,7 @@
   .layout-menu-fixed & {
     z-index: 10;
   }
+
   &.fade {
     z-index: -1;
   }
@@ -72,6 +74,7 @@
   .navbar {
     transform: translate3d(0, 0, 0);
   }
+
   .navbar-nav-right {
     flex-basis: 100%;
   }
@@ -82,13 +85,16 @@
       background-color: transparent;
     }
   }
+
   // Style for detached navbar
   &.navbar-detached {
     // Container layout max-width
     $container-xxl: map-get($container-max-widths, xxl);
+
     &.container-xxl {
       max-width: calc(#{$container-xxl} - calc(#{$container-padding-x} * 2));
     }
+
     // Navbar fixed
     .layout-navbar-fixed & {
       width: calc(100% - calc(#{$container-padding-x} * 2) - #{$menu-width});
@@ -99,6 +105,7 @@
         width: calc(100% - calc(#{$container-padding-x-sm} * 2)) !important;
       }
     }
+
     .layout-navbar-fixed.layout-menu-collapsed & {
       width: calc(100% - calc(#{$container-padding-x} * 2) - #{$menu-collapsed-width});
     }
@@ -111,6 +118,7 @@
     @include media-breakpoint-down(lg) {
       width: calc(100vw - (100vw - 100%) - calc(#{$container-padding-x-sm} * 2)) !important;
     }
+
     .layout-menu-collapsed &,
     .layout-without-menu & {
       width: calc(100% - calc(#{$container-padding-x} * 2));
@@ -134,6 +142,7 @@
       box-shadow: none;
     }
   }
+
   &[class*='bg-']:not(.bg-navbar-theme) {
     .nav-item {
       .input-group-text,
@@ -148,6 +157,7 @@
       .nav-item.dropdown {
         .dropdown-menu {
           position: absolute;
+
           .last-login {
             white-space: nowrap;
           }
@@ -160,9 +170,11 @@
       .nav-item.dropdown {
         position: static;
         float: left;
+
         .badge-notifications {
           top: auto;
         }
+
         .dropdown-menu {
           position: absolute;
           left: 0.9rem;
@@ -247,6 +259,7 @@ html:not(.layout-navbar-fixed):not(.layout-menu-fixed):not(.layout-menu-fixed-of
 html:not(.layout-navbar-fixed) .layout-content-navbar .layout-page {
   padding-top: 0 !important;
 }
+
 html:not(.layout-footer-fixed) .content-wrapper {
   padding-bottom: 0 !important;
 }
@@ -465,7 +478,7 @@ html:not(.layout-footer-fixed) .content-wrapper {
 
 @include media-breakpoint-up(xl) {
   .layout-menu-collapsed:not(.layout-transitioning):not(.layout-menu-offcanvas):not(.layout-menu-fixed):not(.layout-menu-fixed-offcanvas)
-    .layout-menu {
+  .layout-menu {
     transition-duration: $menu-animation-duration;
     transition-property: margin-left, margin-right, width;
   }

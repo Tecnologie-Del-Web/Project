@@ -3,6 +3,7 @@
 
 .btn {
   cursor: pointer;
+
   &.disabled,
   &:disabled {
     cursor: default;
@@ -58,6 +59,7 @@ label.btn {
   &.btn-xl {
     width: calc(#{$btn-icon-size-xl} + #{$borders-width});
     height: calc(#{$btn-icon-size-xl} + #{$borders-width});
+
     > span {
       font-size: $btn-font-size-xl;
     }

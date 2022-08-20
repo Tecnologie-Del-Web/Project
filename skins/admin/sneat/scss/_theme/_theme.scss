@@ -16,6 +16,7 @@
   // Menu header
   .menu-header {
     position: relative;
+
     &:before {
       content: '';
       position: absolute;
@@ -32,6 +33,7 @@
       border-radius: $border-radius;
     }
   }
+
   .menu-inner > .menu-item > .menu-link {
     .layout-horizontal & {
       border-radius: $border-radius;
@@ -44,18 +46,22 @@
       .menu-item {
         .layout-horizontal & {
           margin: $menu-horizontal-link-padding-y 0;
+
           &:not(:first-child) {
             margin-left: $menu-item-spacer;
           }
+
           &:not(:last-child) {
             margin-right: $menu-item-spacer;
           }
+
           .menu-sub {
             box-shadow: $menu-horizontal-menu-box-shadow;
           }
         }
       }
     }
+
     .menu-item.active:before {
       .layout-wrapper:not(.layout-horizontal) & {
         content: '';
@@ -82,10 +88,12 @@
       left: 1.3rem;
     }
   }
+
   // ? Hide bullet from first child only as we display icon instead (horizontal)
   .menu-horizontal-wrapper > .menu-inner > .menu-item > .menu-sub > .menu-item > .menu-link:before {
     display: none;
   }
+
   // Sub menu item link active bullet
   .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
     left: 1.1875rem;
@@ -114,6 +122,7 @@
     height: 1.5rem;
     transition: all $menu-animation-duration ease-in-out;
   }
+
   @include media-breakpoint-down(xl) {
     display: none !important;
     .layout-menu-expanded & {

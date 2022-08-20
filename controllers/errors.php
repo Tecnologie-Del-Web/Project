@@ -25,11 +25,8 @@ if (!str_starts_with($_SERVER['REQUEST_URI'], "/skins/admin/")) {
 
     $main->setContent("content", $body->get());
 } else {
-<<<<<<< HEAD
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/404.html");
     $main->close();
-=======
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/404.html");
->>>>>>> 9c739d15c0ccb5ab98ef641f1f04b27797133244
 }
 $main->close();

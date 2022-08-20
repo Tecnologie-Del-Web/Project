@@ -115,33 +115,33 @@
   $opacity: if($active-color == #fff, 0.6 + (0.4 * $contrast-percent), 0.6 + (0.4 * (1 - $contrast-percent)));
 
   $color: if(
-    $inactive-color,
-    rgba-to-hex($inactive-color, $bg),
-    rgba-to-hex(rgba($active-color, if($contrast-percent < 0.25, $opacity + 0.2, $opacity)), $bg)
+                  $inactive-color,
+                  rgba-to-hex($inactive-color, $bg),
+                  rgba-to-hex(rgba($active-color, if($contrast-percent < 0.25, $opacity + 0.2, $opacity)), $bg)
   );
   $disabled-color: rgba-to-hex(rgba($color, 0.6), $bg);
   $muted-color: rgba-to-hex(rgba($color, 0.75), $bg);
   $border: if(
-    $border,
-    $border,
-    if(
-      $contrast-percent > 0.75,
-      rgba($active-color, divide($opacity, 8)),
-      if($contrast-percent < 0.25, rgba($active-color, 0.06), rgba($active-color, 0.15))
-    )
+                  $border,
+                  $border,
+                  if(
+                                  $contrast-percent > 0.75,
+                                  rgba($active-color, divide($opacity, 8)),
+                                  if($contrast-percent < 0.25, rgba($active-color, 0.06), rgba($active-color, 0.15))
+                  )
   );
 
   @return (
     // Metadata
-    opacity: $opacity,
-    contrast-percent: $contrast-percent,
-    contrast-percent-inverted: $contrast-percent-inverted,
+          opacity: $opacity,
+          contrast-percent: $contrast-percent,
+          contrast-percent-inverted: $contrast-percent-inverted,
     // Colors
-    bg: $bg,
-    color: $color,
-    active-color: $active-color,
-    disabled-color: $disabled-color,
-    muted-color: $muted-color,
-    border: $border
+          bg: $bg,
+          color: $color,
+          active-color: $active-color,
+          disabled-color: $disabled-color,
+          muted-color: $muted-color,
+          border: $border
   );
 }

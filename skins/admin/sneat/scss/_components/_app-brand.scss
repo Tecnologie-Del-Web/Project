@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
 }
+
 .app-brand-logo {
   display: block;
   flex-grow: 0;
@@ -58,7 +59,7 @@
 
 @include media-breakpoint-up(xl) {
   .layout-menu-collapsed:not(.layout-menu-hover):not(.layout-menu-offcanvas):not(.layout-menu-fixed-offcanvas)
-    .layout-menu {
+  .layout-menu {
     @include template-app-brand-collapsed();
   }
 }
