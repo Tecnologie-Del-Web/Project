@@ -12,9 +12,8 @@ if (!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")) {
     $title = "Page not found";
     $description = "The page your are looking for does not exist!";
 
-    // $main = setupUser();
-    // $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
+    $main = setupUser();
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
     $error_data = array(
         "error" => $error,
         "title" => $title,
@@ -22,10 +21,10 @@ if (!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")) {
     );
 
     foreach ($error_data as $key => $value) {
-        $main->setContent($key, $value);
+        $body->setContent($key, $value);
     }
 
-    // $main->setContent("content", $main->get());
+    $main->setContent("content", $body->get());
 } else {
     // $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/404.html");
     // $main->close();

@@ -2,12 +2,14 @@
 
 function product()
 {
-    $id = explode('/', $_SERVER['REQUEST_URI'])[2];
-    echo "Dettaglio del prodotto con ID: " . explode('/', $_SERVER['REQUEST_URI'])[2];
+    // TODO: gestire opportunamente!
 
     global $mysqli;
 
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
+    $main = setupUser();
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
+
+    $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
     $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price
                                     FROM product p
@@ -20,10 +22,10 @@ function product()
     } else {
         $product = $product->fetch_assoc();
         foreach ($product as $key => $value) {
-            echo $key;
-            $main->setContent($key, $value);
+            $body->setContent($key, $value);
         }
     }
 
+    $main->setContent("content", $body->get());
     $main->close();
 }
