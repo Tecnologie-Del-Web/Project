@@ -1,6 +1,6 @@
 use tdw;
 
-#Lanciare prima data.sql per generare gli utenti
+# Lanciare prima data.sql per generare gli utenti
 
 INSERT INTO `group` (group_id, group_name, group_description)
 VALUES (1, 'Admin', 'Administrator');
