@@ -30,11 +30,11 @@ CREATE TABLE `order` (
     total FLOAT NOT NULL,
     progress_status ENUM('placed', 'processing', 'shipped') NOT NULL,
     user_id INTEGER UNSIGNED NOT NULL,
-    payment_code INTEGER UNSIGNED NOT NULL,
+    payment_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
-    FOREIGN KEY (payment_code)
+    FOREIGN KEY (payment_id)
         REFERENCES payment_method (payment_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
@@ -54,8 +54,8 @@ CREATE TABLE product (
     price FLOAT NOT NULL,
     quantity_available SMALLINT NOT NULL,
     product_description TEXT NOT NULL,
-    brand_code INTEGER UNSIGNED NOT NULL,
-    FOREIGN KEY (brand_code)
+    brand_id INTEGER UNSIGNED NOT NULL,
+    FOREIGN KEY (brand_id)
         REFERENCES brand (brand_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
