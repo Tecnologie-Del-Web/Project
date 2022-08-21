@@ -12,7 +12,7 @@ CREATE TABLE `user` (
     phone_number VARCHAR(15) NOT NULL,
     email_address VARCHAR(25) UNIQUE NOT NULL,
     `password` VARCHAR(50) NOT NULL
-)
+);
 
 CREATE TABLE payment_method (
     payment_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +23,7 @@ CREATE TABLE payment_method (
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE `order` (
     order_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +37,7 @@ CREATE TABLE `order` (
     FOREIGN KEY (payment_code)
         REFERENCES payment_method (payment_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE brand (
     brand_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -46,7 +46,7 @@ CREATE TABLE brand (
     phone_number VARCHAR(15) NOT NULL,
     email_address VARCHAR(25) NOT NULL,
     address VARCHAR(50) NOT NULL
-)
+);
 
 CREATE TABLE product (
     product_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +58,7 @@ CREATE TABLE product (
     FOREIGN KEY (brand_code)
         REFERENCES brand (brand_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE product_variant (
     variant_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -69,13 +69,13 @@ CREATE TABLE product_variant (
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE category (
     category_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(20) UNIQUE NOT NULL,
     category_description TEXT NOT NULL
-)
+);
 
 CREATE TABLE discount (
     discount_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -84,7 +84,7 @@ CREATE TABLE discount (
     start_date DATETIME NOT NULL,
     expiration_date DATETIME NOT NULL,
     CHECK (percentage BETWEEN 0.00 AND 1.00)
-)
+);
 
 CREATE TABLE product_review (
     review_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -99,7 +99,7 @@ CREATE TABLE product_review (
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (rating BETWEEN 0 AND 5)
-)
+);
 
 CREATE TABLE shipment_address (
     address_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -113,7 +113,7 @@ CREATE TABLE shipment_address (
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
     UNIQUE (city , address , country)
-)
+);
 
 CREATE TABLE customization (
     customization_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -122,13 +122,13 @@ CREATE TABLE customization (
     email_address VARCHAR(25) NOT NULL,
     about_info TEXT NULL,
     personal_address VARCHAR(50) NOT NULL
-)
+);
 
 CREATE TABLE `group` (
     group_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     group_name VARCHAR(20) NOT NULL,
     group_description TEXT NOT NULL
-)
+);
 
 CREATE TABLE user_has_group (
     user_id INTEGER UNSIGNED,
@@ -140,7 +140,7 @@ CREATE TABLE user_has_group (
     FOREIGN KEY (group_id)
         REFERENCES `group` (group_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE service (
     service_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -149,7 +149,7 @@ CREATE TABLE service (
     script VARCHAR(255) NOT NULL,
     callback VARCHAR(255) NOT NULL,
     service_description TEXT NULL
-)
+);
 
 CREATE TABLE user_has_service (
     user_id INTEGER UNSIGNED,
@@ -161,7 +161,7 @@ CREATE TABLE user_has_service (
     FOREIGN KEY (service_id)
         REFERENCES service (service_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE order_item (
     order_id INTEGER UNSIGNED,
@@ -175,7 +175,7 @@ CREATE TABLE order_item (
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE product_category (
     product_id INTEGER UNSIGNED,
@@ -187,7 +187,7 @@ CREATE TABLE product_category (
     FOREIGN KEY (category_id)
         REFERENCES category (category_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE product_discount (
     product_id INTEGER UNSIGNED,
@@ -199,4 +199,4 @@ CREATE TABLE product_discount (
     FOREIGN KEY (discount_id)
         REFERENCES discount (discount_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
-)
+);
