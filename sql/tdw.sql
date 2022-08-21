@@ -7,15 +7,17 @@ USE tdw;
 
 CREATE TABLE `user` (
     user_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email_address VARCHAR(25) UNIQUE NOT NULL,
     `name` VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
-    email_address VARCHAR(25) UNIQUE NOT NULL,
+    username VARCHAR(30) UNIQUE NULL,
     `password` VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE payment_method (
     payment_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    payment_code VARCHAR(10) UNIQUE NOT NULL,
     `type` ENUM('debit', 'credit', 'paypal') NOT NULL,
     credentials VARCHAR(100) NOT NULL,
     validity TIMESTAMP NOT NULL,
@@ -25,17 +27,32 @@ CREATE TABLE payment_method (
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+CREATE TABLE coupon (
+	coupon_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    coupon_code VARCHAR(20) UNIQUE NOT NULL,
+    percentage DECIMAL(5,2) NOT NULL,
+    start_date DATETIME NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    description TEXT NULL,
+    CHECK (percentage BETWEEN 0.00 AND 1.00)
+);
+
 CREATE TABLE `order` (
     order_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    order_code VARCHAR(20) UNIQUE NOT NULL,
     total FLOAT NOT NULL,
     progress_status ENUM('placed', 'processing', 'shipped') NOT NULL,
     user_id INTEGER UNSIGNED NOT NULL,
     payment_id INTEGER UNSIGNED NOT NULL,
+    coupon_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (payment_id)
         REFERENCES payment_method (payment_id)
+        ON DELETE NO ACTION ON UPDATE CASCADE,
+	FOREIGN KEY (coupon_id)
+		REFERENCES coupon (coupon_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
@@ -57,7 +74,8 @@ CREATE TABLE product (
     brand_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (brand_id)
         REFERENCES brand (brand_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE
+        ON DELETE NO ACTION ON UPDATE CASCADE,
+	UNIQUE (product_name, brand_id)
 );
 
 CREATE TABLE product_variant (
@@ -68,7 +86,8 @@ CREATE TABLE product_variant (
     product_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+	UNIQUE (variant_name, product_id)
 );
 
 CREATE TABLE category (
@@ -80,16 +99,18 @@ CREATE TABLE category (
 CREATE TABLE discount (
     discount_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `description` TEXT NULL,
-    percentage DECIMAL(5 , 2 ) NOT NULL,
+    percentage DECIMAL(5, 2) NOT NULL,
     start_date DATETIME NOT NULL,
     expiration_date DATETIME NOT NULL,
-    CHECK (percentage BETWEEN 0.00 AND 1.00)
+    CHECK (percentage BETWEEN 0.00 AND 1.00),
+    UNIQUE (percentage, start_date, expiration_date)
 );
 
 CREATE TABLE product_review (
     review_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `text` TEXT NOT NULL,
     rating TINYINT NOT NULL,
+    `date` DATETIME NOT NULL,
     user_id INTEGER UNSIGNED NOT NULL,
     product_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id)
@@ -98,7 +119,8 @@ CREATE TABLE product_review (
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (rating BETWEEN 0 AND 5)
+    CHECK (rating BETWEEN 0 AND 5),
+    UNIQUE (`date`, user_id, product_id)
 );
 
 CREATE TABLE shipment_address (
@@ -163,7 +185,8 @@ CREATE TABLE user_has_service (
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
-CREATE TABLE order_item (
+-- contains
+CREATE TABLE order_product (
     order_id INTEGER UNSIGNED,
     product_id INTEGER UNSIGNED,
     quantity SMALLINT NOT NULL,
@@ -177,6 +200,7 @@ CREATE TABLE order_item (
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+-- belongs to
 CREATE TABLE product_category (
     product_id INTEGER UNSIGNED,
     category_id INTEGER UNSIGNED,
@@ -189,6 +213,7 @@ CREATE TABLE product_category (
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+-- discounted by
 CREATE TABLE product_discount (
     product_id INTEGER UNSIGNED,
     discount_id INTEGER UNSIGNED,
