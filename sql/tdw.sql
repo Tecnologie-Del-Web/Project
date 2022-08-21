@@ -51,7 +51,6 @@ CREATE TABLE product
     product_id          INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     product_name        VARCHAR(50)      NOT NULL,
     price               FLOAT            NOT NULL,
-    sku                 VARCHAR(20)      NOT NULL,
     quantity_available  SMALLINT         NOT NULL,
     product_description TEXT             NOT NULL,
     brand_code          INTEGER UNSIGNED NOT NULL,
@@ -63,6 +62,7 @@ CREATE TABLE product_variant
     variant_id    INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     variant_name  VARCHAR(20)      NOT NULL,
     `description` TEXT             NULL,
+    sku           VARCHAR(20)      NOT NULL,
     product_id    INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
