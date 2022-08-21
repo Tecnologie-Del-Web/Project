@@ -12,7 +12,7 @@ CREATE TABLE `user`
     surname       VARCHAR(50)        NOT NULL,
     phone_number  VARCHAR(15)        NOT NULL,
     email_address VARCHAR(25) UNIQUE NOT NULL,
-    password      VARCHAR(50)        NOT NULL
+    `password`      VARCHAR(50)        NOT NULL
 );
 
 CREATE TABLE payment_method
@@ -154,7 +154,7 @@ CREATE TABLE user_has_service
     FOREIGN KEY (service_id) REFERENCES service (service_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
-#contains
+# contains
 CREATE TABLE order_item
 (
     order_id   INTEGER UNSIGNED,
@@ -166,7 +166,7 @@ CREATE TABLE order_item
     FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
-#belongs_to
+# belongs_to 
 CREATE TABLE product_category
 (
     product_id  INTEGER UNSIGNED,
@@ -176,7 +176,7 @@ CREATE TABLE product_category
     FOREIGN KEY (category_id) REFERENCES category (category_id) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
-#discounted_by
+# discounted_by
 CREATE TABLE product_discount
 (
     product_id  INTEGER UNSIGNED,
