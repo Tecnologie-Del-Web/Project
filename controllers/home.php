@@ -3,14 +3,15 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
 
-function home(): void
+function home()
 {
+    $main = setupUser();
+
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
+    $main->setContent("content", $body->get());
+    $main->close();
 
     /*
-    global $mysqli;
-    $main = setupUser();
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
-
     $customization = $mysqli->query("SELECT about_info, personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
     if ($customization) {
         $body->setContent("about_info", $customization["about_info"]);

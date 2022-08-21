@@ -29,8 +29,9 @@ function setupUser()
     checkSession();
     global $mysqli;
 
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
+    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/main.html");
 
+    /*
     if (isset($_SESSION['user'])) {
         $logged = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/components/user/logged.html");
         if (isset($_SESSION['user']['script']['/admin'])) {
@@ -42,9 +43,11 @@ function setupUser()
         $unlogged->setContent("referrer", "?referrer=" . urlencode($_SERVER['REQUEST_URI']));
         $main->setContent("user_bar", $unlogged->get());
     }
+    */
 
-    $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/wizym/dtml/components/header.html");
-    $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/wizym/dtml/components/footer.html");
+    $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/header.html");
+    $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/footer.html");
+    /*
     $customization = $mysqli->query("SELECT personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
     if ($customization) {
         if ($customization["logo"] != "") {
@@ -55,6 +58,7 @@ function setupUser()
             $footer->setContent("logo", "https://via.placeholder.com/150");
         }
     }
+    */
 
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());

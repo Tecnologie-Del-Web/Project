@@ -12,10 +12,10 @@ $request = strtok($_SERVER["REQUEST_URI"], '?');
 const __CONTROLLERS__ = __DIR__ . '/controllers/';
 global $mysqli;
 
-// echo "Request :" . $request;
-
 $query = "SELECT * FROM service WHERE '" . $request . "' like url ORDER BY LENGTH(url) DESC LIMIT 1;";
 $oid = $mysqli->query($query);
+
+// echo $oid->num_rows;
 
 if ($oid->num_rows > 0) {
     $oid = $oid->fetch_assoc();
@@ -58,5 +58,6 @@ if ($oid->num_rows > 0) {
         }
 } else {
     // Se la pagina non esiste, carico il controller degli errori
+    echo $request;
     require __CONTROLLERS__ . 'errors.php';
 }

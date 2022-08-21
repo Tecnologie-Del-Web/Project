@@ -3,7 +3,8 @@
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/tags/utility.inc.php";
 
-if (!str_starts_with($_SERVER['REQUEST_URI'], "/skins/admin/")) {
+
+if (!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")) {
 
     // TODO: Rendere parametrici i messaggi di errore
 
@@ -11,22 +12,23 @@ if (!str_starts_with($_SERVER['REQUEST_URI'], "/skins/admin/")) {
     $title = "Page not found";
     $description = "The page your are looking for does not exist!";
 
-    $main = setupUser();
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
-    $data = array(
+    // $main = setupUser();
+    // $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
+    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
+    $error_data = array(
         "error" => $error,
         "title" => $title,
         "description" => $description,
     );
 
-    foreach ($data as $key => $value) {
-        $body->setContent($key, $value);
+    foreach ($error_data as $key => $value) {
+        $main->setContent($key, $value);
     }
 
-    $main->setContent("content", $body->get());
+    // $main->setContent("content", $main->get());
 } else {
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/404.html");
-    $main->close();
+    // $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/404.html");
+    // $main->close();
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/404.html");
 }
 $main->close();

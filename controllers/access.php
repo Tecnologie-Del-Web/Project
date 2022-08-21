@@ -15,22 +15,28 @@ checkSession();
  */
 function login(): void
 {
-    if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {  //se non è autenticato
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {                 //se è una richiesta POST
-            doLogin();                                              //eseguo il login
-            if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {     //se l'utente è autenticato dopo la funzione di login
+    // Se non è autenticato
+    if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
+        // Se è una richiesta POST
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Eseguo il login
+            doLogin();
+            if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
+                // Se l'utente è autenticato dopo la funzione di login
                 redirect($_POST['referrer'] ?? "");
-            } else {                                                 //se l'utente non è stato autenticato
+            } else {
+                // Se l'utente non è stato autenticato
                 $main = setupMainAuth("login");
                 $alert = setupAlert("Username o password errati.");
                 $main->setContent("alert", $alert->get());
                 $main->close();
             }
-        } else {                                                      //se è una richiesta GET
+        } else {
+            // Se è una richiesta GET
             $main = setupMainAuth("login");
             $main->close();
         }
-        //se l'utente è già autenticato, reindirizza alla home
+        // Se l'utente è già autenticato, reindirizza alla home
     } else {
         redirect($_POST['referrer'] ?? "");
     }
