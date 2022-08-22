@@ -24,12 +24,13 @@ function setupAdmin()
 }
 
 // TODO: completare!
-function setupUser()
+function setupUser(bool $dropdown = true)
 {
     checkSession();
     global $mysqli;
 
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/main.html");
+
 
     /*
     if (isset($_SESSION['user'])) {
@@ -45,8 +46,30 @@ function setupUser()
     }
     */
 
-    $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/header.html");
+    if ($dropdown)
+        $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/header.html");
+    else
+        $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/no-dropdown-header.html");
+
     $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/footer.html");
+
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name
+                                FROM category c
+                                ORDER BY c.category_id");
+
+    do {
+        $category = $oid->fetch_assoc();
+        if ($category) {
+            foreach ($category as $key => $value) {
+                $header->setContent($key, $value);
+                // Aggiungo la categoria alla barra di ricerca
+                // Il template engine non consente di farlo con una sola variabile
+                $header->setContent("bar_" . $key, $value);
+            }
+        }
+    } while ($category);
+
+
     /*
     $customization = $mysqli->query("SELECT personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
     if ($customization) {

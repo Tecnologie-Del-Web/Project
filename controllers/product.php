@@ -6,7 +6,7 @@ function product()
 
     global $mysqli;
 
-    $main = setupUser();
+    $main = setupUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
