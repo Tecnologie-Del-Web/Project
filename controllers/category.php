@@ -24,6 +24,21 @@ function category()
         }
     }
 
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price
+                                                FROM product p JOIN product_category pc ON (p.product_id = pc.product_id) JOIN category c ON pc.category_id = c.category_id
+                                                WHERE p.quantity_available > 0 
+                                                  AND c.category_id = $id
+                                                ORDER BY p.product_name");
+
+    do {
+        $product = $oid->fetch_assoc();
+        if ($product) {
+            foreach ($product as $key => $value) {
+                $body->setContent($key, $value);
+            }
+        }
+    } while ($product);
+
     $main->setContent("content", $body->get());
     $main->close();
 }
