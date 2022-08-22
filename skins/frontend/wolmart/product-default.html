@@ -1,8 +1,8 @@
 <main class="main mb-10 pb-1">
     <!-- Start of Breadcrumb -->
-    <nav class="breadcrumb-nav container">
+    <nav class="breadcrumb-nav container" style="visibility: hidden;">
         <ul class="breadcrumb bb-no">
-            <li><a href="/">Home</a></li>
+            <li>Home</li>
             <li>Products</li>
         </ul>
         <ul class="product-nav list-style-none">
@@ -131,7 +131,7 @@
                         </div>
                         <div class="col-md-6 mb-4 mb-md-6">
                             <div class="product-details" data-sticky-options="{'minWidth': 767}">
-                                <h1 class="product-title">Electronics Black Wrist Watch</h1>
+                                <h1 class="product-title"><[product_name]></h1>
                                 <div class="product-bm-wrapper">
                                     <figure class="brand">
                                         <img src="/skins/frontend/wolmart/assets/images/products/brand/brand-1.jpg" alt="Brand"
@@ -140,7 +140,7 @@
                                     <div class="product-meta">
                                         <div class="product-categories">
                                             Category:
-                                            <span class="product-category"><a href="#">Electronics</a></span>
+                                            <span class="product-category"><a href="/category/<[category_id]>"><[category_name]></a></span>
                                         </div>
                                         <div class="product-sku">
                                             SKU: <span>MS46891340</span>
@@ -150,7 +150,7 @@
 
                                 <hr class="product-divider">
 
-                                <div class="product-price"><ins class="new-price">$40.00</ins></div>
+                                <div class="product-price"><ins class="new-price">€<[price]></ins></div>
 
                                 <div class="ratings-container">
                                     <div class="ratings-full">
@@ -163,9 +163,7 @@
 
                                 <div class="product-short-desc">
                                     <ul class="list-type-check list-style-none">
-                                        <li>Ultrices eros in cursus turpis massa cursus mattis.</li>
-                                        <li>Volutpat ac tincidunt vitae semper quis lectus.</li>
-                                        <li>Aliquam id diam maecenas ultricies mi eget mauris.</li>
+                                        <li><[product_description]></li>
                                     </ul>
                                 </div>
 
@@ -222,24 +220,23 @@
                     <div class="tab tab-nav-boxed tab-nav-underline product-tabs">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a href="#product-tab-description" class="nav-link active">Description</a>
+                                <a href="#product-tab-description" class="nav-link active">Descrizione</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#product-tab-specification" class="nav-link">Specification</a>
+                                <a href="#product-tab-specification" class="nav-link">Specifiche</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#product-tab-reviews" class="nav-link">Customer Reviews (3)</a>
+                                <a href="#product-tab-reviews" class="nav-link">Recensioni degli utenti (<[reviews_count]>)</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="product-tab-description">
                                 <div class="row mb-4">
                                     <div class="col-md-6 mb-5">
-                                        <h4 class="title tab-pane-title font-weight-bold mb-2">Detail</h4>
-                                        <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                            sed do eiusmod tempor incididunt arcu cursus vitae congue mauris.
-                                            Sagittis id consectetur purus ut. Tellus rutrum tellus pelle Vel
-                                            pretium lectus quam id leo in vitae turpis massa.</p>
+                                        <h4 class="title tab-pane-title font-weight-bold mb-2">Dettaglio prodotto</h4>
+                                        <p class="mb-4">
+                                            <[product_description]>
+                                        </p>
                                         <ul class="list-type-check">
                                             <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis
                                                 elit.
@@ -291,11 +288,11 @@
                                         <p>Skysuite 320</p>
                                     </li>
                                     <li>
-                                        <label>Color</label>
+                                        <label>Colore</label>
                                         <p>Black</p>
                                     </li>
                                     <li>
-                                        <label>Size</label>
+                                        <label>Taglia</label>
                                         <p>Large, Small</p>
                                     </li>
                                     <li>
@@ -962,9 +959,11 @@
                     </div>
                     <section class="related-product-section">
                         <div class="title-link-wrapper mb-4">
-                            <h4 class="title">Related Products</h4>
-                            <a href="#" class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
-                                Products<i class="w-icon-long-arrow-right"></i></a>
+                            <h4 class="title">Prodotti Correlati</h4>
+                            <a href="#" class="btn btn-dark btn-link btn-slide-right btn-icon-right">
+                                Altri Prodotti
+                                <i class="w-icon-long-arrow-right"></i>
+                            </a>
                         </div>
                         <div class="swiper-container swiper-theme">
                             <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2" style="height: auto !important;">
@@ -1113,8 +1112,8 @@
                                                 <i class="w-icon-truck"></i>
                                             </span>
                                     <div class="icon-box-content">
-                                        <h4 class="icon-box-title">Free Shipping & Returns</h4>
-                                        <p>For all orders over $99</p>
+                                        <h4 class="icon-box-title">Spedizione Gratuita e Reso</h4>
+                                        <p>Per gli ordini sopra da €99</p>
                                     </div>
                                 </div>
                                 <div class="icon-box icon-box-side">
@@ -1122,8 +1121,8 @@
                                                 <i class="w-icon-bag"></i>
                                             </span>
                                     <div class="icon-box-content">
-                                        <h4 class="icon-box-title">Secure Payment</h4>
-                                        <p>We ensure secure payment</p>
+                                        <h4 class="icon-box-title">Pagamento Sicuro</h4>
+                                        <p>Puoi stare tranquillo</p>
                                     </div>
                                 </div>
                                 <div class="icon-box icon-box-side">
@@ -1131,8 +1130,8 @@
                                                 <i class="w-icon-money"></i>
                                             </span>
                                     <div class="icon-box-content">
-                                        <h4 class="icon-box-title">Money Back Guarantee</h4>
-                                        <p>Any back within 30 days</p>
+                                        <h4 class="icon-box-title">Rimborso Garantito</h4>
+                                        <p>Entro 30 giorni dall'acquisto</p>
                                     </div>
                                 </div>
                             </div>
@@ -1159,7 +1158,7 @@
 
                             <div class="widget widget-products">
                                 <div class="title-link-wrapper mb-2">
-                                    <h4 class="title title-link font-weight-bold">More Products</h4>
+                                    <h4 class="title title-link font-weight-bold">Altri Prodotti</h4>
                                 </div>
 
                                 <div class="swiper nav-top">

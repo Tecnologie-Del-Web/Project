@@ -1,5 +1,20 @@
-# Wolmart (gestione del template)
+# Gestione del template front-end
 
+## Viste
+- Home page
+- Dettaglio prodotto
+- Categorie
+- Prodotti di una categoria
+- Offerte del giorno (?)
+- About us
+- Contatti
+- Sign In/Sign Up (vista indipendente?)
+- Carrello (vista indipendente?)
+- Wishlist
+- Privacy Policy
+- Metodi di pagamento
+- Metodi di spedizione
+- T&C
 
 ## Parti rimosse
 - **nav (.main-nav)**: appena alla destra del dropdown delle categorie, riporta quasi esclusivamente link utili a convincere all'acquisto del template. Analogo per la visualizzazione mobile

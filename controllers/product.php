@@ -6,12 +6,12 @@ function product()
 
     global $mysqli;
 
-    $main = setupUser();
+    $main = setupUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
-    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price
+    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description
                                     FROM product p
                                     WHERE p.product_id = $id;");
 

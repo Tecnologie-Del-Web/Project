@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
 
 function home()
 {
-    $main = setupUser();
+    $main = setupUser(true);
 
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
     $main->setContent("content", $body->get());
