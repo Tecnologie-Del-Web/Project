@@ -1,8 +1,12 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
-function index()
+function orders(): void
 {
+    $main = initAdmin();
+    $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/orders/orders_table.html");
+    $main->setContent("content", $content->get());
+    $main->close();
     /*global $mysqli;
     $colnames = array(
         "Numero ordine",

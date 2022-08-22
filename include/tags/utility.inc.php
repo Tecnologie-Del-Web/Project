@@ -4,22 +4,17 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 
-// TODO: completare!
-function setupAdmin()
+// TODO: add customization
+function initAdmin()
 {
-    global $mysqli;
-    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/views/main.html");
-    // Default set delle parti statiche
-    $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/header.html");
-    $customization = $mysqli->query("SELECT personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
-    $header->setContent("logo", "/uploads/" . $customization["logo"] ?? "https://via.placeholder.com/150");
-    $header->setContent("nome_utente", $_SESSION["user"]["nome"] . " " . $_SESSION["user"]["cognome"]);
-    $main->setContent("header", $header->get());
+    $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/index.html");
+    $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/header.html");
+    $navbar = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/navbar.html");
+    $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/footer.html");
 
-    $sidebar = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/sidebar.html");
-    $sidebar->setContent("logo", "/uploads/" . $customization["logo"] ?? "https://via.placeholder.com/150");
-    $main->setContent("sidebar", $sidebar->get());
-    $main->setContent("footer", (new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/footer.html"))->get());
+    $main->setContent("header", $header->get());
+    $main->setContent("navbar", $navbar->get());
+    $main->setContent("footer", $footer->get());
     return $main;
 }
 
@@ -72,4 +67,3 @@ function checkSession(): void
     }
 }
 
-?>
