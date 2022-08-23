@@ -10,3 +10,5 @@ incorrectly formed")
 - Rinominate tabelle
 - Cambiato 'code' con 'id'
 - Aggiunto campo password a 'user'. Ora la chiave di 'user' è data dall'indirizzo e-mail, non è ovviamente possibile avere username duplicati
+
+- l'url in service è diventato unique

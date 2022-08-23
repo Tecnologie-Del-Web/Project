@@ -167,7 +167,7 @@ CREATE TABLE user_has_group (
 CREATE TABLE service (
     service_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tag VARCHAR(100) NOT NULL,
-    url VARCHAR(255) NOT NULL,
+    url VARCHAR(255) UNIQUE NOT NULL,
     script VARCHAR(255) NOT NULL,
     callback VARCHAR(255) NOT NULL,
     service_description TEXT NULL
