@@ -1,4 +1,5 @@
 USE tdw;
+
 #Pulisce la tabella prima di caricare il routing
 DELETE FROM service WHERE TRUE;
 
