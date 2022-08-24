@@ -1,16 +1,34 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/include/template.inc.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template.inc.php";
 
-function index()
+function groups()
 {
     global $mysqli;
-    $colnames = array(
+    $columns = array(
+        "ID",
         "Nome",
     );
 
-    $oid = $mysqli->query("SELECT id, group_name FROM tdw_ecommerce.`groups`");
-    $main = setupMainAdmin();
-    // Creazione del contenuto
+    $main = initAdmin();
+    $result = $mysqli->query("SELECT group_id, group_name, group_description FROM `group`");
+    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
+    $table->setContent("title", "Gruppi");
+
+    foreach ($columns as $column) {
+        $table->setContent("column_name", $column);
+    }
+
+    $groups_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/groups_table.html");
+    while ($groups = $result->fetch_assoc()) {
+        foreach ($groups as $key => $value) {
+            $groups_table->setContent($key, $value);
+        }
+    }
+
+    $table->setContent("table_rows", $groups_table->get());
+    $main->setContent("content", $table->get());
+    $main->close();
+    /*// Creazione del contenuto
     $crud = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/views/crud.html");
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/components/table.html");
     // Riempimento della tabella
@@ -44,10 +62,11 @@ function index()
     $table->setContent("sptable", $groups_table->get());
     $crud->setContent("table", $table->get());
     $main->setContent("content", $crud->get());
-    $main->close();
+    $main->close();*/
+
 }
 
-function show()
+/*function show()
 {
     global $mysqli;
     $id = explode('/', $_SERVER['REQUEST_URI'])[3];
@@ -288,4 +307,4 @@ function edit()
         $response['warning'] = "Campi mancanti";
     }
     exit(json_encode($response));
-}
+}*/
