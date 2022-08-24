@@ -33,7 +33,7 @@ CREATE TABLE coupon (
     percentage DECIMAL(5,2) NOT NULL,
     start_date DATETIME NOT NULL,
     expiration_date DATETIME NOT NULL,
-    description TEXT NULL,
+    `description` TEXT NULL,
     CHECK (percentage BETWEEN 0.00 AND 1.00)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE `order` (
     progress_status ENUM('placed', 'processing', 'shipped') NOT NULL,
     user_id INTEGER UNSIGNED NOT NULL,
     payment_id INTEGER UNSIGNED NOT NULL,
-    coupon_id INTEGER UNSIGNED NOT NULL,
+    coupon_id INTEGER UNSIGNED NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -69,8 +69,8 @@ CREATE TABLE brand (
 
 CREATE TABLE category (
     category_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    category_image VARCHAR(50) NOT NULL,
     category_name VARCHAR(20) UNIQUE NOT NULL,
+    category_image VARCHAR(50) NOT NULL,
     category_description TEXT NOT NULL
 );
 
@@ -94,6 +94,7 @@ CREATE TABLE product (
 CREATE TABLE product_variant (
     variant_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     variant_name VARCHAR(20) NOT NULL,
+    `type` ENUM('size', 'color') NOT NULL,
     `description` TEXT NULL,
     sku VARCHAR(20) NOT NULL,
     product_id INTEGER UNSIGNED NOT NULL,
@@ -114,7 +115,7 @@ CREATE TABLE product_image (
 );
 
 CREATE TABLE offer (
-    discount_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    offer_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `description` TEXT NULL,
     percentage DECIMAL(5, 2) NOT NULL,
     start_date DATETIME NOT NULL,
@@ -155,7 +156,7 @@ CREATE TABLE shipment_address (
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
-    UNIQUE (city , address , country)
+    UNIQUE (city, address, country)
 );
 
 CREATE TABLE customization (
@@ -225,10 +226,24 @@ CREATE TABLE order_product (
 CREATE TABLE user_product_wishlist (
     user_id INTEGER UNSIGNED,
     product_id INTEGER UNSIGNED,
-    date DATETIME NOT NULL,
+    `date` DATETIME NOT NULL,
     PRIMARY KEY (user_id, product_id),
     FOREIGN KEY (user_id)
         REFERENCES user (user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (product_id)
+        REFERENCES product (product_id)
+        ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+-- adds to cart
+CREATE TABLE user_product_cart (
+    user_id INTEGER UNSIGNED,
+    product_id INTEGER UNSIGNED,
+    `date` DATETIME NOT NULL,
+    PRIMARY KEY (user_id, product_id),
+    FOREIGN KEY (user_id)
+        REFERENCES `user` (user_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
