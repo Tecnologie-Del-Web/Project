@@ -1,13 +1,13 @@
 <[foreach]>
 <tr>
-    <td data-href="/admin/orders/<[id]>">
-        <strong><[order_id]></strong></td>
-    <td data-href="/admin/orders/<[id]>"><[order_code]></td>
-    <td data-href="/admin/orders/<[id]>"><[username]></td>
-    <td data-href="/admin/orders/<[id]>"><[total]></td>
-    <td data-href="/admin/orders/<[id]>"><[progress_status]></td>
-    <td data-href="/admin/orders/<[id]>"><[payment_type]></td>
-    <td data-href="/admin/orders/<[id]>"><[coupon_code]></td>
+    <td data-href="/admin/users/<[id]>">
+        <strong><[id]></strong></td>
+    <td data-href="/admin/users/<[id]>"><[name]></td>
+    <td data-href="/admin/users/<[id]>"><[username]></td>
+    <td data-href="/admin/users/<[id]>"><[name]></td>
+    <td data-href="/admin/users/<[id]>"><[surname]></td>
+    <td data-href="/admin/users/<[id]>"><[phone_number]></td>
+    <td data-href="/admin/users/<[id]>"><[email_address]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -15,10 +15,10 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/orders/<[id]>"
+                <a class="dropdown-item" href="/admin/users/<[id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/orders/<[id]>/delete"
+                <a class="dropdown-item" href="/admin/users/<[id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a
                 >
             </div>
@@ -64,6 +64,6 @@
 
 <script>
     $(document).ready(function () {
-        $('.card-header').append('<a class="btn btn-primary" href="/admin/orders/create"><span class="fe fe-plus fs-14"></span> Aggiungi</a>');
+        $('.card-header').append('<a class="btn btn-primary" href="/admin/users/create"><span class="fe fe-plus fs-14"></span> Aggiungi</a>');
     })
 </script>
