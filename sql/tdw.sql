@@ -18,9 +18,9 @@ CREATE TABLE `user` (
 CREATE TABLE payment_method (
     payment_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     payment_code VARCHAR(10) UNIQUE NOT NULL,
-    `type` ENUM('debit', 'credit', 'paypal') NOT NULL,
+    `type` VARCHAR(20) NOT NULL,
     credentials VARCHAR(100) NOT NULL,
-    validity TIMESTAMP NOT NULL,
+    validity DATETIME NOT NULL,
     user_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
@@ -46,7 +46,6 @@ CREATE TABLE `order` (
     user_id INTEGER UNSIGNED NOT NULL,
     payment_id INTEGER UNSIGNED NOT NULL,
     coupon_id INTEGER UNSIGNED NOT NULL,
-    application_date DATETIME NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -125,7 +124,7 @@ CREATE TABLE offer (
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (percentage, start_date, end_date)
+    UNIQUE (start_date, product_id)
 );
 
 CREATE TABLE product_review (
