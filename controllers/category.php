@@ -9,7 +9,7 @@ function category()
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
-    $category = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description
+    $category = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description, c.category_image
                                     FROM category c
                                     WHERE c.category_id = $id;");
 

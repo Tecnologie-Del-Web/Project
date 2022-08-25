@@ -31,6 +31,7 @@ function product()
         }
     }
 
+    // Prendo le informazioni sul brand di cui ho bisogno
     $brand = $mysqli->query("SELECT b.brand_name, b.brand_image
                                     FROM brand b
                                     WHERE b.brand_id = $brand_id;");
@@ -46,7 +47,24 @@ function product()
         }
     }
 
+    // Prendo le informazioni sulla categoria di cui ho bisogno
+    $category = $mysqli->query("SELECT c.category_id, c.category_name
+                                    FROM category c
+                                    WHERE c.category_id = $category_id;");
 
+    if ($category->num_rows == 0) {
+        // TODO: gestire!
+        echo "\n" . "Ricordati di gestire questo caso!";
+        // header("Location: /products");
+    } else {
+        $category = $category->fetch_assoc();
+        foreach ($category as $key => $value) {
+            $body->setContent($key, $value);
+        }
+    }
+
+
+    // Prodotti dello stesso brand
     $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price
                                                 FROM product p
                                                 WHERE p.quantity_available > 0 
@@ -64,6 +82,8 @@ function product()
         }
     } while ($product);
 
+
+    // "Altri prodotti", ovvero prodotti della stessa categoria, ma di un altro brand
     $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price
                                                 FROM product p
                                                 WHERE p.quantity_available > 0 

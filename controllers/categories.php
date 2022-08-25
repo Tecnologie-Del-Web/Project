@@ -8,7 +8,8 @@ function categories()
     $main = setupUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/shop-banner-sidebar.html");
 
-    $oid = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description
+    // Estraggo le informazioni sulle categorie di cui ho bisogno
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description, c.category_image
                                                 FROM category c
                                                 ORDER BY c.category_id");
 
@@ -21,6 +22,7 @@ function categories()
         }
     } while ($category);
 
+    // Estraggo le informazioni sulle categorie di cui ho bisogno
     $oid = $mysqli->query("SELECT b.brand_name, b.brand_image
                                                 FROM brand b
                                                 ORDER BY b.brand_id");
