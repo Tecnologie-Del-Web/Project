@@ -11,6 +11,7 @@
           content="Progetto per il corso di Tecnologie Del Web">
     <meta name="author" content="Gaia, Luca, Francesco">
 
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/skins/frontend/wolmart/assets/images/icons/favicon.png">
 
@@ -21,7 +22,7 @@
         };
         (function (d) {
             var wf = d.createElement('script'), s = d.scripts[0];
-            wf.src = 'skins/frontend/wolmart/assets/js/webfont.js';
+            wf.src = '/skins/frontend/wolmart/assets/js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
@@ -56,13 +57,12 @@
             google: { families: ['Poppins:400,500,600,700'] }
         };
         (function (d) {
-            var wf = d.createElement('script'), s = d.scripts[0];
+            let wf = d.createElement('script'), s = d.scripts[0];
             wf.src = '/skins/frontend/wolmart/assets/js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
     </script>
-
 
 </head>
 
@@ -84,38 +84,21 @@
 <!-- End of Page-wrapper-->
 
 
-<!-- Start of Newsletter popup -->
-<div class="newsletter-popup mfp-hide">
-    <div class="newsletter-content">
-        <h4 class="text-uppercase font-weight-normal ls-25">Get Up to<span class="text-primary">25% Off</span></h4>
-        <h2 class="ls-25">Sign up to Wolmart</h2>
-        <p class="text-light ls-10">Subscribe to the Wolmart market newsletter to
-            receive updates on special offers.</p>
-        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-round">
-            <input type="email" class="form-control email font-size-md" name="email" id="email2"
-                   placeholder="Your email address" required="">
-            <button class="btn btn-dark" type="submit">SUBMIT</button>
-        </form>
-        <div class="form-checkbox d-flex align-items-center">
-            <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
-                   required="">
-            <label for="hide-newsletter-popup" class="font-size-sm text-light">Don't show this popup again.</label>
-        </div>
-    </div>
-</div>
-<!-- End of Newsletter popup -->
-
-<!-- Start of Quick View -->
-<!-- End of Quick view -->
-
 <!-- Plugin JS File -->
 <script src="/skins/frontend/wolmart/assets/vendor/jquery/jquery.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
 <script src="/skins/frontend/wolmart/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/zoom/jquery.zoom.js"></script>
 <script src="/skins/frontend/wolmart/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+<!--
 <script src="/skins/frontend/wolmart/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+-->
 <script src="/skins/frontend/wolmart/assets/vendor/skrollr/skrollr.min.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/sticky/sticky.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/nouislider/nouislider.min.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/zoom/jquery.zoom.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/photoswipe/photoswipe.js"></script>
+<script src="/skins/frontend/wolmart/assets/vendor/photoswipe/photoswipe-ui-default.js"></script>
+<script src="assets/js/main.min.js"></script>
 
 <!-- Swiper JS -->
 <script src="/skins/frontend/wolmart/assets/vendor/swiper/swiper-bundle.min.js"></script>
@@ -123,16 +106,57 @@
 <!-- Main JS -->
 <script src="/skins/frontend/wolmart/assets/js/main.min.js"></script>
 
-<!-- Plugin JS File -->
-<script src="/skins/frontend/wolmart/assets/vendor/jquery/jquery.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/sticky/sticky.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/nouislider/nouislider.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/zoom/jquery.zoom.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
-<script src="/skins/frontend/wolmart/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key="></script>
+
+<script>
+
+    /*
+    Map Settings
+        Find the Latitude and Longitude of your address:
+            - https://www.latlong.net/
+            - http://www.findlatitudeandlongitude.com/find-address-from-latitude-and-longitude/
+    */
+
+    // Map Markers
+    var mapMarkers = [{
+        address: "New York, NY 10017",
+        html: "<strong>New York Office<\/strong><br>New York, NY 10017",
+        popup: true
+    }];
+
+    // Map Initial Location
+    var initLatitude = 40.75198;
+    var initLongitude = -73.96978;
+
+    // Map Extended Settings
+    var mapSettings = {
+        controls: {
+            draggable: !window.Wolmart.isMobile,
+            panControl: true,
+            zoomControl: true,
+            mapTypeControl: true,
+            scaleControl: true,
+            streetViewControl: true,
+            overviewMapControl: true
+        },
+        scrollwheel: false,
+        markers: mapMarkers,
+        latitude: initLatitude,
+        longitude: initLongitude,
+        zoom: 11
+    };
+
+    var map = $( '#googlemaps' ).gMap( mapSettings );
+
+    // Map text-center At
+    var mapCenterAt = function ( options, e ) {
+        e.preventDefault();
+        $( '#googlemaps' ).gMap( "centerAt", options );
+    }
+
+</script>
+
+
 
 </body>
 

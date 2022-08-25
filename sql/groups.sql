@@ -12,3 +12,5 @@ VALUES (2, 'User', 'User');
 # UTENTE:   utente@example.net    password
 INSERT INTO `user_has_group` (user_id, group_id)
 VALUES (1, 1);
+INSERT INTO `user_has_group` (user_id, group_id)
+VALUES (2, 2);

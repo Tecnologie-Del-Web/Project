@@ -8,7 +8,7 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('L
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Product', '/product/%', 'product.php', 'product', 'Product Page');
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Dashboard', '/admin', 'admin/index.php', 'admin', 'Dashboard');
-INSERT INTO service(tag, url, script, callback, service_description) VALUES ('Gestione ordini', '/admin/orders', 'admin/orders.php', 'orders','Visualizza ordini');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Gestione ordini', '/admin/orders', 'admin/orders.php', 'orders','Visualizza ordini');
 
 INSERT INTO service ( tag, service_description, url, script, callback) VALUES ( 'Categorie', 'Categorie', '/admin/categories', 'admin/categories.php', 'categories');
 INSERT INTO service ( tag, service_description, url, script, callback) VALUES ( 'Categorie', 'Categoria', '/admin/categories/%', 'admin/categories.php', 'show');
