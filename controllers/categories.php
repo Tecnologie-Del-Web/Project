@@ -21,7 +21,7 @@ function categories()
         }
     } while ($category);
 
-    $oid = $mysqli->query("SELECT b.brand_name, b.brand_name
+    $oid = $mysqli->query("SELECT b.brand_name, b.brand_image
                                                 FROM brand b
                                                 ORDER BY b.brand_id");
 
