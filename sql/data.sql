@@ -3,6 +3,8 @@ USE tdw;
 -- Inserisci gli utenti
 INSERT INTO `user` (`user_id`, `name`,`surname`, `phone_number`, `email_address`, `password`) VALUES (1, 'admin', 'admin', '1234567890', 'admin@wolmart.it', '696d29e0940a4957748fe3fc9efd22a3');
 INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `password`) VALUES ('luca@email.it', 'Luca', 'Di Donato', '+39 33315020000', 'lucadido', 'pswluca');
+INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `password`) VALUES ('gaia@email.it', 'Gaia', 'Flammini', '+39 33320102000', 'gaiafla', 'pswgaia');
+INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `password`) VALUES ('francesco@email.it', 'Francesco', 'Ambrosini', '+39 33320101998', 'fraambro', 'pswfrancesco');
 
 -- Inserisco alcune categorie
 INSERT INTO category (category_name, category_description, category_image) VALUES ('Libri', 'Romanzi, Fumetti...', 'books.jpg');
@@ -45,3 +47,6 @@ INSERT INTO product (product_name, price, quantity_available, product_descriptio
 
 -- Inserisco alcune recensioni
 INSERT INTO product_review (text, rating, date, user_id, product_id) VALUES ('Uno dei miei libri preferiti!', 5, NOW(), 2, 4);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Un libro meraviglioso', 4.50, NOW(), 3, 1);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni comodissimi e molto belli!', 4.00, NOW(), 4, 11);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('I miei pantaloni preferiti!', 5.00, NOW(), 2, 11);
