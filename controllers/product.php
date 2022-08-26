@@ -7,7 +7,8 @@ function product()
     global $mysqli;
 
     $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
+    // In origine, product-default.html
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-detail.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
     $brand_id = '';

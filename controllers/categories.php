@@ -6,7 +6,8 @@ function categories()
     global $mysqli;
 
     $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/shop-banner-sidebar.html");
+    // In origine categories.html
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/categories.html");
 
     // Estraggo le informazioni sulle categorie di cui ho bisogno
     $oid = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description, c.category_image
