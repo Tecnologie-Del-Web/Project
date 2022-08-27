@@ -4,8 +4,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 function brands()
 {
     global $mysqli;
-    $columns = array("ID", "Nome", "Descrizione");
-    $result = $mysqli->query("SELECT brand_id as id, brand_name as name, brand_description as description FROM brand");
+    $columns = array("ID", "Logo", "Nome");
+    $result = $mysqli->query("SELECT brand_id, brand_image, brand_name FROM brand");
 
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
@@ -13,6 +13,7 @@ function brands()
     foreach ($columns as $column) {
         $table->setContent("column_name", $column);
     }
+
     $brands_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/brands/brands_table.html");
 
     while ($brands = $result->fetch_assoc()) {

@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template.inc.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 
 function groups()
 {

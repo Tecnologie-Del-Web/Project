@@ -13,7 +13,7 @@ function users()
         "Email",
         "Telefono"
     );
-    $result = $mysqli->query("SELECT user_id as id,  username, name,  surname, email_address, phone_number  FROM user");
+    $result = $mysqli->query("SELECT user_id,  username, name,  surname, email_address, phone_number  FROM user");
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
     $table->setContent("title", "Utenti");
