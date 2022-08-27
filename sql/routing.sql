@@ -1,6 +1,6 @@
 USE tdw;
 
-#Pulisce la tabella prima di caricare il routing
+-- Pulisce la tabella prima di caricare il routing
 DELETE FROM service WHERE TRUE;
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Home', '/', 'home.php', 'home', '');
