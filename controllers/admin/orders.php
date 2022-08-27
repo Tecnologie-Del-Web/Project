@@ -3,9 +3,26 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 function orders(): void
 {
+    global $mysqli;
+    $columns = array("ID", "Codice", "Totale", "Stato", "Utente", "Pagamento", "Coupon");
+    $result = $mysqli->query("SELECT order_id, order_code, total, progress_status, u.username as username, pm.type as payment_type, c.coupon_code as coupon_code
+       FROM `order` JOIN user u on u.user_id = `order`.user_id JOIN payment_method pm on `order`.payment_id = pm.payment_id JOIN coupon c on `order`.coupon_id = c.coupon_id");
+
     $main = initAdmin();
-    $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/orders/orders_table.html");
-    $main->setContent("content", $content->get());
+    $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
+    $table->setContent("title", "Ordini");
+    foreach ($columns as $column) {
+        $table->setContent("column_name", $column);
+    }
+    $orders_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/orders/orders_table.html");
+
+    while ($orders = $result->fetch_assoc()) {
+        foreach ($orders as $key => $value) {
+            $orders_table->setContent($key, $value);
+        }
+    }
+    $table->setContent("table_rows", $orders_table->get());
+    $main->setContent("content", $table->get());
     $main->close();
     /*global $mysqli;
     $colnames = array(

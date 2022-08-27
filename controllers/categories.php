@@ -6,9 +6,11 @@ function categories()
     global $mysqli;
 
     $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/shop-banner-sidebar.html");
+    // In origine categories.html
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/categories.html");
 
-    $oid = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description
+    // Estraggo le informazioni sulle categorie di cui ho bisogno
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description, c.category_image
                                                 FROM category c
                                                 ORDER BY c.category_id");
 
@@ -21,7 +23,8 @@ function categories()
         }
     } while ($category);
 
-    $oid = $mysqli->query("SELECT b.brand_name, b.brand_name
+    // Estraggo le informazioni sui brand di cui ho bisogno
+    $oid = $mysqli->query("SELECT b.brand_name, b.brand_image
                                                 FROM brand b
                                                 ORDER BY b.brand_id");
 
@@ -33,6 +36,23 @@ function categories()
             }
         }
     } while ($brand);
+
+    // Estraggo le informazioni di cui ho bisogno per la visualizzazione dei prodotti (in basso nella pagina)
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, c.category_id, c.category_name
+                                                FROM product p JOIN category c ON (p.category_id = c.category_id)
+                                                ORDER BY p.product_id");
+
+    do {
+        $product_category = $oid->fetch_assoc();
+        if ($product_category) {
+            foreach ($product_category as $key => $value) {
+                if (strcmp($key,"category_id") == 0 || strcmp($key,"category_name") == 0)
+                    $body->setContent("product_" . $key, $value);
+                else
+                    $body->setContent($key, $value);
+            }
+        }
+    } while ($product_category);
 
 
     $main->setContent("content", $body->get());
