@@ -6,8 +6,8 @@ function offers()
 {
     global $mysqli;
     $columns = array("ID", "Percentuale", "Inizio", "Fine", "Prodotto", "Prezzo", "Prezzo Scontato");
-    $result = $mysqli->query("SELECT offer_id, percentage, start_date, expiration_date, offer.product_id,product_name,price
-    FROM offer JOIN product p on offer.product_id = p.product_id WHERE expiration_date> NOW()");
+    $result = $mysqli->query("SELECT offer_id, percentage, start_date, end_date, offer.product_id,product_name,price
+    FROM offer JOIN product p on offer.product_id = p.product_id WHERE end_date> NOW()");
 
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");

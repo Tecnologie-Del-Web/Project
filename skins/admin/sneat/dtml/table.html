@@ -16,3 +16,61 @@
         </table>
     </div>
 </div>
+<div class="modal fade" id="delete_confirmation" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Elimina</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">
+                    Annulla
+                </button>
+                <button type="button" class="btn btn-primary" id="remove_button">Conferma
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="modal fade" id="deleteconfirmation">
+    <div class="modal-dialog modal-dialog-centered text-center " role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body text-center p-4 pb-5">
+                <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal"><span
+                        aria-hidden="true">&times;</span></button>
+                <i class="icon icon-close fs-70 text-red lh-1 my-5 d-inline-block"></i>
+                <h4 class="text-danger tx-semibold" id="delete_modal_text"></h4>
+                <button aria-label="Annulla" class="btn btn-white pd-x-25" data-bs-dismiss="modal">Annulla</button>
+                <button aria-label="Procedi" class="btn btn-danger pd-x-25 font-weight-bold" id="remove-button">
+                    Procedi
+                </button>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="modal fade" id="error">
+    <div class="modal-dialog modal-dialog-centered text-center " role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body text-center p-4 pb-5">
+                <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal"><span
+                        aria-hidden="true">&times;</span></button>
+                <i class="icon icon-close fs-70 text-red lh-1 my-5 d-inline-block"></i>
+                <h4 class="text-danger tx-semibold"></h4>
+                <button aria-label="Procedi" class="btn btn-danger pd-x-25 font-weight-bold" data-bs-dismiss="modal">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //https://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link
+    $(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
