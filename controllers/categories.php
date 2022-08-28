@@ -38,8 +38,9 @@ function categories()
     } while ($brand);
 
     // Estraggo le informazioni di cui ho bisogno per la visualizzazione dei prodotti (in basso nella pagina)
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, c.category_id, c.category_name
-                                                FROM product p JOIN category c ON (p.category_id = c.category_id)
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, c.category_id, c.category_name, pv.variant_id, pi.file_name
+                                                FROM product p JOIN category c ON (p.category_id = c.category_id) JOIN product_variant pv ON (p.product_id = pv.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
+                                                WHERE pv.default = true AND pi.type = 'main'
                                                 ORDER BY p.product_id");
 
     do {

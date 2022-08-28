@@ -14,10 +14,11 @@ function product()
     $brand_id = '';
     $category_id = '';
 
-
-    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, p.brand_id, p.category_id
-                                    FROM product p
-                                    WHERE p.product_id = $id;");
+    // Prendo il prodotto con l'id in esame
+    // Lo sku è quello della variante di default!
+    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, p.brand_id, p.category_id, pv.sku
+                                    FROM product p JOIN product_variant pv ON (p.product_id = pv.product_id)
+                                    WHERE p.product_id = $id AND pv.default = true;");
 
     if ($product->num_rows == 0) {
         // TODO: gestire!
@@ -101,11 +102,12 @@ function product()
 
 
     // Prodotti dello stesso brand
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price
-                                                FROM product p
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, pv.variant_id, pi.file_name
+                                                FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pi.variant_id = pv.variant_id)
                                                 WHERE p.quantity_available > 0 
                                                   AND p.brand_id = $brand_id
                                                   AND p.product_id != $id
+                                                  AND pv.default = true AND pi.type = 'main' 
                                                 ORDER BY p.product_name
                                                 LIMIT 6");
 
@@ -120,11 +122,12 @@ function product()
 
 
     // "Altri prodotti", ovvero prodotti della stessa categoria, ma di un altro brand
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price
-                                                FROM product p
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, pv.variant_id, pi.file_name
+                                                FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pi.variant_id = pv.variant_id)
                                                 WHERE p.quantity_available > 0 
                                                   AND p.brand_id != $brand_id
                                                   AND p.category_id = $category_id
+                                                  AND pv.default = true AND pi.type = 'main'
                                                 ORDER BY p.product_name
                                                 LIMIT 3");
 

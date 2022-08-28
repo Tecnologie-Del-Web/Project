@@ -31,14 +31,18 @@ function category()
                                                   AND (pv.default = true AND pi.type = 'main')
                                                 ORDER BY p.product_name");
 
-    do {
-        $product = $oid->fetch_assoc();
-        if ($product) {
-            foreach ($product as $key => $value) {
-                $body->setContent($key, $value);
+    if ($oid->num_rows == 0) {
+    }
+    else {
+        do {
+            $product = $oid->fetch_assoc();
+            if ($product) {
+                foreach ($product as $key => $value) {
+                    $body->setContent($key, $value);
+                }
             }
-        }
-    } while ($product);
+        } while ($product);
+    }
 
     $main->setContent("content", $body->get());
     $main->close();
