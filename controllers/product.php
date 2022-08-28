@@ -111,14 +111,24 @@ function product()
                                                 ORDER BY p.product_name
                                                 LIMIT 6");
 
-    do {
-        $product = $oid->fetch_assoc();
-        if ($product) {
-            foreach ($product as $key => $value) {
-                $body->setContent("same_brand_" . $key, $value);
+    if ($oid->num_rows == 0) {
+        $body->setContent("same_brand", '
+            <div class="content-title-section" style="margin: 100px 0 !important;">
+                <h3 class="title title-center mb-3">Non ci sono altri articoli di questo brand</h3>
+            </div>
+        ');
+    } else {
+        $same_brand = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/same_brand_products.html");
+        do {
+            $product = $oid->fetch_assoc();
+            if ($product) {
+                foreach ($product as $key => $value) {
+                    $same_brand->setContent($key, $value);
+                }
             }
-        }
-    } while ($product);
+        } while ($product);
+        $body->setContent("same_brand", $same_brand->get());
+    }
 
 
     // "Altri prodotti", ovvero prodotti della stessa categoria, ma di un altro brand

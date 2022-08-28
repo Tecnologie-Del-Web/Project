@@ -32,16 +32,23 @@ function category()
                                                 ORDER BY p.product_name");
 
     if ($oid->num_rows == 0) {
+        $body->setContent("products", '
+            <div class="content-title-section" style="margin: 100px 0 !important;">
+                <h3 class="title title-center mb-3">Nessun articolo in questa categoria</h3>
+            </div>
+        ');
     }
     else {
+        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category_products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
                 foreach ($product as $key => $value) {
-                    $body->setContent($key, $value);
+                    $products->setContent($key, $value);
                 }
             }
         } while ($product);
+        $body->setContent("products", $products->get());
     }
 
     $main->setContent("content", $body->get());
