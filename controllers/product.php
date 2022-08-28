@@ -32,6 +32,27 @@ function product()
         }
     }
 
+    $oid = findColorVariants($mysqli, $id, $body);
+
+    $oid = findSizeVariants($mysqli, $id, $body);
+
+    // Prendo le immagini della variante di default
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
+                                    FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
+                                    WHERE p.product_id = $id AND pv.default = true;");
+
+
+    do {
+        $image = $oid->fetch_assoc();
+        if ($image) {
+            foreach ($image as $key => $value) {
+                $body->setContent("swiper_" . $key, $value);
+                $body->setContent("thumb_" . $key, $value);
+            }
+        }
+    } while ($image);
+
+
     // Prendo le informazioni sul brand di cui ho bisogno
     $brand = $mysqli->query("SELECT b.brand_name, b.brand_image
                                     FROM brand b
@@ -64,21 +85,19 @@ function product()
         }
     }
 
-    // Prendo le informazioni sulle recensioni del prodotto in questione
-    $review = $mysqli->query("SELECT pr.text, pr.date, pr.rating, u.username
+    // Prendo le recensioni del prodotto in questione
+    $oid = $mysqli->query("SELECT pr.text, pr.date, pr.rating, u.username
                                     FROM product p JOIN product_review pr ON (p.product_id = pr.product_id) JOIN user u ON (pr.user_id = u.user_id)
                                     WHERE p.product_id = $id;");
 
-    if ($review->num_rows == 0) {
-        // TODO: gestire!
-        echo "\n" . "Ricordati di gestire questo caso!";
-        // header("Location: /products");
-    } else {
-        $review = $review->fetch_assoc();
-        foreach ($review as $key => $value) {
-            $body->setContent($key, $value);
+    do {
+        $review = $oid->fetch_assoc();
+        if ($review) {
+            foreach ($review as $key => $value) {
+                $body->setContent($key, $value);
+            }
         }
-    }
+    } while ($review);
 
 
     // Prodotti dello stesso brand
@@ -120,4 +139,77 @@ function product()
 
     $main->setContent("content", $body->get());
     $main->close();
+}
+
+/**
+ * @param mysqli $mysqli
+ * @param string $id
+ * @param Template $body
+ * @return bool|mysqli_result
+ */
+function findColorVariants(mysqli $mysqli, string $id, Template $body): bool|mysqli_result
+{
+    // Lavoro sulle varianti di colore
+    $oid = $mysqli->query("SELECT pv.variant_name
+                                    FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id)
+                                    WHERE p.product_id = $id AND pv.type = 'color';");
+
+
+    if ($oid->num_rows != 0) {
+        $template = '
+        <div class="product-form product-variation-form product-color-swatch" style="line-height: 2 !important;">
+            <label>Colori:</label>
+            <div class="d-flex align-items-center product-variations">
+        ';
+
+        do {
+            $color_variant = $oid->fetch_assoc();
+            if ($color_variant) {
+                $template = $template . '<a href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $color_variant['variant_name'] . '</a>';
+            }
+        } while ($color_variant);
+
+        $template = $template . "
+            </div>
+        </div>
+        ";
+        $body->setContent("color_variants", $template);
+    }
+    return $oid;
+}
+
+/**
+ * @param mysqli $mysqli
+ * @param string $id
+ * @param Template $body
+ * @return bool|mysqli_result
+ */
+function findSizeVariants(mysqli $mysqli, string $id, Template $body): bool|mysqli_result
+{
+    // Lavoro sulle varianti di taglia
+    $oid = $mysqli->query("SELECT pv.variant_name
+                                    FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id)
+                                    WHERE p.product_id = $id AND pv.type = 'size';");
+
+    if ($oid->num_rows != 0) {
+        $template = '
+        <div class="product-form product-variation-form product-color-swatch" style="line-height: 2 !important;">
+            <label>Taglie:</label>
+            <div class="d-flex align-items-center product-variations">
+        ';
+
+        do {
+            $size_variant = $oid->fetch_assoc();
+            if ($size_variant) {
+                $template = $template . '<a href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $size_variant['variant_name'] . '</a>';
+            }
+        } while ($size_variant);
+
+        $template = $template . "
+            </div>
+        </div>
+        ";
+        $body->setContent("size_variants", $template);
+    }
+    return $oid;
 }

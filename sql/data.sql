@@ -25,6 +25,7 @@ INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ("Levi's", 'levis.jpg', 'levis.com', '+39 3335', 'levis@email.com', "Via Levi's, USA");
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ("Lee", 'lee.jpg', 'lee.com', '+39 3336', 'lee@email.com', "Via Lee, USA");
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ("Emporio Armani", 'emporio_armani.jpg', 'emporioarmani.it', '+39 3337', 'emporioarmani@email.it', "Via Emporio Armani, Milano");
+INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('One Little Independent', 'oli.jpg', 'onelittleindependent.com', '+39 3338', 'oli@email.com', 'Via OLI, USA');
 
 -- Inserisco alcuni prodotti
 -- Alcuni libri
@@ -39,14 +40,50 @@ INSERT INTO product (product_name, price, quantity_available, product_descriptio
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("I fratelli Karamazov", 25.00, 25, "«Sto per terminare i Karamazov», scrive Dostoevskij il 16 agosto del 1880. «Quest'ultima parte, lo vedo e lo sento da me, è così originale e diversa da come scrivono gli altri, che non mi aspetto alcuna approvazione dalla critica. Il pubblico, i lettori sono un'altra storia: mi hanno sempre sostenuto». A un secolo e mezzo dalla sua comparsa, dapprima sulla rivista «Russkij vestnik» (Il messaggero russo) e poi in un'edizione in due volumi che andò esaurita nel giro di qualche settimana, questa scrittura diversa e originale, «madre della prosa moderna e che ha portato alla sua intensità attuale » (James Joyce), questi «vortici in ebollizione, turbinose tempeste di sabbia, getti d'acqua che sibilano e ribollono e ci risucchiano » dentro pagine composte «essenzialmente e completamente della materia di cui è fatta l'anima» (Virginia Woolf), questa «vetta della letteratura di ogni tempo » (Albert Einstein), questo «libro che può insegnarti tutto quello che serve sapere sulla vita» (Kurt Vonnegut), questo autore «che sovrasta con la sua statura le nostre letterature e la nostra storia» e che «oggi ancora ci aiuta a vivere e sperare» (Albert Camus), questa lettura «nevrotica » (Vladimir Nabokov) ma umanissima del cristianesimo, non ha perso nulla della sua potenza letteraria. E ancora oggi, mentre assistiamo al parricidio più famoso delle lettere moderne e ne seguiamo l'esaltante iter giudiziario, siamo costretti a scendere con Ivan, Dmitrij e Alësa Karamazov nelle profondità più scomode dell'animo umano, a interrogarci sugli istinti peggiori dell'individuo e della società, a incidere come un patologo le cancrene della nostra coscienza, in un percorso in cui realtà e incubo non sempre hanno contorni netti, in cui la tragedia si accompagna alla farsa, e la disperazione si danna per alimentare una pur esile fiammella di speranza. 'I fratelli Karamazov' è il testamento letterario, e non solo, di Dostoevskij, il romanzo di chi guarda al sublime da una pozza di fango, delle idee che prendono fuoco, di coloro che «non respirano mai tranquillamente né mai si riposano (...), di chi vive nella febbre, nella convulsione, nello spasimo» (Stefan Zweig).", 2, 1);
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Delitto e castigo", 12.82, 30, "Raskol'nikov è un giovane che è stato espulso dall'università e che uccide una vecchia usuraia per un'idea, per affermare la propria libertà e per dimostrare di essere superiore agli uomini comuni e alla loro morale. Una volta compiuto l'omicidio, però, scopre di essere governato non dalla logica, ma dal caso, dalla malattia, dall'irrazionale che affiora nei sogni e negli impulsi autodistruttivi. Si lancia cosi in allucinati vagabondaggi, percorrendo una Pietroburgo afosa e opprimente, una città-incubo popolata da reietti, da carnefici e vittime con cui è costretto a scontrarsi e a dialogare, alla disperata ricerca di una via d'uscita. Nuova traduzione di Emanuela Guercetti. Prefazione di Natalia Ginzburg e saggio introduttivo di Leonid Grossman.", 2, 1);
 
+
 -- Alcuni capi d'abbigliamento
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Levi's 501 Original Jeans Uomo", 65.00, 100, 'I jeans più famosi al mondo', 3, 5);
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Lee Extreme Motion, Jeans Uomo", 35.00, 80, 'Jeans resistenti e spessi, adatti anche alle stagioni più rigide', 4, 5);
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Lee Pantaloncini Uomo", 45.00, 75, 'Comodissimi e dotati di cinque pratiche tasche', 4, 5);
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Trousers Iconic Terry Pantaloni Sportivi Uomo", 82.00, 25, 'Un nuovo tessuto per la serie French Terry: questa gamma completa e versatile di garments è ora rinfrescata nello stile, grazie alla toppa ricamata ispirata al Campus; la serie è disponibile anche per le donne.', 5, 5);
 
+-- Della musica (buona)
+INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Homogenic - Björk", 18.65, 300, "Bjork's third (fourth) studio album", 6, 2);
+INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Post - Björk", 21.59, 300, "Bjork's second studio album", 6, 2);
+
+-- Inserisco alcune varianti
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'DEC-001', true, 1);
+
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Med Indigo - Worn In', 'color', 'Variante di Default', 'LEV-001-MI', true, 11);
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Nero', 'color', 'Variante Nera', 'LEV-001-NR', 0, 11);
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('40W/32L', 'size', 'Variante 40W/32L', 'LEV-001-40-32', 0, 11);
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('36W/32L', 'size', 'Variante 36W/32L', 'LEV-001-36-32', 0, 11);
+
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'HOM-001', 1, 15);
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'POS-001', 1, 16);
+
+-- Inserisco alcune immagini per le varianti
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('1.jpeg', 'main', 1);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('dec_2.jpeg', 'standard', 1);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('front.jpg', 'main', 2);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('rear.jpg', 'default', 2);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('full.jpg', 'default', 2);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('front.jpg', 'main', 3);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('full.jpg', 'default', 3);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('side.jpg', 'main', 4);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('full.jpg', 'main', 5);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('homogenic.jpg', 'main', 6);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('post.jpg', 'main', 8);
+
 -- Inserisco alcune recensioni
-INSERT INTO product_review (text, rating, date, user_id, product_id) VALUES ('Uno dei miei libri preferiti!', 5, NOW(), 2, 4);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Uno dei miei libri preferiti!', 5, NOW(), 2, 4);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Un libro meraviglioso', 4.50, NOW(), 3, 1);
-INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni comodissimi e molto belli!', 4.00, NOW(), 4, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('I miei pantaloni preferiti!', 5.00, NOW(), 2, 11);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni comodissimi', 4.5, NOW(), 4, 11);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni fantastici!', 5, NOW(), 2, 11);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Capolavoro indiscusso!', 5, NOW(), 2, 15);
