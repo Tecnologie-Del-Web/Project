@@ -7,7 +7,8 @@ function product()
     global $mysqli;
 
     $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-default.html");
+    // In origine, product-default.html
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-detail.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
     $brand_id = '';
@@ -59,6 +60,22 @@ function product()
     } else {
         $category = $category->fetch_assoc();
         foreach ($category as $key => $value) {
+            $body->setContent($key, $value);
+        }
+    }
+
+    // Prendo le informazioni sulle recensioni del prodotto in questione
+    $review = $mysqli->query("SELECT pr.text, pr.date, pr.rating, u.username
+                                    FROM product p JOIN product_review pr ON (p.product_id = pr.product_id) JOIN user u ON (pr.user_id = u.user_id)
+                                    WHERE p.product_id = $id;");
+
+    if ($review->num_rows == 0) {
+        // TODO: gestire!
+        echo "\n" . "Ricordati di gestire questo caso!";
+        // header("Location: /products");
+    } else {
+        $review = $review->fetch_assoc();
+        foreach ($review as $key => $value) {
             $body->setContent($key, $value);
         }
     }

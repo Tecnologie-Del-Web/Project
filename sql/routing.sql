@@ -1,7 +1,12 @@
 USE tdw;
 
+<<<<<<< HEAD
 #Pulisce la tabella prima di caricare il routing
 DELETE FROM service;
+=======
+-- Pulisce la tabella prima di caricare il routing
+DELETE FROM service WHERE TRUE;
+>>>>>>> 9d4f3e7e5f46cd102de7864e60e1c86e4b4a05c2
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Home', '/', 'home.php', 'home', '');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Login', '/login', 'auth/access.php', 'login', 'Login');
