@@ -62,7 +62,6 @@
                                         </div>
                                         <button class="swiper-button-next"></button>
                                         <button class="swiper-button-prev"></button>
-                                        <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
                                     </div>
                                     <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
                                         'navigation': {
@@ -91,8 +90,7 @@
                                     <h1 class="product-title"><[product_name]></h1>
                                     <div class="product-bm-wrapper">
                                         <figure class="brand">
-                                            <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand"
-                                                 width="102" height="48" />
+                                            <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand" style="max-width: 80px !important;"/>
                                         </figure>
                                         <div class="product-meta">
                                             <div class="product-categories">
@@ -420,31 +418,7 @@
                                     <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
                                         <div class="tab-content">
 
-
-                                            <div class="tab-pane active" id="show-all">
-
-                                                <[foreach]>
-                                                <div class="comment">
-                                                        <div class="comment-body">
-                                                            <div class="comment-content">
-                                                                <h4 class="comment-author">
-                                                                    <a href="#"><[username]></a>
-                                                                    <span class="comment-date"><[date]></span>
-                                                                </h4>
-                                                                <div class="ratings-container comment-rating">
-                                                                    <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 60%;"></span>
-                                                                        <span class="tooltiptext tooltip-top"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <p><[text]></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <[/foreach]>
-
-                                            </div>
-
+                                            <[reviews]>
 
                                         </div>
                                     </div>
@@ -550,34 +524,7 @@
                                                 'nextEl': '.swiper-button-next'
                                             }
                                         }">
-                                            <div class="swiper-wrapper">
-                                                <div class="widget-col swiper-slide">
-
-                                                    <[foreach]>
-                                                    <div class="product product-widget">
-                                                        <figure class="product-media">
-                                                            <a href="/product/<[other_products_product_id]>">
-                                                                <img src="/skins/frontend/wolmart/assets/images/products/<[other_products_product_id]>/<[other_products_variant_id]>/<[other_products_file_name]>" alt="Product"
-                                                                     width="100" height="113" />
-                                                            </a>
-                                                        </figure>
-                                                        <div class="product-details">
-                                                            <h4 class="product-name">
-                                                                <a href="/product/<[other_products_product_id]>"><[other_products_product_name]></a>
-                                                            </h4>
-                                                            <div class="ratings-container">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings" style="width: 100%;"></span>
-                                                                    <span class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="product-price"><[other_products_price]></div>
-                                                        </div>
-                                                    </div>
-                                                    <[/foreach]>
-
-                                                </div>
-                                            </div>
+                                            <[other_products]>
                                         </div>
                                     </div>
                                 </div>

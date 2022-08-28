@@ -29,6 +29,8 @@ INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('One Little Independent', 'oli.jpg', 'onelittleindependent.com', '+39 3338', 'oli@email.com', 'Via OLI, USA');
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('Pink Floyd Music', 'pfmusic.jpg', 'pfmusic.com', '+39 3339', 'pfmusic@email.com', 'Via pfmusic, UK');
 INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('AC/DC Music', 'acdc.jpg', 'acdcmusic.com', '+39 33310', 'acdcmusic@email.com', 'Via acdcmusic, UK');
+INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('Apple', 'apple.jpg', 'apple.com', '+39 33311', 'apple@email.com', 'Via Apple, USA');
+INSERT INTO brand (brand_name, brand_image, website, phone_number, email_address, address) VALUES ('McPietrolio', 'mcpietrolio.jpg', 'mcpietrolio.it', '+39 33312', 'pproductions@email.it', 'Via PProd, Picciano');
 
 -- Inserisco alcuni prodotti
 -- Alcuni libri
@@ -50,6 +52,9 @@ INSERT INTO product (product_name, price, quantity_available, product_descriptio
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("The Division Bell - Pink Floyd", 35.99, 100, "Un altro capolavoro in vinile", 7, 2);
 INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("Dirty Deeds Done Dirt Cheap - AC/DC", 19.67, 100, "Vinile", 8, 2);
 
+-- Degli articoli elettronici
+INSERT INTO product (product_name, price, quantity_available, product_description, brand_id, category_id) VALUES ("MacBook Pro 14'' 512 GB", 2009.50, 100, "Chip Apple M1 Pro, CPU 8‑core o 10-core con 6 o 8 performance core e 2 efficiency core, GPU 14‑core o 16-core, Neural Engine 16‑core, 200 GBps di banda di memoria", 9, 4);
+
 -- Inserisco alcune varianti
 INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'DEC-001', true, 1);
 INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'NDR-001', true, 2);
@@ -67,6 +72,9 @@ INSERT INTO product_variant (variant_name, type, description, sku, `default`, pr
 INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'ANM-001', 1, 17);
 INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'TDB-001', 1, 18);
 INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Default', 'default', 'Variante di Default', 'DDC-001', 1, 19);
+
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Grigio Siderale', 'color', 'Variante Grigio Siderale', 'MBPRO-001-GS', 1, 20);
+INSERT INTO product_variant (variant_name, type, description, sku, `default`, product_id) VALUES ('Argento', 'color', 'Variante Argento', 'MBPRO-001-AG', 0, 20);
 
 -- Inserisco alcune immagini per le varianti
 INSERT INTO product_image(file_name, type, variant_id) VALUES ('1.jpeg', 'main', 1);
@@ -95,6 +103,14 @@ INSERT INTO product_image(file_name, type, variant_id) VALUES ('the_division_bel
 
 INSERT INTO product_image(file_name, type, variant_id) VALUES ('dirty_deeds.jpg', 'main', 11);
 INSERT INTO product_image(file_name, type, variant_id) VALUES ('back.jpg', 'standard', 11);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac1.jpg', 'main', 15);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac2.jpg', 'standard', 15);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac3.jpg', 'standard', 15);
+
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac1.jpg', 'main', 16);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac2.jpg', 'standard', 16);
+INSERT INTO product_image(file_name, type, variant_id) VALUES ('mac3.jpg', 'standard', 16);
 
 -- Inserisco alcune recensioni
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Uno dei miei libri preferiti!', 5, NOW(), 2, 4);
