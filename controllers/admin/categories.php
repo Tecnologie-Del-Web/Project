@@ -61,9 +61,6 @@ function create(): void
             try {
                 $mysqli->query("INSERT INTO category (category_name,category_description, category_image)
             VALUES ('" . $category_name . "', '" . $category_description . "', '" . $category_description . "');");
-                if ($mysqli->connect_errno == 1062) {
-                    $response['error'] = "Errore nella creazione della categoria";
-                }
                 if ($mysqli->affected_rows == 1) {
                     $response['success'] = "Categoria " . $category_name . " creata con successo";
                 } elseif ($mysqli->affected_rows == 0) {

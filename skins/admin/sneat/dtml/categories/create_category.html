@@ -51,18 +51,19 @@
             $('body').find('.alert').remove();
             // Controllo che serve a vedere se tutti gli input sono riempiti
             if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
-                // Faccio la chiamata e in base al risultato lo mostro a schermo
                 $.ajax({
                     type: 'POST',
                     url: '/admin/categories/create',
                     data: {
                         'category_name': $('#category_name').val(),
-                        'category_description': $('#category_description').val()
+                        'category_description': $('#category_description').val(),
                     },
                     success: function (data) {
                         let response = JSON.parse(data);
                         if (response['success']) {
                             $('#category_name').val('');
+                            $('#category_description').val('');
+                            let image = $('#category_image')[0].files;
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');
