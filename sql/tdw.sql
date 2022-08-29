@@ -243,6 +243,8 @@ CREATE TABLE user_product_cart (
     user_id INTEGER UNSIGNED,
     product_id INTEGER UNSIGNED,
     `date` DATETIME NOT NULL,
+    quantity SMALLINT NOT NULL,
+    subtotal FLOAT NOT NULL,
     PRIMARY KEY (user_id, product_id),
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
