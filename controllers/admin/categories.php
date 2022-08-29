@@ -59,8 +59,15 @@ function create(): void
         $response = array();
         if ($category_name != "") {
             try {
-                $mysqli->query("INSERT INTO category (category_name,category_description, category_image)
-            VALUES ('" . $category_name . "', '" . $category_description . "', '" . $category_description . "');");
+                if (isset($_FILES["category_image"])) {
+                    $category_image = $_FILES["category_image"];
+                    foreach ($category_image["tmp_name"] as $key => $value) {
+                        $filename = $category_image["name"][$key];
+                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/categories/" . $filename);
+                        $mysqli->query("INSERT INTO category (category_name,category_description, category_image)
+            VALUES ('" . $category_name . "', '" . $category_description . "', '" . $filename . "');");
+                    }
+                }
                 if ($mysqli->affected_rows == 1) {
                     $response['success'] = "Categoria " . $category_name . " creata con successo";
                 } elseif ($mysqli->affected_rows == 0) {
@@ -68,8 +75,8 @@ function create(): void
                 } else {
                     $response['error'] = "Errore nella creazione della categoria";
                 }
-            } catch (Exception) {
-                $response['error'] = "Errore nella creazione della categoria";
+            } catch (Exception $e) {
+                $response['error'] = $e . "Errore nella creazione della categoria";
             }
         } else {
             $response['error'] = "Errore nella creazione della categoria";

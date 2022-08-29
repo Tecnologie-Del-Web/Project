@@ -9,7 +9,8 @@
             <label class="col-sm-2 col-form-label" for="category_name">Nome</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="text" id="category_name" name="category_name" class="form-control"
+                    <input type="text" id="category_name" name="category_name" required aria-required="true"
+                           class="form-control"
                            placeholder="Nome"/>
                 </div>
             </div>
@@ -22,6 +23,7 @@
                     <textarea
                             id="category_description"
                             class="form-control"
+                            required aria-required="true"
                             placeholder="Descrizione"></textarea>
                 </div>
             </div>
@@ -39,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" id="add" name="add" value="add" type="submit">
+        <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
             <span class="fe fe-save fs-14"></span> Aggiungi
         </button>
     </div>
@@ -47,23 +49,29 @@
 
 <script>
     $(document).ready(function () {
-        $('#add').click(function () {
+        $('#button_add').click(function () {
             $('body').find('.alert').remove();
+            let formData = new FormData();
+            formData.append('category_name', $('#category_name').val());
+            formData.append('category_description', $('#category_description').val());
+            let images = $('#category_image')[0].files;
+            for (let i = 0; i < images.length; i++) {
+                formData.append('category_image[]', images[i]);
+            }
             // Controllo che serve a vedere se tutti gli input sono riempiti
             if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
                 $.ajax({
                     type: 'POST',
+                    processData: false,
+                    contentType: false,
                     url: '/admin/categories/create',
-                    data: {
-                        'category_name': $('#category_name').val(),
-                        'category_description': $('#category_description').val(),
-                    },
+                    data: formData,
                     success: function (data) {
                         let response = JSON.parse(data);
                         if (response['success']) {
                             $('#category_name').val('');
                             $('#category_description').val('');
-                            let image = $('#category_image')[0].files;
+                            $('#category_image').val('');
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');
