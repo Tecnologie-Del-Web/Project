@@ -57,7 +57,7 @@
                             <[foreach]>
                             <div class="swiper-slide">
                                 <figure>
-                                    <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand" style="width: 160px !important; height: 90px !important;"/>
+                                    <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand" style="height: 100px !important;"/>
                                     <h4 class="brand-name">
                                         <[brand_name]>
                                     </h4>
@@ -269,8 +269,7 @@
                                 <div class="product text-center">
                                     <figure class="product-media">
                                         <a href="/product/<[product_id]>">
-                                            <img src="/skins/frontend/wolmart/assets/images/shop/1.jpg" alt="Product" width="300"
-                                                 height="338"/>
+                                            <img src="/skins/frontend/wolmart/assets/images/products/<[product_id]>/<[variant_id]>/<[file_name]>" alt="Product" style="width: 400px !important; height: 300px !important;"/>
                                         </a>
                                     </figure>
                                     <div class="product-details">
@@ -285,11 +284,11 @@
                                                 <span class="ratings" style="width: 100%;"></span>
                                                 <span class="tooltiptext tooltip-top"></span>
                                             </div>
-                                            <a href="product-detail.html" class="rating-reviews">(3 reviews)</a>
+                                            <a href="/product/<[product_id]>" class="rating-reviews">(3 reviews)</a>
                                         </div>
                                         <div class="product-pa-wrapper">
                                             <div class="product-price">
-                                                <[price]>
+                                                €<[price]>
                                             </div>
                                         </div>
                                     </div>
@@ -584,10 +583,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="about-us.html">Pages</a>
+                        <a href="about.html">Pages</a>
                         <ul>
 
-                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="about.html">About Us</a></li>
                             <li><a href="become-a-vendor.html">Become A Vendor</a></li>
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="login.html">Login</a></li>

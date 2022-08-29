@@ -1,0 +1,31 @@
+<div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
+
+    <[foreach]>
+    <div class="swiper-slide product">
+        <figure class="product-media">
+            <a href="/product/<[product_id]>">
+                <img src="/skins/frontend/wolmart/assets/images/products/<[product_id]>/<[variant_id]>/<[file_name]>" alt="Product"
+                     width="300" height="338" />
+            </a>
+        </figure>
+        <div class="product-details">
+            <div class="product-cat"><a href="/category/<[category_id]>"><[category_id]></a>
+            </div>
+            <h4 class="product-name"><a href="/product/<[product_id]>"><[product_name]></a>
+            </h4>
+            <div class="ratings-container">
+                <div class="ratings-full">
+                    <span class="ratings" style="width: 100%;"></span>
+                    <span class="tooltiptext tooltip-top"></span>
+                </div>
+                <a href="/product/<[product_id]>" class="rating-reviews">(3 reviews)</a>
+            </div>
+            <div class="product-pa-wrapper">
+                <div class="product-price">€<[price]></div>
+            </div>
+        </div>
+    </div>
+    <[/foreach]>
+
+
+</div>

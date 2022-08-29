@@ -67,51 +67,8 @@
                                 </div>
                             </div>
                         </nav>
-                        <div class="product-wrapper row cols-xl-6 cols-lg-5 cols-md-4 cols-sm-3 cols-2">
 
-                            <[foreach]>
-                            <div class="product-wrap">
-                                <div class="product text-center">
-                                    <figure class="product-media">
-                                        <a href="/product/<[product_id]>">
-                                            <img src="/skins/frontend/wolmart/assets/images/shop/12.jpg" alt="Product" width="300"
-                                                 height="338" />
-                                        </a>
-                                        <!--
-                                        <div class="product-action-horizontal">
-                                            <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                               title="Add to cart"></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                               title="Wishlist"></a>
-                                            <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                               title="Compare"></a>
-                                            <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                               title="Quick View"></a>
-                                        </div>
-                                        -->
-                                    </figure>
-                                    <div class="product-details">
-                                        <h3 class="product-name">
-                                            <a href="/product/<[product_id]>"><[product_name]></a>
-                                        </h3>
-                                        <div class="ratings-container">
-                                            <div class="ratings-full">
-                                                <span class="ratings" style="width: 100%;"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
-                                            </div>
-                                            <a href="product-detail.html" class="rating-reviews">(9 reviews)</a>
-                                        </div>
-                                        <div class="product-pa-wrapper">
-                                            <div class="product-price">
-                                                €<[price]>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <[/foreach]>
-
-                        </div>
+                        <[products]>
 
                         <div class="toolbox toolbox-pagination justify-content-between">
                             <p class="showing-info mb-2 mb-sm-0">
@@ -497,10 +454,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="about-us.html">Pages</a>
+                        <a href="about.html">Pages</a>
                         <ul>
 
-                            <li><a href="about-us.html">About Us</a></li>
+                            <li><a href="about.html">About Us</a></li>
                             <li><a href="become-a-vendor.html">Become A Vendor</a></li>
                             <li><a href="contact-us.html">Contact Us</a></li>
                             <li><a href="login.html">Login</a></li>

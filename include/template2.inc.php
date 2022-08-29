@@ -205,7 +205,7 @@ class Template
             $result = preg_match("~(<\[if\!empty\s(\w+)\]>)|(<\[\/if\!empty\]>)~Us", $temp_buffer, $token);
 
             if ($result) {
-                if (substr($token[1], 0, 10) == "<[if!empty") {
+                if (str_starts_with($token[1], "<[if!empty")) {
                     $counter_foreach_opened++;
                 } else {
                     $counter_foreach_closed++;
@@ -679,7 +679,7 @@ class Template
     function parse()
     {
 
-        /* check if te script is not service: if not entites has to be replace */
+        /* check if the script is not service: if not entities have to be replaced */
 
         if (!isset($_SESSION['user']['services'][basename($_SERVER['SCRIPT_NAME'])])) {
 

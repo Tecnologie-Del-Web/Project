@@ -48,52 +48,20 @@
                                         }
                                     }">
                                         <div class="swiper-wrapper row cols-1 gutter-no">
+
+                                            <[foreach]>
                                             <div class="swiper-slide">
                                                 <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/1-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/1-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                    <img src="/skins/frontend/wolmart/assets/images/products/<[swiper_product_id]>/<[swiper_variant_id]>/<[swiper_file_name]>"
+                                                         alt="<[swiper_product_name]>" style="height: 600px !important;">
                                                 </figure>
                                             </div>
-                                            <div class="swiper-slide">
-                                                <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/2-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/2-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="488" height="549">
-                                                </figure>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/3-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/3-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                </figure>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/4-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/4-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                </figure>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/5-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/5-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                </figure>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <figure class="product-image">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/6-800x900.jpg"
-                                                         data-zoom-image="/skins/frontend/wolmart/assets/images/products/default/6-800x900.jpg"
-                                                         alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                </figure>
-                                            </div>
+                                            <[/foreach]>
+
+
                                         </div>
                                         <button class="swiper-button-next"></button>
                                         <button class="swiper-button-prev"></button>
-                                        <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
                                     </div>
                                     <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
                                         'navigation': {
@@ -102,43 +70,27 @@
                                         }
                                     }">
                                         <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
+
+                                            <[foreach]>
                                             <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/1-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
+                                                <img src="/skins/frontend/wolmart/assets/images/products/<[thumb_product_id]>/<[thumb_variant_id]>/<[thumb_file_name]>"
+                                                     alt="Product Thumb" style="height: 200px !important;">
                                             </div>
-                                            <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/2-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
-                                            </div>
-                                            <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/3-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
-                                            </div>
-                                            <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/4-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
-                                            </div>
-                                            <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/5-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
-                                            </div>
-                                            <div class="product-thumb swiper-slide">
-                                                <img src="/skins/frontend/wolmart/assets/images/products/default/6-800x900.jpg"
-                                                     alt="Product Thumb" width="800" height="900">
-                                            </div>
+                                            <[/foreach]>
+
                                         </div>
                                         <button class="swiper-button-next"></button>
                                         <button class="swiper-button-prev"></button>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6 mb-4 mb-md-6">
                                 <div class="product-details" data-sticky-options="{'minWidth': 767}">
                                     <h1 class="product-title"><[product_name]></h1>
                                     <div class="product-bm-wrapper">
                                         <figure class="brand">
-                                            <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand"
-                                                 width="102" height="48" />
+                                            <img src="/skins/frontend/wolmart/assets/images/brands/<[brand_image]>" alt="Brand" style="max-width: 80px !important;"/>
                                         </figure>
                                         <div class="product-meta">
                                             <div class="product-categories">
@@ -146,7 +98,7 @@
                                                 <span class="product-category"><a href="/category/<[category_id]>"><[category_name]></a></span>
                                             </div>
                                             <div class="product-sku">
-                                                SKU: <span>MS46891340</span>
+                                                SKU: <span><[sku]></span>
                                             </div>
                                         </div>
                                     </div>
@@ -172,30 +124,16 @@
 
                                     <hr class="product-divider">
 
-                                    <div class="product-form product-variation-form product-color-swatch">
-                                        <label>Color:</label>
-                                        <div class="d-flex align-items-center product-variations">
-                                            <a href="#" class="color" style="background-color: #ffcc01"></a>
-                                            <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                                            <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                                            <a href="#" class="color" style="background-color: #ccc;"></a>
-                                            <a href="#" class="color" style="background-color: #333;"></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-form product-variation-form product-size-swatch">
-                                        <label class="mb-1">Size:</label>
-                                        <div class="flex-wrap d-flex align-items-center product-variations">
-                                            <a href="#" class="size">Small</a>
-                                            <a href="#" class="size">Medium</a>
-                                            <a href="#" class="size">Large</a>
-                                            <a href="#" class="size">Extra Large</a>
-                                        </div>
-                                        <a href="#" class="product-variation-clean">Clean All</a>
-                                    </div>
+                                    <!--
+                                        Varianti di colore
+                                    -->
+                                    <[color_variants]>
 
-                                    <div class="product-variation-price">
-                                        <span></span>
-                                    </div>
+
+                                    <!--
+                                        Varianti di taglia
+                                    -->
+                                    <[size_variants]>
 
                                 </div>
                             </div>
@@ -264,14 +202,6 @@
                                         <li>
                                             <label>Categoria</label>
                                             <p><[category_name]></p>
-                                        </li>
-                                        <li>
-                                            <label>Colore</label>
-                                            <p>colore</p>
-                                        </li>
-                                        <li>
-                                            <label>Taglia</label>
-                                            <p>taglia/taglie</p>
                                         </li>
                                         <li>
                                             <label>Garanzia</label>
@@ -488,31 +418,7 @@
                                     <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
                                         <div class="tab-content">
 
-
-                                            <[foreach]>
-                                            <div class="tab-pane active" id="show-all">
-                                                   <div class="comment">
-                                                        <div class="comment-body">
-                                                            <div class="comment-content">
-                                                                <h4 class="comment-author">
-                                                                    <a href=""><[username]></a>
-                                                                    <span class="comment-date"><[date]></span>
-                                                                </h4>
-                                                                <div class="ratings-container comment-rating">
-                                                                    <div class="ratings-full">
-                                                                    <span class="ratings"
-                                                                          style="width: 60%;"></span>
-                                                                        <span
-                                                                                class="tooltiptext tooltip-top"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <p><[text]></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                            <[/foreach]>
-
+                                            <[reviews]>
 
                                         </div>
                                     </div>
@@ -539,39 +445,10 @@
                                         }
                                     }
                                 }">
-                                <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
 
-                                    <[foreach]>
-                                        <div class="swiper-slide product">
-                                            <figure class="product-media">
-                                                <a href="/product/<[same_brand_product_id]>">
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/1-1.jpg" alt="Product"
-                                                         width="300" height="338" />
-                                                    <img src="/skins/frontend/wolmart/assets/images/products/default/1-2.jpg" alt="Product"
-                                                         width="300" height="338" />
-                                                </a>
-                                            </figure>
-                                            <div class="product-details">
-                                                <div class="product-cat"><a href="/category/<[same_brand_category_id]>"><[same_brand_category_id]></a>
-                                                </div>
-                                                <h4 class="product-name"><a href="/product/<[same_brand_product_id]>"><[same_brand_product_name]></a>
-                                                </h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 100%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <a href="/product/<[same_brand_product_id]>" class="rating-reviews">(3 reviews)</a>
-                                                </div>
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">€<[same_brand_price]></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <[/foreach]>
+                                <[same_brand]>
 
 
-                                </div>
                             </div>
                         </section>
 
@@ -647,34 +524,7 @@
                                                 'nextEl': '.swiper-button-next'
                                             }
                                         }">
-                                            <div class="swiper-wrapper">
-                                                <div class="widget-col swiper-slide">
-
-                                                    <[foreach]>
-                                                    <div class="product product-widget">
-                                                        <figure class="product-media">
-                                                            <a href="/product/<[other_products_product_id]>">
-                                                                <img src="/skins/frontend/wolmart/assets/images/shop/13.jpg" alt="Product"
-                                                                     width="100" height="113" />
-                                                            </a>
-                                                        </figure>
-                                                        <div class="product-details">
-                                                            <h4 class="product-name">
-                                                                <a href="/product/<[other_products_product_id]>"><[other_products_product_name]></a>
-                                                            </h4>
-                                                            <div class="ratings-container">
-                                                                <div class="ratings-full">
-                                                                    <span class="ratings" style="width: 100%;"></span>
-                                                                    <span class="tooltiptext tooltip-top"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="product-price"><[other_products_price]></div>
-                                                        </div>
-                                                    </div>
-                                                    <[/foreach]>
-
-                                                </div>
-                                            </div>
+                                            <[other_products]>
                                         </div>
                                     </div>
                                 </div>
