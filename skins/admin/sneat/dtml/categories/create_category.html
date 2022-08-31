@@ -34,6 +34,7 @@
             <div class="col-sm-10">
                 <div class="form-group">
                     <input class="form-control"
+                           onchange="preview_image(this)"
                            type="file"
                            id="category_image"
                            accept="image/*"
@@ -41,12 +42,31 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="category_image"></label>
+            <div class="col-sm-10" style="text-align: center">
+                <img id="category_image_preview" style="max-height: 256px;max-width: 512px;" src="#" alt="">
+            </div>
+        </div>
         <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
             <span class="fe fe-save fs-14"></span> Aggiungi
         </button>
     </div>
 </div>
+<script>
+    function preview_image(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#category_image_preview')
+                    .attr('src', e.target.result)
+            };
 
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 <script>
     $(document).ready(function () {
         $('#button_add').click(function () {
@@ -72,6 +92,7 @@
                             $('#category_name').val('');
                             $('#category_description').val('');
                             $('#category_image').val('');
+                            $('#category_image_preview').attr('src', '#')
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');

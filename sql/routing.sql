@@ -1,12 +1,9 @@
 USE tdw;
 
-<<<<<<< HEAD
 #Pulisce la tabella prima di caricare il routing
 DELETE FROM service;
-=======
 -- Pulisce la tabella prima di caricare il routing
 DELETE FROM service WHERE TRUE;
->>>>>>> aa912e606d5e1f88cd328d3127e415718323a236
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Home', '/', 'home.php', 'home', '');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Login', '/sign-in', 'auth/access.php', 'sign_in', 'Login');
@@ -32,3 +29,5 @@ INSERT INTO service ( tag, service_description, url, script, callback) VALUES ( 
 
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Aggiungi categoria', '/admin/categories/create', 'admin/categories.php', 'create');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotto', 'Aggiungi prodotto', '/admin/products/create', 'admin/products.php', 'create');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Modifica categoria', '/admin/categories/%/edit', 'admin/categories.php', 'edit');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Cancella categoria', '/admin/categories/%/delete', 'admin/categories.php', 'delete');

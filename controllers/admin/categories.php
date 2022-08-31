@@ -4,8 +4,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 function categories()
 {
     global $mysqli;
-    $columns = array("ID", "Nome", "Descrizione");
-    $result = $mysqli->query("SELECT category_id as id, category_name as name, category_description as description FROM category");
+    $columns = array("ID", "Immagine", "Nome", "Descrizione");
+    $result = $mysqli->query("SELECT category_id, category_image, category_name, category_description FROM category");
 
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
@@ -26,20 +26,13 @@ function categories()
 
 }
 
-/*function category()
-{
-    $main = initAdmin();
-    $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/categories/category.html");
-
-    $main->setContent("content", $content->get());
-    $main->close();
-}*/
 
 function delete()
 {
     global $mysqli;
     $category_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $mysqli->query("DELETE FROM category WHERE category_id = $category_id;");
+    $mysqli->query("DELETE FROM category WHERE category_id = {$category_id} AND 
+                           category_id NOT IN (SELECT product.category_id FROM product)");
     $response = array();
     if ($mysqli->affected_rows == 1) {
         $response['success'] = "Categoria eliminata con successo.";
@@ -48,7 +41,6 @@ function delete()
     }
     exit(json_encode($response));
 }
-
 
 function create(): void
 {
@@ -63,7 +55,7 @@ function create(): void
                     $category_image = $_FILES["category_image"];
                     foreach ($category_image["tmp_name"] as $key => $value) {
                         $filename = $category_image["name"][$key];
-                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/categories/" . $filename);
+                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/categories/" . $filename);
                         $mysqli->query("INSERT INTO category (category_name,category_description, category_image)
             VALUES ('" . $category_name . "', '" . $category_description . "', '" . $filename . "');");
                     }
@@ -90,3 +82,66 @@ function create(): void
     }
 }
 
+function category()
+{
+    global $mysqli;
+    $category_id = explode('/', $_SERVER['REQUEST_URI'])[3];
+    $category = $mysqli->query("SELECT * FROM category WHERE category_id = $category_id");
+    if ($category->num_rows == 0) {
+        header("Location: /admin/categories"); //No category found, redirect to category page
+    } else {
+        $category = $category->fetch_assoc();
+        $main = initAdmin();
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/categories/edit_category.html");
+        foreach ($category as $key => $value) {
+            $content->setContent($key, $value);
+        }
+        $main->setContent("content", $content->get());
+        $main->close();
+    }
+}
+
+function edit()
+{
+    global $mysqli;
+    $category_id = explode("/", $_SERVER["REQUEST_URI"])[3];
+    $category_name = $_POST["category_name"];
+    $category_description = $_POST["category_description"];
+    $response = array();
+    if ($category_id != "" && $category_name != "") {
+        if (isset($_FILES["category_image"])) {
+            $category_image = $_FILES["category_image"];
+            foreach ($category_image["tmp_name"] as $key => $value) {
+                $filename = $category_image["name"][$key];
+
+                $mysqli->query("UPDATE category SET
+                category_name = '$category_name', 
+                category_description = '$category_description',
+                category_image = '$filename'
+        
+                WHERE category_id = $category_id");
+
+                if (!file_exists("/images/categories/" . $filename)) {
+                    move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/categories/" . $filename);
+                }
+
+            }
+        } else {
+            $mysqli->query("UPDATE category SET
+                category_name = '$category_name', 
+                category_description = '$category_description'
+                WHERE category_id = $category_id");
+        }
+
+        if ($mysqli->affected_rows == 1) {
+            $response['success'] = "Categoria {$category_name} modificata con successo";
+        } elseif ($mysqli->affected_rows == 0) {
+            $response['warning'] = "Nessun dato modificato";
+        } else {
+            $response['error'] = "Errore nella modifica della categoria";
+        }
+    } else {
+        $response['error'] = "Errore nella modifica della categoria";
+    }
+    exit(json_encode($response));
+}

@@ -1,10 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Modifica categoria</h5>
+        <a href="/admin/categories" class="btn btn-primary btn-sm mx-3">
+            <span class="bx bx-arrow-left"></span> Torna indietro </a>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="category_name">Nome</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="category_name" name="category_name" required aria-required="true"
+                           class="form-control"
+                           value="<[category_name]>"
+                           placeholder="Nome"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="category_description">Descrizione</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <textarea
 
-</body>
-</html>
+                            id="category_description"
+                            class="form-control"
+                            required aria-required="true"
+                            placeholder="Descrizione"><[category_description]></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="category_image">Immagine</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input class="form-control"
+                           onchange="preview_image(this)"
+                           type="file"
+                           id="category_image"
+                           accept="image/*"
+                           required aria-required="true">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="category_image_preview"></label>
+            <div class="col-sm-10" style="text-align: center">
+                <img id="category_image_preview" style="max-height: 256px;max-width: 512px;"
+                     src="/images/categories/<[category_image]>" alt="">
+            </div>
+        </div>
+        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
+            <span class="fe fe-save fs-14"></span> Aggiungi
+        </button>
+    </div>
+</div>
+<script>
+    function preview_image(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#category_image_preview')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#button_edit').click(function () {
+            $('body').find('.alert').remove();
+            let formData = new FormData();
+            formData.append('category_name', $('#category_name').val());
+            formData.append('category_description', $('#category_description').val());
+            let images = $('#category_image')[0].files;
+            if (images.length!==0){
+            for (let i = 0; i < images.length; i++) {
+                formData.append('category_image[]', images[i]);
+            }}
+
+            // Controllo che serve a vedere se tutti gli input sono riempiti
+            if ($('#category_name').val() !== "" && $('#category_description').val() !== "") {
+                $.ajax({
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    url: '/admin/categories/<[category_id]>/edit',
+                    data: formData,
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        if (response['success']) {
+                            $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                response['success'] + '</div>');
+                        } else if (response['error']) {
+                            $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['error'] + '</div>');
+                        }else if (response['warning']) {
+                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['warning'] + '</div>');
+                        }
+                    }
+                });
+            } else {
+                $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="" aria-hidden="true">×</button>\n' +
+                    'Compilare tutti i campi correttamente prima di proseguire' + '</div>');
+            }
+        });
+    });
+</script>

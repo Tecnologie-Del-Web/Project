@@ -38,7 +38,7 @@
 <script>
     $(document).ready(function () {
         let delid = ''; //global variable
-        $('#deleteconfirmation').on('show.bs.modal', function (e) {
+        $('#delete_confirmation').on('show.bs.modal', function (e) {
             delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
         });
 
@@ -47,7 +47,7 @@
                 url: delid,
                 type: 'POST',
                 success: function (data) {
-                    $('#deleteconfirmation').modal('hide');
+                    $('#delete_confirmation').modal('hide');
                     let response = JSON.parse(data);
                     if (response['success']) {
                         window.location.href = window.location.pathname + "?" + $.param({'success': 'true'});

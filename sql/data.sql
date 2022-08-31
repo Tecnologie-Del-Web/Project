@@ -121,3 +121,4 @@ INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES 
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni comodissimi', 4.5, NOW(), 4, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni fantastici!', 5, NOW(), 2, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Capolavoro indiscusso!', 5, NOW(), 2, 15);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni orribili.', 1, NOW(), 4, 11);

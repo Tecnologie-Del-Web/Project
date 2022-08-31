@@ -59,7 +59,7 @@ CREATE TABLE `order` (
 
 CREATE TABLE brand (
     brand_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    brand_name VARCHAR(25) UNIQUE NOT NULL,
+    brand_name VARCHAR(255) UNIQUE NOT NULL,
     brand_image VARCHAR(50) NOT NULL,
     website VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE brand (
 CREATE TABLE category (
     category_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(20) UNIQUE NOT NULL,
-    category_image VARCHAR(50) NOT NULL,
+    category_image VARCHAR(255) NOT NULL,
     category_description TEXT NOT NULL
 );
 
@@ -107,7 +107,7 @@ CREATE TABLE product_variant (
 
 CREATE TABLE product_image (
     image_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    file_name VARCHAR(50) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
     `type` VARCHAR(20) NOT NULL,
     variant_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (variant_id)
@@ -123,7 +123,7 @@ CREATE TABLE offer (
     start_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     product_id INTEGER UNSIGNED NOT NULL,
-    CHECK (percentage BETWEEN 0.00 AND 1.00),
+    CHECK (percentage BETWEEN 0.00 AND 100.00),
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
