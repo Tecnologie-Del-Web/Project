@@ -122,3 +122,7 @@ INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES 
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni fantastici!', 5, NOW(), 2, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Capolavoro indiscusso!', 5, NOW(), 2, 15);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni orribili.', 1, NOW(), 4, 11);
+
+-- Inserisco un'offerta
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto sul disco', 20, NOW(), '2022-09-20 00:00:00', 16);
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto su Homogenic', 25, NOW(), '2022-09-21 00:00:00', 15);

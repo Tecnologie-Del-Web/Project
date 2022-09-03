@@ -1,0 +1,54 @@
+<div class="product-wrapper-1 appear-animate mb-7 pt-10 pb-10">
+  <div class="title-link-wrapper pb-1 mb-4">
+    <h2 class="title ls-normal mb-0"><[category_name]></h2>
+    <a href="/category/<[category_id]>" class="font-size-normal font-weight-bold ls-25 mb-0">
+      Altri Prodotti
+      <i class="w-icon-long-arrow-right"></i></a>
+  </div>
+  <div class="row">
+    <div>
+      <div class="swiper-container swiper-theme" data-swiper-options="{
+                                'spaceBetween': 20,
+                                'slidesPerView': 2,
+                                'breakpoints': {
+                                    '992': {
+                                        'slidesPerView': 3
+                                    },
+                                    '1200': {
+                                        'slidesPerView': 4
+                                    }
+                                }
+                            }">
+        <div class="swiper-wrapper row cols-xl-4 cols-lg-3 cols-2">
+          <[foreach]>
+          <div class="product-wrap product text-center ml-5 mr-5" style="width: 150px !important;">
+            <figure class="product-media">
+              <a href="/product/<[product_id]>">
+                <img src="/skins/frontend/wolmart/assets/images/products/<[product_id]>/<[variant_id]>/<[file_name]>" alt="Product"
+                    style="width: 150px !important; height: 200px !important;" />
+              </a>
+            </figure>
+            <div class="product-details">
+              <h4 class="product-name"><a href="/product/<[product_id]>"><[product_name]></a>
+              </h4>
+              <div class="ratings-container">
+                <div class="ratings-full">
+                  <span class="ratings" style="width: 100%;"></span>
+                  <span class="tooltiptext tooltip-top"></span>
+                </div>
+                <a href="../../../../../index.php" class="rating-reviews">(5
+                  reviews)</a>
+              </div>
+              <div class="product-price">
+                <ins class="new-price"><[price]></ins>
+              </div>
+            </div>
+          </div>
+          <[/foreach]>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+      <!-- End of Products -->
+    </div>
+  </div>
+</div>

@@ -39,7 +39,7 @@ function category()
         ');
     }
     else {
-        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category_products.html");
+        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category/category_products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {

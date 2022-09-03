@@ -100,6 +100,7 @@
                                             <div class="product-sku">
                                                 SKU: <span><[sku]></span>
                                             </div>
+                                            <p id="product-id" style="visibility: hidden !important;"><[product_id]></p>
                                         </div>
                                     </div>
 
@@ -856,3 +857,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(() => {
+        product_id = $("#product-id").text();
+        $('.product-variation').each((i, obj) => {
+            obj.addEventListener('click', () => {
+                window.location.href = "http://localhost/product/" + product_id + "?variant_id=" + obj.id;
+            })
+        });
+    })
+</script>
