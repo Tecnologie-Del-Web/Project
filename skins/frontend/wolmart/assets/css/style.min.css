@@ -7436,10 +7436,12 @@ blockquote {
 
 .w-icon-star:before {
   content: "";
+  color: orange;
 }
 
 .w-icon-star-full:before {
   content: "";
+  color: orange;
 }
 
 .w-icon-table:before {
@@ -10130,10 +10132,13 @@ body .product-popup {
   color: rgba(0, 0, 0, 0.16);
   white-space: nowrap;
 }
+
+/*
 .ratings-full:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
+*/
 
 .ratings {
   position: absolute;
@@ -10993,7 +10998,6 @@ body .product-popup {
   color: #333;
   line-height: 1;
   margin-bottom: 1.2rem;
-  padding-top: 2.8rem;
 }
 .product-single .product-color-swatch {
   margin-right: 4rem;
@@ -13392,6 +13396,8 @@ body .product-popup {
 /*-----------------------------
     Tooltip
 -----------------------------*/
+
+/*
 .tooltiptext {
   position: absolute;
   padding: 1rem 0.7rem;
@@ -13421,6 +13427,7 @@ body .product-popup {
   border-style: solid;
   border-color: #333 transparent transparent transparent;
 }
+*/
 
 /*-------------------------------------
     Widget
@@ -20061,6 +20068,7 @@ body .product-popup {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

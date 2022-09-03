@@ -562,7 +562,6 @@
                 <div class="ratings-container">
                     <div class="ratings-full">
                         <span class="ratings" style="width: 80%;"></span>
-                        <span class="tooltiptext tooltip-top"></span>
                     </div>
                     <a href="#" class="rating-reviews">(3 Reviews)</a>
                 </div>
@@ -637,3 +636,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(() => {
+        $("#reviews-number").text("Recensioni (" + $(".comment").length + ")");
+
+        let old_price = parseFloat($("#old-price").text());
+        let new_price = old_price - parseFloat($("#percentage").text()) * old_price / 100.00;
+
+        $("#new-price").text("€" + new_price.toFixed(2));
+    });
+</script>

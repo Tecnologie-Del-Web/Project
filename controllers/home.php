@@ -136,7 +136,7 @@ function home()
 function setupOfferOfTheDay(mysqli $mysqli, Template $body): void
 {
     // Gestisco l'offerta del giorno
-    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, o.percentage, o.end_date, pv.variant_id, pi.file_name
+    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, o.percentage, DATE_FORMAT(o.end_date, '%d/%m/%Y' ) as end_date, pv.variant_id, pi.file_name
                                     FROM product p JOIN offer o ON (o.product_id = p.product_id) JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pi.variant_id = pv.variant_id) 
                                     WHERE pv.default = true AND pi.type = 'main'
                                     ORDER BY o.start_date DESC
@@ -151,6 +151,15 @@ function setupOfferOfTheDay(mysqli $mysqli, Template $body): void
     } else {
         $offer_of_the_day = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/offer_of_the_day.html");
         $product = $product->fetch_assoc();
+        $product_id = $product['product_id'];
+        $ratings = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating, COUNT(pr.rating) as number_of_reviews
+                                    FROM product p JOIN product_review pr ON (pr.product_id = p.product_id) 
+                                    WHERE p.product_id=$product_id");
+        // Gestire l'eventuale assenza di recensioni del prodotto in questione
+        $ratings = $ratings->fetch_assoc();
+        foreach ($ratings as $key => $value) {
+            $offer_of_the_day->setContent($key, $value);
+        }
         foreach ($product as $key => $value) {
             $offer_of_the_day->setContent($key, $value);
         }

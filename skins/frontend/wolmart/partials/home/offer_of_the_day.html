@@ -58,9 +58,13 @@
                     <hr class="product-divider">
 
                     <div class="product-price">
-                      <ins class="new-price ls-50">
-                        <strike>€<[price]></strike> -<[percentage]>%
-                      </ins>
+                      <p class="new-price ls-50">
+                        €<span id="old-price" class="new-price ls-50" style="text-decoration: line-through !important;"><[price]></span>
+                        -<span id="percentage" class="new-price ls-50"><[percentage]></span>%
+                      </p>
+                      <div class="product-variation-price">
+                        <p class="title new-price" id="new-price"></p>
+                      </div>
                     </div>
 
                     <div class="product-countdown-container flex-wrap">
@@ -72,19 +76,9 @@
                     </div>
 
                     <div class="ratings-container">
-                      <div class="ratings-full">
-                        <span class="ratings" style="width: 80%;"></span>
-                        <span class="tooltiptext tooltip-top"></span>
-                      </div>
-                      <a href="#" class="rating-reviews">(3 Reviews)</a>
-                    </div>
-
-                    <div class="product-variation-price">
-                      <span id="new-price"></span>
-                    </div>
-
-                    <div class="product-form pt-4">
-
+                      <p class="text-dark font-weight-bold mr-1 review-rating" style="margin-bottom: 0 !important;"><[average_rating]></p>
+                      <i class="w-icon-star-full mr-3"></i>
+                      <p class="rating-reviews">(<[number_of_reviews]> Recensione/i)</p>
                     </div>
 
                     <div class="social-links-wrapper mt-1">

@@ -10,6 +10,9 @@ function product() {
 
 function product_detail($id, $variant_id = 0)
 {
+
+    echo $id;
+
     global $mysqli;
 
     $main = setupUser(false);
@@ -205,6 +208,16 @@ function findSameBrandProducts(mysqli $mysqli, mixed $brand_id, string $id, Temp
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
+                $product_id = $product['product_id'];
+                $reviews = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                                FROM product p JOIN product_review pr ON (pr.product_id = p.product_id)
+                                                WHERE p.product_id=$product_id");
+                $reviews = $reviews->fetch_assoc();
+                if (!$reviews['average_rating']) {
+                    $same_brand->setContent("average_rating", "ND");
+                } else {
+                    $same_brand->setContent("average_rating", $reviews['average_rating']);
+                }
                 foreach ($product as $key => $value) {
                     $same_brand->setContent($key, $value);
                 }
@@ -256,7 +269,7 @@ function findOtherProducts(mysqli $mysqli, mixed $brand_id, mixed $category_id, 
  * @param mysqli $mysqli
  * @param string $id
  * @param Template $body
- * @return bool|mysqli_result
+ * @return void
  */
 function findColorVariants(mysqli $mysqli, string $id, Template $body)
 {
@@ -272,7 +285,6 @@ function findColorVariants(mysqli $mysqli, string $id, Template $body)
             <label>Colori:</label>
             <div class="d-flex align-items-center product-variations">
         ';
-
         do {
             $color_variant = $oid->fetch_assoc();
             if ($color_variant) {
@@ -292,7 +304,7 @@ function findColorVariants(mysqli $mysqli, string $id, Template $body)
  * @param mysqli $mysqli
  * @param string $id
  * @param Template $body
- * @return bool|mysqli_result
+ * @return void
  */
 function findSizeVariants(mysqli $mysqli, string $id, Template $body)
 {
@@ -307,7 +319,6 @@ function findSizeVariants(mysqli $mysqli, string $id, Template $body)
             <label>Taglie:</label>
             <div class="d-flex align-items-center product-variations">
         ';
-
         do {
             $size_variant = $oid->fetch_assoc();
             if ($size_variant) {
