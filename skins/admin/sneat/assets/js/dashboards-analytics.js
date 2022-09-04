@@ -30,7 +30,7 @@
                 height: 300,
                 stacked: true,
                 type: 'bar',
-                toolbar: {show: false}
+                toolbar: { show: false }
             },
             plotOptions: {
                 bar: {

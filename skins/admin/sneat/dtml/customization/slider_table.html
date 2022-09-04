@@ -1,11 +1,10 @@
 <[foreach]>
 <tr>
-    <td class="clickable-row" data-href="/admin/categories/<[category_id]>">
-        <strong><[category_id]></strong></td>
-    <td class="clickable-row" data-href="/admin/categories/<[category_id]>">
-        <img height="48px" width="48px" src="/images/categories/<[category_image]>" alt=""/></td>
-    <td class="clickable-row" data-href="/admin/categories/<[category_id]>"><[category_name]></td>
-    <td class="clickable-row" data-href="/admin/categories/<[category_id]>"><[category_description]></td>
+
+    <td class="clickable-row" data-href="/admin/slider/<[slider_id]>">
+        <img height="48px" width="48px" data-href="/admin/slider/<[slider_id]>" src="/images/slider/<[slider_image]>" alt=""/></td>
+    <td class="clickable-row" data-href="/admin/slider/<[slider_id]>"><[slider_name]></td>
+    <td class="clickable-row" data-href="/admin/slider/<[slider_id]>"><[slider_description]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -13,13 +12,13 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/categories/<[category_id]>"
+                <a class="dropdown-item" href="/admin/slider/<[slider_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a>
                 <a data-bs-toggle="modal"
                    data-bs-target="#delete_confirmation"
                    class="dropdown-item"
-                   data-id="/admin/categories/<[category_id]>/delete"
-                   href="/admin/categories/<[category_id]>/delete"
+                   data-id="/admin/slider/<[slider_id]>/delete"
+                   href="/admin/slider/<[slider_id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a>
             </div>
         </div>
@@ -83,6 +82,6 @@
 
 <script>
     $(document).ready(function() {
-        $('.card-header').append('<a class="btn btn-primary" href="/admin/categories/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
+        $('.card-header').append('<a class="btn btn-primary" href="/admin/slider/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
     })
 </script>

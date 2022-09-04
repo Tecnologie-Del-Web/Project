@@ -1,9 +1,10 @@
 <[foreach]>
 <tr>
-    <td data-href="/admin/brands/<[id]>">
-        <strong><[id]></strong></td>
-    <td data-href="/admin/brands/<[id]>"><[name]></td>
-    <td data-href="/admin/brands/<[id]>"><[description]></td>
+    <td data-href="/admin/brands/<[brand_id]>">
+        <strong><[brand_id]></strong></td>
+    <td data-href="/admin/brands/<[brand_id]>">
+        <img style="height: 48px;width: 48px;" src="/images/brands/<[brand_image]>"></td>
+    <td data-href="/admin/brands/<[brand_id]>"><[brand_name]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -11,10 +12,10 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/brands/<[id]>"
+                <a class="dropdown-item" href="/admin/brands/<[brand_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/brands/<[id]>/delete"
+                <a class="dropdown-item" href="/admin/brands/<[brand_id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a
                 >
             </div>
@@ -60,6 +61,6 @@
 
 <script>
     $(document).ready(function () {
-        $('.card-header').append('<a class="btn btn-primary" href="/admin/brands/create"><span class="fe fe-plus fs-14"></span> Aggiungi</a>');
+        $('.card-header').append('<a class="btn btn-primary" href="/admin/brands/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
     })
 </script>

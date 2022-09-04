@@ -1,7 +1,5 @@
 USE tdw;
 
-#Pulisce la tabella prima di caricare il routing
-DELETE FROM service;
 -- Pulisce la tabella prima di caricare il routing
 DELETE FROM service WHERE TRUE;
 
@@ -17,7 +15,6 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('C
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('About', '/about', 'about.php', 'about', 'About Page');
 
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti' , 'Visualizza utenti', '/admin/users', 'admin/users.php', 'users');
-INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Visualizza brand', '/admin/brands', 'admin/brands.php', 'brands');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza coupon', '/admin/coupons', 'admin/coupons.php', 'coupons');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione gruppi', 'Visualizza gruppi', '/admin/groups', 'admin/groups.php', 'groups');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotti', 'Visualizza prodotti', '/admin/products', 'admin/products.php', 'products');
@@ -25,9 +22,31 @@ INSERT INTO service (tag, service_description, url, script, callback) VALUES ('G
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione ordini', 'Visualizza ordini', '/admin/orders', 'admin/orders.php', 'orders');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Visualizza singola categoria', '/admin/categories/%', 'admin/categories.php', 'category');
 
-INSERT INTO service ( tag, service_description, url, script, callback) VALUES ( 'Categorie', 'Categorie', '/admin/categories', 'admin/categories.php', 'categories');
+INSERT INTO service ( tag, service_description, url, script, callback) VALUES ( 'Gestione Categorie', 'Categorie', '/admin/categories', 'admin/categories.php', 'categories');
 
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Aggiungi categoria', '/admin/categories/create', 'admin/categories.php', 'create');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotto', 'Aggiungi prodotto', '/admin/products/create', 'admin/products.php', 'create');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Modifica categoria', '/admin/categories/%/edit', 'admin/categories.php', 'edit');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione categorie', 'Cancella categoria', '/admin/categories/%/delete', 'admin/categories.php', 'delete');
+
+
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione offerte', 'Modifica offerta', '/admin/offers/%/edit', 'admin/offers.php', 'edit');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione offerte', 'Cancella offerta', '/admin/offers/%/delete', 'admin/offers.php', 'delete');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione offerte', 'Aggiungi offerta', '/admin/offers/create', 'admin/offers.php', 'create');
+
+INSERT INTO service ( tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Visualizza tutti i brand', '/admin/brands', 'admin/brands.php', 'brands');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Modifica brand', '/admin/brands/%/edit', 'admin/brands.php', 'edit');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Cancella brand', '/admin/brands/%/delete', 'admin/brands.php', 'delete');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Aggiungi brand', '/admin/brands/create', 'admin/brands.php', 'create');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Visualizza brand', '/admin/brands/%', 'admin/brands.php', 'brand');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza coupon', '/admin/coupon/%', 'admin/coupon.php', 'coupon');
+INSERT INTO service ( tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza tutti i coupon', '/admin/coupons', 'admin/coupons.php', 'coupons');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Modifica coupon', '/admin/coupons/%/edit', 'admin/coupons.php', 'edit');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Cancella coupon', '/admin/coupons/%/delete', 'admin/coupons.php', 'delete');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Aggiungi coupon', '/admin/coupons/create', 'admin/coupons.php', 'create');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza coupon', '/admin/coupons/%', 'admin/coupons.php', 'coupon');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione slider', 'Modifica slider', '/admin/slider/%/edit', 'admin/slider.php', 'edit');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione slider', 'Cancella slider', '/admin/slider/%/delete', 'admin/slider.php', 'delete');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione slider', 'Aggiungi slider', '/admin/slider/create', 'admin/slider.php', 'create');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione slider', 'Aggiungi slider', '/admin/slider', 'admin/slider.php', 'slider');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione recensioni', 'Visualizza recensioni', '/admin/reviews', 'admin/reviews.php', 'reviews');

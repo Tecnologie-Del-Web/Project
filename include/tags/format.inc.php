@@ -48,5 +48,4 @@ Class Format extends taglibrary {
     public function format_text($name, $data, $pars) {
         return nl2br($data);
     }
-
 }

@@ -26,6 +26,7 @@ function users()
             $users_table->setContent($key, $value);
         }
     }
+
     $table->setContent("table_rows", $users_table->get());
     $main->setContent("content", $table->get());
     $main->close();
