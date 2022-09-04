@@ -19,7 +19,7 @@ function cart() {
             </div>
         ');
     } else {
-        $cart_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/cart_products.html");
+        $cart_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/cart/cart_products.html");
         do {
             $cart_product = $oid->fetch_assoc();
             if ($cart_product) {

@@ -24,7 +24,7 @@ function categories()
     } while ($category);
 
     // Estraggo le informazioni sui brand di cui ho bisogno
-    $oid = $mysqli->query("SELECT b.brand_name, b.brand_image
+    $oid = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image
                                                 FROM brand b
                                                 ORDER BY b.brand_id");
 

@@ -1,45 +1,44 @@
 <?php
 
-function category()
+function brand()
 {
     global $mysqli;
 
     $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/category.html");
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/brand.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
-    $category = $mysqli->query("SELECT c.category_id, c.category_name, c.category_description, c.category_image
-                                    FROM category c
-                                    WHERE c.category_id = $id;");
+    $brand = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image, b.email_address
+                                    FROM brand b
+                                    WHERE b.brand_id = $id;");
 
-    if ($category->num_rows == 0) {
+    if ($brand->num_rows == 0) {
         // TODO: gestire!
         echo "\n" . "Ricordati di gestire questo caso!";
         // header("Location: /products");
     } else {
-        $category = $category->fetch_assoc();
-        foreach ($category as $key => $value) {
+        $brand = $brand->fetch_assoc();
+        foreach ($brand as $key => $value) {
             $body->setContent($key, $value);
         }
     }
 
-
     $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, pv.variant_id, pi.file_name
                                                 FROM product p JOIN product_variant pv ON (p.product_id = pv.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
-                                                WHERE p.quantity_available > 0 AND p.category_id = $id
+                                                WHERE p.quantity_available > 0 AND p.brand_id = $id
                                                   AND (pv.default = true AND pi.type = 'main')
                                                 ORDER BY p.product_name");
 
     if ($oid->num_rows == 0) {
         $body->setContent("products", '
             <div class="content-title-section" style="margin: 100px 0 !important;">
-                <h3 class="title title-center mb-3">Nessun articolo in questa categoria</h3>
+                <h3 class="title title-center mb-3">Nessun articolo di questo brand!</h3>
             </div>
         ');
     }
     else {
-        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category/category_products.html");
+        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/brand/brand_products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
