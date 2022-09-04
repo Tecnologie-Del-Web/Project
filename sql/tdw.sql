@@ -12,7 +12,7 @@ CREATE TABLE `user` (
     surname VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     username VARCHAR(30) UNIQUE NULL,
-    `password` VARCHAR(50) NOT NULL
+    `password` VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE payment_method (
@@ -197,15 +197,15 @@ CREATE TABLE service (
     service_description TEXT NULL
 );
 
-CREATE TABLE user_has_service (
-    user_id INTEGER UNSIGNED,
+CREATE TABLE service_has_group (
     service_id INTEGER UNSIGNED,
-    PRIMARY KEY (user_id , service_id),
-    FOREIGN KEY (user_id)
-        REFERENCES `user` (user_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE,
+    group_id INTEGER UNSIGNED,
+    PRIMARY KEY (service_id, group_id),
     FOREIGN KEY (service_id)
         REFERENCES service (service_id)
+        ON DELETE NO ACTION ON UPDATE CASCADE,
+	FOREIGN KEY (group_id)
+        REFERENCES `group` (group_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 

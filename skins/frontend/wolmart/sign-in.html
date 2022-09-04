@@ -1,210 +1,59 @@
 <div class="page-wrapper">
-    <h1 class="d-none">TDW</h1>
 
-    <main class="main">
+    <!-- Start of Main -->
+    <main class="main login-page">
+
         <!-- Start of Breadcrumb -->
-        <nav class="breadcrumb-nav">
-            <div class="container" style="visibility: hidden;">
-                <ul class="breadcrumb bb-no">
+        <nav class="breadcrumb-nav mt-7">
+            <div class="container">
+                <ul class="breadcrumb">
                     <li><a href="/">Home</a></li>
-                    <li><a href="categories.html">Shop</a></li>
-                    <li>Fullwidth</li>
+                    <li>Entra</li>
                 </ul>
             </div>
         </nav>
         <!-- End of Breadcrumb -->
-
-        <!-- Start of Page Content -->
-        <div class="page-content mb-10">
-            <div class="shop-default-banner shop-boxed-banner banner d-flex align-items-center mb-6"
-                 style="background-image: url('/skins/frontend/wolmart/assets/images/brands/<[brand_image]>'); background-color: #FFC74E;">
-                <div class="container banner-content">
-                    <h3 class="banner-title text-white text-uppercase font-weight-bolder ls-10"><[brand_name]></h3>
-                    <h4 class="banner-subtitle font-weight-bold"><[brand_email]></h4>
-                </div>
-            </div>
-            <!-- End of Shop Banner -->
-            <div class="container-fluid">
-                <!-- Start of Shop Content -->
-                <div class="shop-content">
-                    <!-- Start of Shop Main Content -->
-                    <div class="main-content">
-                        <nav class="toolbox sticky-toolbox sticky-content fix-top">
-                            <div class="toolbox-left">
-                                <a href="#" class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle
-                                        btn-icon-left" style="display: none;"><i class="w-icon-category"></i><span>Filters</span></a>
-                                <div class="toolbox-item toolbox-sort select-box text-dark">
-                                    <label>Sort By :</label>
-                                    <select name="orderby" class="form-control">
-                                        <option value="default" selected="selected">Default sorting</option>
-                                        <option value="popularity">Sort by popularity</option>
-                                        <option value="rating">Sort by average rating</option>
-                                        <option value="date">Sort by latest</option>
-                                        <option value="price-low">Sort by price: low to high</option>
-                                        <option value="price-high">Sort by price: high to low</option>
-                                    </select>
-                                </div>
+        <div class="page-content">
+            <div class="container">
+                <div class="login-popup">
+                    <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
+                        <ul class="nav nav-tabs text-uppercase" role="tablist">
+                            <li class="nav-item">
+                                <a href="#sign-in" class="nav-link">Sign In</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="sign-in">
+                                <form method="POST" action="/login" id="login">
+                                    <div class="text-center">
+                                        <input class="form-control" type="hidden" name="referrer" value="<[referrer]>">
+                                        <div class="form-group mb-2 br-sm">
+                                            <label for="email">Email</label>
+                                            <input class="form-control" type="email" name="email" id="email" placeholder="Email" required>
+                                        </div>
+                                        <div class="form-group mb-2 br-sm">
+                                            <label for="password">Password</label>
+                                            <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+                                        </div>
+                                        <div class="form-group mt-5 mb-2">
+                                            <button type="submit" class="btn btn-primary">Entra</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="toolbox-right">
-                                <div class="toolbox-item toolbox-show select-box">
-                                    <select name="count" class="form-control">
-                                        <option value="9">Show 9</option>
-                                        <option value="12" selected="selected">Show 12</option>
-                                        <option value="24">Show 24</option>
-                                        <option value="36">Show 36</option>
-                                    </select>
-                                </div>
-                                <div class="toolbox-item toolbox-layout">
-                                    <a href="shop-fullwidth-banner.html" class="icon-mode-grid btn-layout active">
-                                        <i class="w-icon-grid"></i>
-                                    </a>
-                                    <a href="shop-list.html" class="icon-mode-list btn-layout">
-                                        <i class="w-icon-list"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </nav>
-
-                        <[products]>
-
-                        <div class="toolbox toolbox-pagination justify-content-between">
-                            <p class="showing-info mb-2 mb-sm-0">
-                                Showing<span>1-12 of 60</span>Products
-                            </p>
-                            <ul class="pagination">
-                                <li class="prev disabled">
-                                    <a href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                        <i class="w-icon-long-arrow-left"></i>Prev
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="next">
-                                    <a href="#" aria-label="Next">
-                                        Next<i class="w-icon-long-arrow-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
-                    <!-- End of Shop Main Content -->
-
-                    <!-- Start of Sidebar, Shop Sidebar -->
-                    <aside class="sidebar shop-sidebar left-sidebar sticky-sidebar-wrapper">
-                        <!-- Start of Sidebar Overlay -->
-                        <div class="sidebar-overlay"></div>
-                        <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
-
-                        <!-- Start of Sidebar Content -->
-                        <div class="sidebar-content scrollable">
-                            <div class="filter-actions">
-                                <label>Filter :</label>
-                                <a href="#" class="btn btn-dark btn-link filter-clean">Clean All</a>
-                            </div>
-                            <!-- Start of Collapsible widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><span>Tutte le Categorie</span></h3>
-                                <ul class="widget-body filter-items search-ul">
-                                    <li><a href="#">Accessories</a></li>
-                                    <li><a href="#">Babies</a></li>
-                                    <li><a href="#">Beauty</a></li>
-                                    <li><a href="#">Decoration</a></li>
-                                    <li><a href="#">Electronics</a></li>
-                                    <li><a href="#">Fashion</a></li>
-                                    <li><a href="#">Food</a></li>
-                                    <li><a href="#">Furniture</a></li>
-                                    <li><a href="#">Kitchen</a></li>
-                                    <li><a href="#">Medical</a></li>
-                                    <li><a href="#">Sports</a></li>
-                                    <li><a href="#">Watches</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><span>Price</span></h3>
-                                <div class="widget-body">
-                                    <ul class="filter-items search-ul">
-                                        <li><a href="#">$0.00 - $100.00</a></li>
-                                        <li><a href="#">$100.00 - $200.00</a></li>
-                                        <li><a href="#">$200.00 - $300.00</a></li>
-                                        <li><a href="#">$300.00 - $500.00</a></li>
-                                        <li><a href="#">$500.00+</a></li>
-                                    </ul>
-                                    <form class="price-range">
-                                        <input type="number" name="min_price" class="min_price text-center"
-                                               placeholder="$min"><span class="delimiter">-</span><input type="number"
-                                                                                                         name="max_price" class="max_price text-center" placeholder="$max"><a
-                                            href="#" class="btn btn-primary btn-rounded">Go</a>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><span>Size</span></h3>
-                                <ul class="widget-body filter-items item-check mt-1">
-                                    <li><a href="#">Extra Large</a></li>
-                                    <li><a href="#">Large</a></li>
-                                    <li><a href="#">Medium</a></li>
-                                    <li><a href="#">Small</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><span>Brand</span></h3>
-                                <ul class="widget-body filter-items item-check mt-1">
-                                    <li><a href="#">Elegant Auto Group</a></li>
-                                    <li><a href="#">Green Grass</a></li>
-                                    <li><a href="#">Node Js</a></li>
-                                    <li><a href="#">NS8</a></li>
-                                    <li><a href="#">Red</a></li>
-                                    <li><a href="#">Skysuite Tech</a></li>
-                                    <li><a href="#">Sterling</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-
-                            <!-- Start of Collapsible Widget -->
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title"><span>Color</span></h3>
-                                <ul class="widget-body filter-items item-check">
-                                    <li><a href="#">Black</a></li>
-                                    <li><a href="#">Blue</a></li>
-                                    <li><a href="#">Brown</a></li>
-                                    <li><a href="#">Green</a></li>
-                                    <li><a href="#">Grey</a></li>
-                                    <li><a href="#">Orange</a></li>
-                                    <li><a href="#">Yellow</a></li>
-                                </ul>
-                            </div>
-                            <!-- End of Collapsible Widget -->
-                        </div>
-                        <!-- End of Sidebar Content -->
-                    </aside>
-                    <!-- End of Shop Sidebar -->
                 </div>
-                <!-- End of Shop Content -->
             </div>
         </div>
-        <!-- End of Page Content -->
     </main>
-
-
+    <!-- End of Main -->
 </div>
 <!-- End of Page Wrapper -->
 
 <!-- Start of Sticky Footer -->
 <div class="sticky-footer sticky-content fix-bottom">
-    <a href="demo1.html" class="sticky-link active">
+    <a href="/" class="sticky-link active">
         <i class="w-icon-home"></i>
         <p>Home</p>
     </a>
@@ -236,7 +85,9 @@
                     </div>
                     <figure class="product-media">
                         <a href="#">
-                            <img src="assets/images/cart/product-1.jpg" alt="product" height="84" width="94" />
+                            <img src="/skins/frontend/wolmart/assets/images/cart/product-1.jpg" alt="product"
+                                 height="84"
+                                 width="94"/>
                         </a>
                     </figure>
                     <button class="btn btn-link btn-close" aria-label="button">
@@ -257,7 +108,8 @@
                     </div>
                     <figure class="product-media">
                         <a href="#">
-                            <img src="assets/images/cart/product-2.jpg" alt="product" width="84" height="94" />
+                            <img src="/skins/frontend/wolmart/assets/images/cart/product-2.jpg" alt="product" width="84"
+                                 height="94"/>
                         </a>
                     </figure>
                     <button class="btn btn-link btn-close" aria-label="button">
@@ -285,8 +137,8 @@
             <p>Search</p>
         </a>
         <form action="#" class="input-wrapper">
-            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
-                   required />
+            <input type="text" class="form-control" name="search" autocomplete="off"
+                   placeholder="Search" required/>
             <button class="btn btn-search" type="submit">
                 <i class="w-icon-search"></i>
             </button>
@@ -296,7 +148,12 @@
 <!-- End of Sticky Footer -->
 
 <!-- Start of Scroll Top -->
-<a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70"> <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35" r="34" style="stroke-dasharray: 16.4198, 400;"></circle> </svg> </a>
+<a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i>
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
+        <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35"
+                r="34" style="stroke-dasharray: 16.4198, 400;"></circle>
+    </svg>
+</a>
 <!-- End of Scroll Top -->
 
 <!-- Start of Mobile Menu -->
@@ -309,8 +166,8 @@
 
     <div class="mobile-menu-container scrollable">
         <form action="#" method="get" class="input-wrapper">
-            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
-                   required />
+            <input type="text" class="form-control" name="search" autocomplete="off"
+                   placeholder="Search" required/>
             <button class="btn btn-search" type="submit">
                 <i class="w-icon-search"></i>
             </button>
@@ -329,7 +186,7 @@
         <div class="tab-content">
             <div class="tab-pane active" id="main-menu">
                 <ul class="mobile-menu">
-                    <li><a href="demo1.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li>
                         <a href="categories.html">Shop</a>
                         <ul>
@@ -379,8 +236,8 @@
                             <li>
                                 <a href="#">Product Layouts</a>
                                 <ul>
-                                    <li><a href="product-detail.html">Default<span
-                                            class="tip tip-hot">Hot</span></a></li>
+                                    <li><a href="product-detail.html">Default<span class="tip tip-hot">Hot</span></a>
+                                    </li>
                                     <li><a href="product-vertical.html">Vertical Thumbs</a></li>
                                     <li><a href="product-grid.html">Grid Images</a></li>
                                     <li><a href="product-masonry.html">Masonry</a></li>
@@ -752,182 +609,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="categories.html"
-                           class="font-weight-bold text-primary text-uppercase ls-25">
+                        <a href="categories.html" class="font-weight-bold text-primary text-uppercase ls-25">
                             View All Categories<i class="w-icon-angle-right"></i>
                         </a>
                     </li>
                 </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Mobile Menu -->
-
-<!-- Start of Quick View -->
-<div class="product product-single product-popup">
-    <div class="row gutter-lg">
-        <div class="col-md-6 mb-4 mb-md-0">
-            <div class="product-gallery product-gallery-sticky">
-                <div class="swiper-container product-single-swiper swiper-theme nav-inner">
-                    <div class="swiper-wrapper row cols-1 gutter-no">
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="assets/images/products/popup/1-440x494.jpg"
-                                     data-zoom-image="assets/images/products/popup/1-800x900.jpg"
-                                     alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="assets/images/products/popup/2-440x494.jpg"
-                                     data-zoom-image="assets/images/products/popup/2-800x900.jpg"
-                                     alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="assets/images/products/popup/3-440x494.jpg"
-                                     data-zoom-image="assets/images/products/popup/3-800x900.jpg"
-                                     alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="assets/images/products/popup/4-440x494.jpg"
-                                     data-zoom-image="assets/images/products/popup/4-800x900.jpg"
-                                     alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                    </div>
-                    <button class="swiper-button-next"></button>
-                    <button class="swiper-button-prev"></button>
-                </div>
-                <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
-                        'navigation': {
-                            'nextEl': '.swiper-button-next',
-                            'prevEl': '.swiper-button-prev'
-                        }
-                    }">
-                    <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                        <div class="product-thumb swiper-slide">
-                            <img src="assets/images/products/popup/1-103x116.jpg" alt="Product Thumb" width="103"
-                                 height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="assets/images/products/popup/2-103x116.jpg" alt="Product Thumb" width="103"
-                                 height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="assets/images/products/popup/3-103x116.jpg" alt="Product Thumb" width="103"
-                                 height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="assets/images/products/popup/4-103x116.jpg" alt="Product Thumb" width="103"
-                                 height="116">
-                        </div>
-                    </div>
-                    <button class="swiper-button-next"></button>
-                    <button class="swiper-button-prev"></button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 overflow-hidden p-relative">
-            <div class="product-details scrollable pl-0">
-                <h2 class="product-title">Electronics Black Wrist Watch</h2>
-                <div class="product-bm-wrapper">
-                    <figure class="brand">
-                        <img src="assets/images/products/brand/brand-1.jpg" alt="Brand" width="102" height="48" />
-                    </figure>
-                    <div class="product-meta">
-                        <div class="product-categories">
-                            Category:
-                            <span class="product-category"><a href="#">Electronics</a></span>
-                        </div>
-                        <div class="product-sku">
-                            SKU: <span>MS46891340</span>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="product-divider">
-
-                <div class="product-price">$40.00</div>
-
-                <div class="ratings-container">
-                    <div class="ratings-full">
-                        <span class="ratings" style="width: 80%;"></span>
-                        <span class="tooltiptext tooltip-top"></span>
-                    </div>
-                    <a href="#" class="rating-reviews">(3 Reviews)</a>
-                </div>
-
-                <div class="product-short-desc">
-                    <ul class="list-type-check list-style-none">
-                        <li>Ultrices eros in cursus turpis massa cursus mattis.</li>
-                        <li>Volutpat ac tincidunt vitae semper quis lectus.</li>
-                        <li>Aliquam id diam maecenas ultricies mi eget mauris.</li>
-                    </ul>
-                </div>
-
-                <hr class="product-divider">
-
-                <div class="product-form product-variation-form product-color-swatch">
-                    <label>Color:</label>
-                    <div class="d-flex align-items-center product-variations">
-                        <a href="#" class="color" style="background-color: #ffcc01"></a>
-                        <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                        <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                        <a href="#" class="color" style="background-color: #ccc;"></a>
-                        <a href="#" class="color" style="background-color: #333;"></a>
-                    </div>
-                </div>
-                <div class="product-form product-variation-form product-size-swatch">
-                    <label class="mb-1">Size:</label>
-                    <div class="flex-wrap d-flex align-items-center product-variations">
-                        <a href="#" class="size">Small</a>
-                        <a href="#" class="size">Medium</a>
-                        <a href="#" class="size">Large</a>
-                        <a href="#" class="size">Extra Large</a>
-                    </div>
-                    <a href="#" class="product-variation-clean">Clean All</a>
-                </div>
-
-                <div class="product-variation-price">
-                    <span></span>
-                </div>
-
-                <div class="product-form">
-                    <div class="product-qty-form">
-                        <div class="input-group">
-                            <input class="quantity form-control" type="number" min="1" max="10000000">
-                            <button class="quantity-plus w-icon-plus"></button>
-                            <button class="quantity-minus w-icon-minus"></button>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-cart">
-                        <i class="w-icon-cart"></i>
-                        <span>Add to Cart</span>
-                    </button>
-                </div>
-
-                <div class="social-links-wrapper">
-                    <div class="social-links">
-                        <div class="social-icons social-no-color border-thin">
-                            <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
-                            <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
-                            <a href="#" class="social-icon social-pinterest fab fa-pinterest-p"></a>
-                            <a href="#" class="social-icon social-whatsapp fab fa-whatsapp"></a>
-                            <a href="#" class="social-icon social-youtube fab fa-linkedin-in"></a>
-                        </div>
-                    </div>
-                    <span class="divider d-xs-show"></span>
-                    <div class="product-link-wrapper d-flex">
-                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"><span></span></a>
-                        <a href="#"
-                           class="btn-product-icon btn-compare btn-icon-left w-icon-compare"><span></span></a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

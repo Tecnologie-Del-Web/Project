@@ -27,10 +27,14 @@
         })(document);
     </script>
 
-    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/skins/frontend/wolmart/assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2"
+          as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2"
+          as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/skins/frontend/wolmart/assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2"
+          as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/skins/frontend/wolmart/assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff"
+          crossorigin="anonymous">
 
     <!-- Vendor CSS -->
     <!--
@@ -41,9 +45,11 @@
 
     <!-- Plugins CSS -->
     <link rel="stylesheet" type="text/css" href="/skins/frontend/wolmart/assets/vendor/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/skins/frontend/wolmart/assets/vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="/skins/frontend/wolmart/assets/vendor/magnific-popup/magnific-popup.min.css">
     <link rel="stylesheet" type="text/css" href="/skins/frontend/wolmart/assets/vendor/nouislider/nouislider.min.css">
-    <link rel="stylesheet" type="text/css" href="/skins/frontend/wolmart/assets/vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="/skins/frontend/wolmart/assets/vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="/skins/frontend/wolmart/assets/vendor/swiper/swiper-bundle.min.css">
@@ -57,7 +63,7 @@
 
     <script>
         WebFontConfig = {
-            google: { families: ['Poppins:400,500,600,700'] }
+            google: {families: ['Poppins:400,500,600,700']}
         };
         (function (d) {
             let wf = d.createElement('script'), s = d.scripts[0];
@@ -112,58 +118,6 @@
 
 <!-- Main JS -->
 <script src="/skins/frontend/wolmart/assets/js/main.min.js"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key="></script>
-
-<script>
-
-    /*
-    Map Settings
-        Find the Latitude and Longitude of your address:
-            - https://www.latlong.net/
-            - http://www.findlatitudeandlongitude.com/find-address-from-latitude-and-longitude/
-    */
-
-    // Map Markers
-    var mapMarkers = [{
-        address: "New York, NY 10017",
-        html: "<strong>New York Office<\/strong><br>New York, NY 10017",
-        popup: true
-    }];
-
-    // Map Initial Location
-    var initLatitude = 40.75198;
-    var initLongitude = -73.96978;
-
-    // Map Extended Settings
-    var mapSettings = {
-        controls: {
-            draggable: !window.Wolmart.isMobile,
-            panControl: true,
-            zoomControl: true,
-            mapTypeControl: true,
-            scaleControl: true,
-            streetViewControl: true,
-            overviewMapControl: true
-        },
-        scrollwheel: false,
-        markers: mapMarkers,
-        latitude: initLatitude,
-        longitude: initLongitude,
-        zoom: 11
-    };
-
-    var map = $( '#googlemaps' ).gMap( mapSettings );
-
-    // Map text-center At
-    var mapCenterAt = function ( options, e ) {
-        e.preventDefault();
-        $( '#googlemaps' ).gMap( "centerAt", options );
-    }
-
-</script>
-
-
 
 </body>
 
