@@ -7,7 +7,7 @@ function home()
 {
     global $mysqli;
 
-    $main = setupUser(true);
+    $main = initUser(true);
 
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/index.html");
 
@@ -149,7 +149,7 @@ function setupOfferOfTheDay(mysqli $mysqli, Template $body): void
             </div>
         ');
     } else {
-        $offer_of_the_day = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/offer_of_the_day.html");
+        $offer_of_the_day = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/offer-of-the-day.html");
         $product = $product->fetch_assoc();
         $product_id = $product['product_id'];
         $ratings = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating, COUNT(pr.rating) as number_of_reviews
@@ -186,7 +186,7 @@ function setupMostLovedCategories(mysqli $mysqli, Template $body)
             </div>
         ');
     } else {
-        $most_loved_categories = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/most_loved_categories.html");
+        $most_loved_categories = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/most-loved-categories.html");
         do {
             $most_loved_category = $oid->fetch_assoc();
             if ($most_loved_category) {
@@ -214,7 +214,7 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
     if ($oid->num_rows == 0) {
         $body->setContent("clothing", '');
     } else {
-        $clothing_articles = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home_page_category.html");
+        $clothing_articles = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home-page-category.html");
         do {
             $clothing_article = $oid->fetch_assoc();
             if ($clothing_article) {
@@ -234,7 +234,7 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
     if ($oid->num_rows == 0) {
         $body->setContent("books", '');
     } else {
-        $books = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home_page_category.html");
+        $books = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home-page-category.html");
         do {
             $book = $oid->fetch_assoc();
             if ($book) {
@@ -254,7 +254,7 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
     if ($oid->num_rows == 0) {
         $body->setContent("electronics", '');
     } else {
-        $electronics_articles = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home_page_category.html");
+        $electronics_articles = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home-page-category.html");
         do {
             $electronic_article = $oid->fetch_assoc();
             if ($electronic_article) {

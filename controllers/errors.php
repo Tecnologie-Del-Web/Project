@@ -12,7 +12,7 @@ if (!str_starts_with($_SERVER['REQUEST_URI'], "/admin/")) {
     $title = "Page not found";
     $description = "The page your are looking for does not exist!";
 
-    $main = setupUser(false);
+    $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/error-404.html");
     $error_data = array(
         "error" => $error,

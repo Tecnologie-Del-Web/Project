@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/tags/utility.inc.php";
 /**
  * Routing page
  */
-checkSession();
+startSessionIfNeeded();
 
 $request = strtok($_SERVER["REQUEST_URI"], '?');
 const __CONTROLLERS__ = __DIR__ . '/controllers/';
@@ -15,10 +15,9 @@ global $mysqli;
 $query = "SELECT * FROM service WHERE '" . $request . "' like url ORDER BY LENGTH(url) DESC LIMIT 1;";
 $oid = $mysqli->query($query);
 
-// echo $oid->num_rows;
-
 if ($oid->num_rows > 0) {
     $oid = $oid->fetch_assoc();
+
     // Se si accede a una pagina pubblica
     // TODO: remove bypass
 

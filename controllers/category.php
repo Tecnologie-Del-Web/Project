@@ -4,7 +4,7 @@ function category()
 {
     global $mysqli;
 
-    $main = setupUser(false);
+    $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/category.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
@@ -39,7 +39,7 @@ function category()
         ');
     }
     else {
-        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category/category_products.html");
+        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category/category-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {

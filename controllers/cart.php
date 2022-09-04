@@ -4,7 +4,7 @@ function cart() {
 
     global $mysqli;
 
-    $main = setupUser(false);
+    $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/cart.html");
 
     // Prendo le recensioni del prodotto in questione
@@ -19,7 +19,7 @@ function cart() {
             </div>
         ');
     } else {
-        $cart_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/cart/cart_products.html");
+        $cart_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/cart/cart-products.html");
         do {
             $cart_product = $oid->fetch_assoc();
             if ($cart_product) {

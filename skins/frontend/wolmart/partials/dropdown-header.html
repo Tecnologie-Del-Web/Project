@@ -49,7 +49,7 @@
         <a href="/" class="logo ml-lg-0">
           <img src="/skins/frontend/wolmart/assets/images/logo.png" alt="logo" width="144" height="45"/>
         </a>
-        <form method="get" action="#"
+        <form method="get" action="/products"
               class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
           <div class="select-box">
             <select id="category" name="category">
@@ -161,13 +161,33 @@
     <div class="container">
       <div class="inner-wrap">
         <div class="header-left">
-          <div class="dropdown category-dropdown has-border" data-visible="true">
-            <a href="/categories" class="category-toggle text-dark" role="button" data-toggle="dropdown"
+          <div class="dropdown category-dropdown category-dropdown-hidden has-border" data-visible="true">
+            <a href="#" class="category-toggle" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="true" data-display="static"
                title="Categorie">
               <i class="w-icon-category"></i>
               <span>Categorie</span>
             </a>
+
+            <div class="dropdown-box">
+              <ul class="menu vertical-menu category-menu">
+
+                <[foreach]>
+                <li>
+                  <a href="/category/<[category_id]>">
+                    <[category_name]>
+                  </a>
+                </li>
+                <[/foreach]>
+
+                <li>
+                  <a href="/categories"
+                     class="font-weight-bold text-primary text-uppercase ls-25">
+                    Tutte le Categorie
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="header-right">

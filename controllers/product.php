@@ -12,7 +12,7 @@ function product_detail($id, $variant_id = 0)
 {
     global $mysqli;
 
-    $main = setupUser(false);
+    $main = initUser(false);
 
     // In origine, product-default.html
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-detail.html");
@@ -201,7 +201,7 @@ function findSameBrandProducts(mysqli $mysqli, mixed $brand_id, string $id, Temp
             </div>
         ');
     } else {
-        $same_brand = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/same_brand_products.html");
+        $same_brand = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/same-brand-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
@@ -249,7 +249,7 @@ function findOtherProducts(mysqli $mysqli, mixed $brand_id, mixed $category_id, 
             </div>
         ');
     } else {
-        $other_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/other_products.html");
+        $other_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/other-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {

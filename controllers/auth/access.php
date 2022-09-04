@@ -8,32 +8,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
 
 global $mysqli;
 
-checkSession();
+startSessionIfNeeded();
 
-function sign_in() {
-    echo "Here!";
-    $main = setupUser(false);
-
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/login.html#sign-in");
-
-    $main->setContent("content", $body->get());
-    $main->close();
-}
-
-function sign_up() {
-    $main = setupUser(false);
-
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/login.html#sign-up");
-
-    $main->setContent("content", $body->get());
-    $main->close();
-}
-
-/**
- * Metodo per la gestione della pagina di accesso.
- * @return void
- */
-function login()
+function sign_in()
 {
     // Se non è autenticato
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
@@ -62,11 +39,8 @@ function login()
     }
 }
 
-/**
- * Registrazione di un utente.
- * @return void
- */
-function register()
+
+function sign_up()
 {
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -88,10 +62,7 @@ function register()
     }
 }
 
-/**
- * Logout di un utente.
- * @return void
- */
+
 #[NoReturn] function logout(): void
 {
     if ($_SESSION['auth'] = true) {
@@ -102,11 +73,6 @@ function register()
     exit;
 }
 
-
-/**
- * Utility per la redirezione alla home dopo login o registrazione
- * @return void
- */
 #[NoReturn] function redirect($referrer): void
 {
     //se è stato impostato un referrer reindirizza
