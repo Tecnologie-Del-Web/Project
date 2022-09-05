@@ -52,7 +52,7 @@ if ($oid->num_rows > 0) {
             }
         } else {
             // Se non è autenticato reindirizza alla login
-            Header("Location: /login?referrer=" . urlencode($request));
+            Header("Location: /sign-in?referrer=" . urlencode($request));
             exit;
         }
 } else {

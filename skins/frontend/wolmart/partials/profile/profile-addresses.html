@@ -1,0 +1,37 @@
+<p>I seguenti indirizzi saranno usati nel checkout di default.</p>
+<div class="row">
+  <[foreach]>
+  <div class="col-sm-6 mb-6">
+    <div class="ecommerce-address billing-address pr-lg-8">
+      <h4 class="title title-underline ls-25 font-weight-bold">Indirizzo</h4>
+      <address class="mb-4">
+        <table class="address-table">
+          <tbody>
+            <tr>
+              <th>Via:</th>
+              <td class="pl-4"><[address]></td>
+            </tr>
+            <tr>
+              <th>Città:</th>
+              <td class="pl-4"><[city]></td>
+            </tr>
+            <tr>
+              <th>Provincia:</th>
+              <td class="pl-4"><[province]></td>
+            </tr>
+            <tr>
+              <th>Stato:</th>
+              <td class="pl-4"><[country]></td>
+            </tr>
+            <tr>
+              <th>Codice Postale:</th>
+              <td class="pl-4"><[postal_code]></td>
+            </tr>
+          </tbody>
+        </table>
+      </address>
+      <a href="#" class="btn btn-link btn-underline btn-icon-right text-primary">Modifica indirizzo<i class="w-icon-long-arrow-right"></i></a>
+    </div>
+  </div>
+  <[/foreach]>
+</div>

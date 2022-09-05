@@ -15,9 +15,14 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('D
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Categories', '/categories', 'categories.php', 'categories', 'Categories Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Category', '/category/%', 'category.php', 'category', 'Category Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Brand', '/brand/%', 'brand.php', 'brand', 'Brand Page');
-INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Cart', '/cart', 'cart.php', 'cart', 'Shopping Cart Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Contact Us', '/contact', 'contact.php', 'contact', 'Contacts Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('About', '/about', 'about.php', 'about', 'About Page');
+
+
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Profile', '/profile', 'user/profile.php', 'profile', 'Personal Profile Page');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Cart', '/cart', 'user/cart.php', 'cart', 'Shopping Cart Page');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Personal Wishlist Page');
+
 
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti' , 'Visualizza utenti', '/admin/users', 'admin/users.php', 'users');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Visualizza brand', '/admin/brands', 'admin/brands.php', 'brands');

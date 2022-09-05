@@ -13558,6 +13558,8 @@ aside .sp-sidebar-banner span {
   line-height: 1.1;
   padding: 11px 0;
 }
+
+/*
 .dropdown > a::after {
   display: inline-block;
   margin-left: 6px;
@@ -13566,6 +13568,8 @@ aside .sp-sidebar-banner span {
   font-size: 8px;
   font-weight: 900;
 }
+*/
+
 .dropdown li.active > a, .dropdown li:hover > a {
   color: #336699;
 }
