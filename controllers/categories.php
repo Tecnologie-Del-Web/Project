@@ -5,7 +5,7 @@ function categories()
 
     global $mysqli;
 
-    $main = setupUser(false);
+    $main = initUser(false);
     // In origine categories.html
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/categories.html");
 
@@ -24,7 +24,7 @@ function categories()
     } while ($category);
 
     // Estraggo le informazioni sui brand di cui ho bisogno
-    $oid = $mysqli->query("SELECT b.brand_name, b.brand_image
+    $oid = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image
                                                 FROM brand b
                                                 ORDER BY b.brand_id");
 
@@ -46,6 +46,16 @@ function categories()
     do {
         $product_category = $oid->fetch_assoc();
         if ($product_category) {
+            $product_id = $product_category['product_id'];
+            $reviews = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                                FROM product p JOIN product_review pr ON (pr.product_id = p.product_id)
+                                                WHERE p.product_id=$product_id");
+            $reviews = $reviews->fetch_assoc();
+            if (!$reviews['average_rating']) {
+                $body->setContent("average_rating", "ND");
+            } else {
+                $body->setContent("average_rating", $reviews['average_rating']);
+            }
             foreach ($product_category as $key => $value) {
                 if (strcmp($key,"category_id") == 0 || strcmp($key,"category_name") == 0)
                     $body->setContent("product_" . $key, $value);

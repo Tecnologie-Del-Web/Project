@@ -4,8 +4,8 @@ function category()
 {
     global $mysqli;
 
-    $main = setupUser(false);
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/shop-fullwidth-banner.html");
+    $main = initUser(false);
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/category.html");
 
     $id = explode('/', $_SERVER['REQUEST_URI'])[2];
 
@@ -39,10 +39,20 @@ function category()
         ');
     }
     else {
-        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category_products.html");
+        $products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/category/category-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
+                $product_id = $product['product_id'];
+                $reviews = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                                FROM product p JOIN product_review pr ON (pr.product_id = p.product_id)
+                                                WHERE p.product_id=$product_id");
+                $reviews = $reviews->fetch_assoc();
+                if (!$reviews['average_rating']) {
+                    $products->setContent("average_rating", "ND");
+                } else {
+                    $products->setContent("average_rating", $reviews['average_rating']);
+                }
                 foreach ($product as $key => $value) {
                     $products->setContent($key, $value);
                 }

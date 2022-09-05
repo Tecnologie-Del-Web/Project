@@ -1,0 +1,43 @@
+<thead>
+    <tr>
+        <th class="product-name"><span>Articolo</span></th>
+        <th></th>
+        <th class="product-price"><span>Prezzo</span></th>
+        <th class="product-quantity"><span>Quantità</span></th>
+        <th class="product-subtotal"><span>Subtotale</span></th>
+    </tr>
+</thead>
+<tbody>
+    <[foreach]>
+        <tr style="text-align: center !important;">
+        <td class="product-thumbnail">
+            <div class="p-relative">
+                <a href="/product/<[product_id]>">
+                    <figure>
+                        <img src="/skins/frontend/wolmart/assets/images/products/<[product_id]>/<[variant_id]>/<[file_name]>" alt="product"
+                             style="height: 150px !important; width: 100px !important;">
+                    </figure>
+                </a>
+                <button type="submit" class="btn btn-close"><i
+                        class="fas fa-times"></i></button>
+            </div>
+        </td>
+        <td class="product-name">
+            <a href="/product/<[product_id]>">
+                <[product_name]>
+            </a>
+        </td>
+        <[price]>
+        <td class="product-quantity">
+            <div class="input-group">
+                <input class="quantity form-control" type="number" min="1" max="100000">
+                <button class="quantity-plus w-icon-plus"></button>
+                <button class="quantity-minus w-icon-minus"></button>
+            </div>
+        </td>
+        <td class="product-subtotal">
+            <span class="amount">€<[subtotal]></span>
+        </td>
+    </tr>
+    <[/foreach]>
+</tbody>

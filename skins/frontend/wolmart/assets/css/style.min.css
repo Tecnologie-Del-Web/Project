@@ -7436,10 +7436,12 @@ blockquote {
 
 .w-icon-star:before {
   content: "";
+  color: orange;
 }
 
 .w-icon-star-full:before {
   content: "";
+  color: orange;
 }
 
 .w-icon-table:before {
@@ -7875,7 +7877,7 @@ textarea {
   border: 1px solid;
   border-radius: 2px;
   color: #999;
-  font-family: "Font Awesome 5 Free";
+  font-family: "wolmart";
   font-size: 1rem;
   font-weight: 900;
   width: 1.8rem;
@@ -10130,10 +10132,13 @@ body .product-popup {
   color: rgba(0, 0, 0, 0.16);
   white-space: nowrap;
 }
+
+/*
 .ratings-full:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
+*/
 
 .ratings {
   position: absolute;
@@ -10993,7 +10998,6 @@ body .product-popup {
   color: #333;
   line-height: 1;
   margin-bottom: 1.2rem;
-  padding-top: 2.8rem;
 }
 .product-single .product-color-swatch {
   margin-right: 4rem;
@@ -13392,6 +13396,8 @@ body .product-popup {
 /*-----------------------------
     Tooltip
 -----------------------------*/
+
+/*
 .tooltiptext {
   position: absolute;
   padding: 1rem 0.7rem;
@@ -13421,6 +13427,7 @@ body .product-popup {
   border-style: solid;
   border-color: #333 transparent transparent transparent;
 }
+*/
 
 /*-------------------------------------
     Widget
@@ -15395,6 +15402,8 @@ body .product-popup {
   line-height: 1.1;
   padding: 11px 0;
 }
+
+/*
 .dropdown > a::after {
   display: inline-block;
   margin-left: 6px;
@@ -15403,6 +15412,8 @@ body .product-popup {
   font-size: 8px;
   font-weight: 900;
 }
+*/
+
 .dropdown li.active > a, .dropdown li:hover > a {
   color: #336699;
 }
@@ -20061,6 +20072,7 @@ body .product-popup {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

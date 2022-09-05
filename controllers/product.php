@@ -1,17 +1,25 @@
 <?php
 
-function product()
-{
-    // TODO: gestire opportunamente!
+function product() {
 
+    // echo intval($_GET['variant_id']);
+
+    $uri = explode('?', explode('/', $_SERVER['REQUEST_URI'])[2]);
+    if (count($uri) > 1) {
+        product_detail($uri[0], intval(explode('=',$uri[1])[1]));
+    }
+    else product_detail($uri[0]);
+}
+
+function product_detail($id, $variant_id = 0)
+{
     global $mysqli;
 
-    $main = setupUser(false);
+    $main = initUser(false);
 
     // In origine, product-default.html
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/product-detail.html");
 
-    $id = explode('/', $_SERVER['REQUEST_URI'])[2];
     $brand_id = '';
     $category_id = '';
 
@@ -38,7 +46,7 @@ function product()
 
     findSizeVariants($mysqli, $id, $body);
 
-    findDefaultVariantImages($mysqli, $id, $body);
+    findVariantImages($mysqli, $id, $body, $variant_id);
 
     findBrandInfo($mysqli, $brand_id, $body);
 
@@ -64,7 +72,7 @@ function product()
 function findBrandInfo(mysqli $mysqli, mixed $brand_id, Template $body)
 {
     // Prendo le informazioni sul brand di cui ho bisogno
-    $brand = $mysqli->query("SELECT b.brand_name, b.brand_image
+    $brand = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image
                                     FROM brand b
                                     WHERE b.brand_id = $brand_id;");
 
@@ -111,13 +119,20 @@ function findCategoryInfo(mysqli $mysqli, mixed $category_id, Template $body)
  * @param Template $body
  * @return array
  */
-function findDefaultVariantImages(mysqli $mysqli, string $id, Template $body)
+function findVariantImages(mysqli $mysqli, string $id, Template $body, int $variant_id)
 {
-    // Prendo le immagini della variante di default
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
+    if ($variant_id == 0) {
+        // Prendo le immagini della variante di default
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
                                     FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
                                     WHERE p.product_id = $id AND pv.default = true;");
-
+    }
+    else {
+        // Prendo le immagini della variante specificata
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
+                                    FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
+                                    WHERE p.product_id = $id AND pv.variant_id = $variant_id;");
+    }
 
     do {
         $image = $oid->fetch_assoc();
@@ -150,7 +165,7 @@ function findReviews(mysqli $mysqli, string $id, Template $body)
             </div>
         ');
     } else {
-        $reviews = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail_reviews.html");
+        $reviews = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/reviews.html");
         do {
             $review = $oid->fetch_assoc();
             if ($review) {
@@ -189,10 +204,20 @@ function findSameBrandProducts(mysqli $mysqli, mixed $brand_id, string $id, Temp
             </div>
         ');
     } else {
-        $same_brand = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/same_brand_products.html");
+        $same_brand = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/same-brand-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
+                $product_id = $product['product_id'];
+                $reviews = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                                FROM product p JOIN product_review pr ON (pr.product_id = p.product_id)
+                                                WHERE p.product_id=$product_id");
+                $reviews = $reviews->fetch_assoc();
+                if (!$reviews['average_rating']) {
+                    $same_brand->setContent("average_rating", "ND");
+                } else {
+                    $same_brand->setContent("average_rating", $reviews['average_rating']);
+                }
                 foreach ($product as $key => $value) {
                     $same_brand->setContent($key, $value);
                 }
@@ -227,10 +252,20 @@ function findOtherProducts(mysqli $mysqli, mixed $brand_id, mixed $category_id, 
             </div>
         ');
     } else {
-        $other_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail_other_products.html");
+        $other_products = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/other-products.html");
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
+                $product_id = $product['product_id'];
+                $reviews = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                                FROM product p JOIN product_review pr ON (pr.product_id = p.product_id)
+                                                WHERE p.product_id=$product_id");
+                $reviews = $reviews->fetch_assoc();
+                if (!$reviews['average_rating']) {
+                    $other_products->setContent("average_rating", "ND");
+                } else {
+                    $other_products->setContent("average_rating", $reviews['average_rating']);
+                }
                 foreach ($product as $key => $value) {
                     $other_products->setContent($key, $value);
                 }
@@ -244,12 +279,12 @@ function findOtherProducts(mysqli $mysqli, mixed $brand_id, mixed $category_id, 
  * @param mysqli $mysqli
  * @param string $id
  * @param Template $body
- * @return bool|mysqli_result
+ * @return void
  */
 function findColorVariants(mysqli $mysqli, string $id, Template $body)
 {
     // Lavoro sulle varianti di colore
-    $oid = $mysqli->query("SELECT pv.variant_name
+    $oid = $mysqli->query("SELECT pv.variant_id, pv.variant_name
                                     FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id)
                                     WHERE p.product_id = $id AND pv.type = 'color';");
 
@@ -260,11 +295,10 @@ function findColorVariants(mysqli $mysqli, string $id, Template $body)
             <label>Colori:</label>
             <div class="d-flex align-items-center product-variations">
         ';
-
         do {
             $color_variant = $oid->fetch_assoc();
             if ($color_variant) {
-                $template = $template . '<a href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $color_variant['variant_name'] . '</a>';
+                $template = $template . '<a id="' . $color_variant['variant_id'] . '" class="product-variation" href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $color_variant['variant_name'] . '</a>';
             }
         } while ($color_variant);
 
@@ -280,12 +314,12 @@ function findColorVariants(mysqli $mysqli, string $id, Template $body)
  * @param mysqli $mysqli
  * @param string $id
  * @param Template $body
- * @return bool|mysqli_result
+ * @return void
  */
 function findSizeVariants(mysqli $mysqli, string $id, Template $body)
 {
     // Lavoro sulle varianti di taglia
-    $oid = $mysqli->query("SELECT pv.variant_name
+    $oid = $mysqli->query("SELECT pv.variant_id, pv.variant_name
                                     FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id)
                                     WHERE p.product_id = $id AND pv.type = 'size';");
 
@@ -295,11 +329,10 @@ function findSizeVariants(mysqli $mysqli, string $id, Template $body)
             <label>Taglie:</label>
             <div class="d-flex align-items-center product-variations">
         ';
-
         do {
             $size_variant = $oid->fetch_assoc();
             if ($size_variant) {
-                $template = $template . '<a href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $size_variant['variant_name'] . '</a>';
+                $template = $template . '<a id="' . $size_variant['variant_id'] . '" class="product-variation" href="#" style="border: none !important; width: auto !important; margin: 0 1em !important; font-size: 1.4em !important;">' . $size_variant['variant_name'] . '</a>';
             }
         } while ($size_variant);
 

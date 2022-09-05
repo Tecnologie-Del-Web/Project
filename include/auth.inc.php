@@ -1,110 +1,155 @@
 <?php
 
-DEFINE('ERROR_SCRIPT_PERMISSION', 100);
-DEFINE('ERROR_USER_NOT_LOGGED', 200);
-DEFINE('ERROR_OWNERSHIP', 200);
+const ERROR_SCRIPT_PERMISSION = 100;
+const ERROR_USER_NOT_LOGGED = 200;
+const ERROR_OWNERSHIP = 200;
 
-function crypto($pass)
+function crypto($pass): string
 {
-
-    return md5(md5($pass));
-
+    return md5(md5(md5(md5(md5($pass)))));
 }
 
-function isOwner($resource, $key = "id")
+function isOwner($resource, $key = "id"): bool
 {
-
     global $mysqli;
 
-    $oid = $mysqli->query("
-            SELECT owner_username 
-            FROM {$resource} 
-            WHERE {$key} = '{$_REQUEST[$key]}'");
+    // Controlla se il possessore della username esiste
+    $oid = $mysqli->query("SELECT * FROM {$resource} WHERE {$key} = '{$_REQUEST[$key]}'");
+
+    // Se l'utente non viene trovato
     if (!$oid) {
-        // error
+        return false;
     }
 
     $data = $oid->fetch_assoc();
 
-    if ($data['owner_username'] != $_SESSION['user']['username']) {
-
+    if ($data['email_address'] != $_SESSION['user']['email-address']) {
         Header("Location: error.php?code=" . ERROR_OWNERSHIP);
         exit;
-
+    } else {
+        return true;
     }
-
 }
 
-if (isset($_POST['username']) and isset($_POST['password'])) {
+function doSignIn(): void
+{
+    global $mysqli;
 
-    $oid = $mysqli->query("
-            SELECT username, name, surname, email 
-            FROM user 
-            WHERE username = '" . $_POST['username'] . "'
-            AND password = '" . crypto($_POST['password']) . "'");
+    // Se la post contiene email e password
+    if (isset($_POST['email-address']) and isset($_POST['password'])) {
 
-
-    if (!$oid) {
-        trigger_error("Generic error, level 21", E_USER_ERROR);
-    }
-
-    if ($oid->num_rows > 0) {
-        $user = $oid->fetch_assoc();
-        $_SESSION['auth'] = true;
-        $_SESSION['user'] = $user;
-
+        // Ottiene l'utente dalla tabella user
         $oid = $mysqli->query("
-                SELECT DISTINCT script FROM user 
-                LEFT JOIN user_has_ugroup
-                ON user_has_ugroup.user_username = user.username
-                LEFT JOIN ugroup_has_service
-                ON ugroup_has_service.ugroup_id = user_has_ugroup.ugroup_id 
-                LEFT JOIN service
-                ON service.id = ugroup_has_service.service_id
-                WHERE username = '" . $_POST['username'] . "'");
+            SELECT *
+            FROM user u
+            WHERE u.email_address = '" . $_POST['email-address'] . "'
+            AND u.password = '" . crypto($_POST['password']) . "'");
 
+
+        // Se oid non è settato allora c'è un errore
         if (!$oid) {
-            trigger_error("Generic error, level 40", E_USER_ERROR);
+            trigger_error("Generic error, level 21", E_USER_ERROR);
         }
 
-        do {
-            $data = $oid->fetch_assoc();
-            if ($data) {
-                $scripts[$data['script']] = true;
+        echo "Numero di righe: " . $oid->num_rows;
+
+        // Se viene restituito un numero di righe maggiore di 0 allora l'utente esiste
+        if ($oid->num_rows > 0) {
+            // Ottiene i dati dell'utente
+            $user = $oid->fetch_assoc();
+            createSession($user, $mysqli);
+        }
+    }
+}
+
+function doSignUp(): void
+{
+    global $mysqli;
+
+    // Se la post contiene tutti i campi
+    if (isset($_POST['name']) and
+        isset($_POST['surname']) and
+        isset($_POST['phone-number']) and
+        isset($_POST['email-address']) and
+        isset($_POST['username']) and
+        isset($_POST['password'])) {
+
+        // Controlla se l'email è già presente
+        $oid = $mysqli->query("SELECT u.user_id FROM user u WHERE u.email_address = '{$_POST['email-address']}'");
+        if (!$oid) {
+            trigger_error("Generic error, level 21", E_USER_ERROR);
+        }
+        // Se oid non è settato allora un utente con questa email esiste già
+        if ($oid->num_rows > 0) {
+            return;
+        } else {
+            // Inserisce l'utente nel database
+            $oid = $mysqli->query("INSERT INTO user (email_address, name, surname, phone_number, username, password) 
+                VALUES ('" . $_POST['email-address'] . "', 
+                '" . $_POST['name'] . "',
+                '" . $_POST['surname'] . "',
+                '" . $_POST['phone-number'] . "',
+                '" . $_POST['username'] . "',
+                '" . crypto($_POST['password']) . "')");
+
+            if (!$oid) {
+                trigger_error("Generic error, level 21", E_USER_ERROR);
             }
-        } while ($data);
 
-        $_SESSION['user']['script'] = $scripts;
+            $oid = $mysqli->query("SELECT * FROM user u WHERE u.email_address = '{$_POST['email-address']}'");
 
-        if (isset($_SESSION['referrer'])) {
-            $referrer = $_SESSION['referrer'];
-            unset($_SESSION['referrer']);
-            Header("Location: {$referrer}");
-            exit;
+            if (!$oid) {
+                trigger_error("Generic error, level 21", E_USER_ERROR);
+            }
+
+            if ($oid->num_rows > 0) {
+                $user = $oid->fetch_assoc();
+                // Do all'utente i permessi da user
+                $oid = $mysqli->query("INSERT INTO user_has_group (user_id, group_id) VALUES ({$user['user_id']}, 2);");
+                if (!$oid) {
+                    trigger_error("Generic error, level 21", E_USER_ERROR);
+                }
+                createSession($user, $mysqli);
+            }
         }
-
-    } else {
-        Header("Location: login.php");
-        exit;
-    }
-
-} else {
-    if (!isset($_SESSION['auth'])) {
-        $_SESSION['referrer'] = basename($_SERVER['SCRIPT_NAME']);
-        Header("Location: login.php?not_auth");
-        exit;
-    } else {
-
-        // user logged
-
     }
 }
 
-// user is logged
+function createSession($user, mysqli $mysqli): void
+{
+    // Crea una sessione per l'utente
+    $_SESSION['auth'] = true;
+    $_SESSION['user'] = $user;
 
-if (!isset($_SESSION['user']['script'][basename($_SERVER['SCRIPT_NAME'])])) {
-    Header("Location: error.php?code=" . ERROR_SCRIPT_PERMISSION);
-    exit;
+    // Ottiene i permessi dell'utente
+    $oid = $mysqli->query("
+                SELECT DISTINCT s.script, s.url FROM user u 
+                JOIN user_has_group ug ON (ug.user_id = u.user_id)
+                JOIN service_has_group sg ON (sg.group_id = ug.group_id) 
+                JOIN service s
+                ON s.service_id = sg.service_id
+                WHERE u.email_address = '" . $_POST['email-address'] . "'");
+
+    // Se oid non è settato allora c'è un errore
+    if (!$oid) {
+        trigger_error("Generic error, level 40", E_USER_ERROR);
+    }
+
+    // Imposta i permessi di accesso dell'utente
+    $scripts = [];
+    do {
+        $data = $oid->fetch_assoc();
+        if ($data) {
+            $scripts[$data['url']] = true;
+        }
+    } while ($data);
+
+    $_SESSION['user']['script'] = $scripts;
+
+    // if (!isset($_SESSION['user']['script'][basename($_SERVER['SCRIPT_NAME'])])) {
+    if (!isset($_SESSION['user']['script'])) {
+        unset($_SESSION['auth']);
+        unset($_SESSION['user']);
+    }
 }
-
 ?>

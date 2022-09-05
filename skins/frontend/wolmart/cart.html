@@ -22,24 +22,13 @@
                 <div class="row gutter-lg mb-10">
                     <div class="col-lg-8 pr-lg-4 mb-6">
                         <table class="shop-table cart-table">
-                            <thead>
-                            <tr>
-                                <th class="product-name"><span>Articolo</span></th>
-                                <th></th>
-                                <th class="product-price"><span>Prezzo</span></th>
-                                <th class="product-quantity"><span>Quantità</span></th>
-                                <th class="product-subtotal"><span>Subtotale</span></th>
-                            </tr>
-                            </thead>
-                            <tbody>
 
                                 <[products]>
 
-                            </tbody>
                         </table>
 
                         <div class="cart-action mb-6">
-                            <a href="/images/categories" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
+                            <a href="/categories" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
                                     class="w-icon-long-arrow-left"></i>Continua lo Shopping</a>
                             <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart"
                                     value="Clear Cart">Svuota Carrello
@@ -62,7 +51,7 @@
                                 <h3 class="cart-title text-uppercase">Totali del carrello</h3>
                                 <div class="cart-subtotal d-flex align-items-center justify-content-between">
                                     <label class="ls-25">Subtotale</label>
-                                    <span>$100.00</span>
+                                    <span>[Subtotal]</span>
                                 </div>
 
                                 <hr class="divider">
@@ -87,31 +76,16 @@
                                                    class="custom-control-label color-dark">Ritiro a mano</label>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="flat-rate" class="custom-control-input"
-                                                   name="shipping">
-                                            <label for="flat-rate" class="custom-control-label color-dark">Flat
-                                                rate:
-                                                $5.00</label>
-                                        </div>
-                                    </li>
                                 </ul>
 
-                                <div class="shipping-calculator">
-                                    <p class="shipping-destination lh-1">Shipping to <strong>CA</strong>.</p>
-
+                                <div class="shipping-calculator mt-5">
                                     <form class="shipping-calculator-form">
                                         <div class="form-group">
                                             <div class="select-box">
                                                 <select name="country" class="form-control form-control-md">
-                                                    <option value="default" selected="selected">United States
-                                                        (US)
-                                                    </option>
-                                                    <option value="us">United States</option>
-                                                    <option value="uk">United Kingdom</option>
-                                                    <option value="fr">France</option>
-                                                    <option value="aus">Australia</option>
+                                                    <[foreach]>
+                                                        <option value="<[address_id]>"><[address]></option>
+                                                    <[/foreach]>
                                                 </select>
                                             </div>
                                         </div>
@@ -120,7 +94,7 @@
                                                 <select name="state" class="form-control form-control-md">
                                                     <option value="default" selected="selected">California
                                                     </option>
-                                                    <option value="ohaio">Ohio</option>
+                                                    <option value="ohio">Ohio</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -132,9 +106,6 @@
                                             <input class="form-control form-control-md" type="text"
                                                    name="zipcode" placeholder="ZIP">
                                         </div>
-                                        <button type="submit" class="btn btn-dark btn-outline btn-rounded">Update
-                                            Totals
-                                        </button>
                                     </form>
                                 </div>
 
@@ -168,7 +139,7 @@
         <i class="w-icon-category"></i>
         <p>Shop</p>
     </a>
-    <a href="my-account.html" class="sticky-link">
+    <a href="profile.html" class="sticky-link">
         <i class="w-icon-account"></i>
         <p>Account</p>
     </a>
@@ -315,7 +286,7 @@
                                 <a href="#">Shop Layouts</a>
                                 <ul>
                                     <li><a href="shop-grid-3cols.html">3 Columns Mode</a></li>
-                                    <li><a href="shop-grid-4cols.html">4 Columns Mode</a></li>
+                                    <li><a href="products.html">4 Columns Mode</a></li>
                                     <li><a href="shop-grid-5cols.html">5 Columns Mode</a></li>
                                     <li><a href="shop-grid-6cols.html">6 Columns Mode</a></li>
                                     <li><a href="shop-grid-7cols.html">7 Columns Mode</a></li>
@@ -420,14 +391,14 @@
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="become-a-vendor.html">Become A Vendor</a></li>
                             <li><a href="contact-us.html">Contact Us</a></li>
-                            <li><a href="login.html">Login</a></li>
+                            <li><a href="sign-in.html">Login</a></li>
                             <li><a href="faq.html">FAQs</a></li>
                             <li><a href="error-404.html">Error 404</a></li>
                             <li><a href="coming-soon.html">Coming Soon</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
                             <li><a href="cart.html">Cart</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="my-account.html">My Account</a></li>
+                            <li><a href="profile.html">My Account</a></li>
                         </ul>
                     </li>
                     <li>

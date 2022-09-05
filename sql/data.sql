@@ -7,6 +7,16 @@ INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `pas
 INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `password`) VALUES ('francesco@email.it', 'Francesco', 'Ambrosini', '+39 33320101998', 'fraambro', 'pswfrancesco');
 INSERT INTO `user` (email_address, `name`, surname, phone_number, username, `password`) VALUES ('fabio@email.it', 'Fabio', 'Di Donato', '+39 33324121963', 'fabiodido', 'pswfabio');
 
+-- Un metodo di pagamento di test
+INSERT INTO payment_method (payment_code, type, credentials, validity, user_id) VALUES ('CRD-081', 'Credit Card', '55551111 08', '2025-01-01 00:00:00', 8);
+
+-- Un ordine di test
+INSERT INTO `order` (order_code, updated_at, total, progress_status, user_id, payment_id) VALUES ('ORD-081', NOW(), 150.00, 'processing', 8, 1);
+
+-- Alcuni indirizzi di test
+INSERT INTO shipment_address (city, address, province, country, postal_code, user_id) VALUES ("L'Aquila", 'Via Vetoio', "L'Aquila", 'Italia', '67100', 8);
+INSERT INTO shipment_address (city, address, province, country, postal_code, user_id) VALUES ("Pescara", 'Via Vezzola', "Pescara", 'Italia', '65128', 8);
+
 -- Inserisco alcune categorie
 INSERT INTO category (category_name, category_description, category_image) VALUES ('Libri', 'Romanzi, Fumetti...', 'books.jpg');
 INSERT INTO category (category_name, category_description, category_image) VALUES ('Musica', 'CD, DVD, Vinili...', 'music.jpg');
@@ -121,4 +131,13 @@ INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES 
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni comodissimi', 4.5, NOW(), 4, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni fantastici!', 5, NOW(), 2, 11);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Capolavoro indiscusso!', 5, NOW(), 2, 15);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Molto bello!', 4, NOW(), 3, 15);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Ennesimo capolavoro!', 5, NOW(), 2, 18);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Magnifico!', 5, NOW(), 2, 17);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Straordinario!', 5, NOW(), 2, 16);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Pantaloni orribili.', 1, NOW(), 4, 11);
+
+-- Inserisco un'offerta
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto sul disco', 20, NOW(), '2022-09-20 00:00:00', 16);
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto su Homogenic', 25, NOW(), '2022-09-21 00:00:00', 15);
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto su The Division Bell', 30, NOW(), '2022-09-18 00:00:00', 18);

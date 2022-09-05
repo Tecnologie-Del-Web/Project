@@ -8,52 +8,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/dbms.inc.php";
 
 global $mysqli;
 
-checkSession();
+startSessionIfNeeded();
 
-function sign_in() {
-    echo "Here!";
-    $main = setupUser(false);
-
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/login.html#sign-in");
-
-    $main->setContent("content", $body->get());
-    $main->close();
-}
-
-function sign_up() {
-    $main = setupUser(false);
-
-    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/login.html#sign-up");
-
-    $main->setContent("content", $body->get());
-    $main->close();
-}
-
-/**
- * Metodo per la gestione della pagina di accesso.
- * @return void
- */
-function login()
+function signIn()
 {
     // Se non è autenticato
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         // Se è una richiesta POST
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Eseguo il login
-            doLogin();
+            doSignIn();
             if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
                 // Se l'utente è autenticato dopo la funzione di login
                 redirect($_POST['referrer'] ?? "");
             } else {
                 // Se l'utente non è stato autenticato
-                $main = setupMainAuth("login");
-                $alert = setupAlert("Username o password errati.");
-                $main->setContent("alert", $alert->get());
+                $main = initAuth("sign-in");
                 $main->close();
             }
         } else {
             // Se è una richiesta GET
-            $main = setupMainAuth("login");
+            $main = initAuth("sign-in");
             $main->close();
         }
         // Se l'utente è già autenticato, reindirizza alla home
@@ -62,25 +37,20 @@ function login()
     }
 }
 
-/**
- * Registrazione di un utente.
- * @return void
- */
-function register()
+
+function signUp()
 {
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            doRegister();
+            doSignUp();
             if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
                 redirect($_POST['referrer'] ?? "");
             } else {
-                $main = setupMainAuth("register");
-                $alert = setupAlert("Email non disponibile!.");
-                $main->setContent("alert", $alert->get());
+                $main = initAuth("sign-up");
                 $main->close();
             }
         } else {
-            $main = setupMainAuth("register");
+            $main = initAuth("sign-up");
             $main->close();
         }
     } else {
@@ -88,39 +58,47 @@ function register()
     }
 }
 
-/**
- * Logout di un utente.
- * @return void
- */
-#[NoReturn] function logout(): void
+
+#[NoReturn] function signOut(): void
 {
     if ($_SESSION['auth'] = true) {
-        unset($_SESSION['auth']);   //rimozione dell'autenticazione
-        unset($_SESSION['user']);   //rimozione dell'utente
+        // Rimuovo dell'autenticazione
+        unset($_SESSION['auth']);
+        // Rimuovo dell'utente
+        unset($_SESSION['user']);
     }
-    header("Location: /");
+    Header("Location: /");
     exit;
 }
 
-
-/**
- * Utility per la redirezione alla home dopo login o registrazione
- * @return void
- */
 #[NoReturn] function redirect($referrer): void
 {
-    //se è stato impostato un referrer reindirizza
+    // Se è stato impostato un referrer reindirizza
     if ($referrer != "") {
         unset($_SESSION['referrer']);
         header("Location: $referrer");
         exit;
     } else if (isset($_SESSION['user']['script']['/admin']) && $_SESSION['user']['script']['/admin']) {
-        Header("Location: /admin");               //se è un admin vai alla pagina di amministrazione
+        // Se è un admin vai alla pagina di amministrazione
+        Header("Location: /admin");
         exit;
     } else {
-        Header("Location: /");                    //se non è admin vai alla home
+        // Se non è admin vai alla home
+        Header("Location: /");
         exit;
     }
+}
+
+function initAuth(string $page): Template
+{
+    startSessionIfNeeded();
+
+    $main = initUser(false);
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/" . $page . ".html");
+
+    $body->setContent("referrer", $_GET['referrer'] ?? "");
+    $main->setContent("content", $body->get());
+    return $main;
 }
 
 

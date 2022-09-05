@@ -1,0 +1,11 @@
+/*
+    Dropdown Categorie nell'header
+ */
+.category-dropdown-hidden .dropdown-box {
+    visibility: hidden !important;
+}
+
+.category-dropdown-hidden:hover .dropdown-box {
+    visibility: visible !important;
+    transition: visibility ease-in-out 300ms;
+}

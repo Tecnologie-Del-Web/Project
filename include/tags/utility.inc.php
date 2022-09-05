@@ -4,7 +4,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 
-// TODO: add customization
 function initAdmin()
 {
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/index.html");
@@ -18,33 +17,18 @@ function initAdmin()
     return $main;
 }
 
-// TODO: completare!
-function setupUser(bool $dropdown = true)
+function initUser(bool $dropdown = true)
 {
-    checkSession();
+    startSessionIfNeeded();
+
     global $mysqli;
 
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/main.html");
 
-
-    /*
-    if (isset($_SESSION['user'])) {
-        $logged = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/components/user/logged.html");
-        if (isset($_SESSION['user']['script']['/admin'])) {
-            $logged->setContent("admin", "<li><a href='/admin'>Administration</a></li>");
-        }
-        $main->setContent("user_bar", $logged->get());
-    } else {
-        $unlogged = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/wizym/dtml/components/user/unlogged.html");
-        $unlogged->setContent("referrer", "?referrer=" . urlencode($_SERVER['REQUEST_URI']));
-        $main->setContent("user_bar", $unlogged->get());
-    }
-    */
-
     if ($dropdown)
         $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/header.html");
     else
-        $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/no-dropdown-header.html");
+        $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/dropdown-header.html");
 
     $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/footer.html");
 
@@ -64,26 +48,24 @@ function setupUser(bool $dropdown = true)
         }
     } while ($category);
 
-
-    /*
-    $customization = $mysqli->query("SELECT personal_image FROM customization WHERE customization_id = 1")->fetch_assoc();
-    if ($customization) {
-        if ($customization["logo"] != "") {
-            $header->setContent("logo", "/uploads/" . $customization["logo"]);
-            $footer->setContent("logo", "/uploads/" . $customization["logo"]);
-        } else {
-            $header->setContent("logo", "https://via.placeholder.com/150");
-            $footer->setContent("logo", "https://via.placeholder.com/150");
+    if (isset($_SESSION['user'])) {
+        $logged_in = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/logged-in.html");
+        if (isset($_SESSION['user']['script']['/admin'])) {
+            $logged_in->setContent("admin", "<li><a href='/admin'>Amministrazione</a></li>");
         }
+        $header->setContent("login_status", $logged_in->get());
+    } else {
+        $to_log = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/to-log.html");
+        $to_log->setContent("referrer", "?referrer=".urlencode($_SERVER['REQUEST_URI']));
+        $header->setContent("login_status", $to_log->get());
     }
-    */
 
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());
     return $main;
 }
 
-function checkSession(): void
+function startSessionIfNeeded(): void
 {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();

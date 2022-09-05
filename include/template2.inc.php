@@ -732,7 +732,7 @@ class Template
             $this->setContent("user.surname", $_SESSION['user']['surname']);
             //$this->setContent("user.lastlogin", $_SESSION['user']['lastlogin']);
 
-            $this->setContent("user.email", $_SESSION['user']['email']);
+            $this->setContent("user.email", $_SESSION['user']['email_address']);
         }
 
         if ($this->cache->caching == TRUE) {
