@@ -38,22 +38,24 @@ function doSignIn(): void
     // Se la post contiene email e password
     if (isset($_POST['email']) and isset($_POST['password'])) {
 
-        //Ottiene l'utente dalla tabella users
+        // Ottiene l'utente dalla tabella user
         $oid = $mysqli->query("
-            SELECT id, nome, cognome, email, telefono
+            SELECT *
             FROM user u
-            WHERE email = '" . $_POST['email'] . "'
-            AND password = '" . crypto($_POST['password']) . "'");
+            WHERE u.email_address = '" . $_POST['email'] . "'
+            AND u.password = '" . crypto($_POST['password']) . "'");
 
 
-        //Se oid non è settato allora c'è un errore
+        // Se oid non è settato allora c'è un errore
         if (!$oid) {
             trigger_error("Generic error, level 21", E_USER_ERROR);
         }
 
-        //Se viene restituito un numero di righe maggiore di 0 allora l'utente esiste
+        echo "Numero di righe: " . $oid->num_rows;
+
+        // Se viene restituito un numero di righe maggiore di 0 allora l'utente esiste
         if ($oid->num_rows > 0) {
-            //Ottiene i dati dell'utente
+            // Ottiene i dati dell'utente
             $user = $oid->fetch_assoc();
             createSession($user, $mysqli);
         }
@@ -123,7 +125,7 @@ function createSession($user, mysqli $mysqli): void
     $oid = $mysqli->query("
                 SELECT DISTINCT s.script, s.url FROM user u 
                 JOIN user_has_group ug ON (ug.user_id = u.user_id)
-                JOIN service_has_group sg ON (sg.group_id = user_has_group.group_id) 
+                JOIN service_has_group sg ON (sg.group_id = ug.group_id) 
                 JOIN service s
                 ON s.service_id = sg.service_id
                 WHERE u.email_address = '" . $_POST['email'] . "'");
@@ -142,6 +144,7 @@ function createSession($user, mysqli $mysqli): void
     } while ($data);
 
     $_SESSION['user']['script'] = $scripts;
+
     // if (!isset($_SESSION['user']['script'][basename($_SERVER['SCRIPT_NAME'])])) {
     if (!isset($_SESSION['user']['script'])) {
         unset($_SESSION['auth']);

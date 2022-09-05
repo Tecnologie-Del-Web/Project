@@ -16,15 +16,22 @@ function signIn()
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         // Se è una richiesta POST
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            echo $_POST['referrer'];
             // Eseguo il login
             doSignIn();
             if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
+                echo "Ok!";
+                /*
                 // Se l'utente è autenticato dopo la funzione di login
                 redirect($_POST['referrer'] ?? "");
+                */
             } else {
+                echo "No! :(";
+                /*
                 // Se l'utente non è stato autenticato
                 $main = initAuth("sign-in");
                 $main->close();
+                */
             }
         } else {
             // Se è una richiesta GET
@@ -62,8 +69,10 @@ function signUp()
 #[NoReturn] function logout(): void
 {
     if ($_SESSION['auth'] = true) {
-        unset($_SESSION['auth']);   //rimozione dell'autenticazione
-        unset($_SESSION['user']);   //rimozione dell'utente
+        // Rimozione dell'autenticazione
+        unset($_SESSION['auth']);
+        // Rimozione dell'utente
+        unset($_SESSION['user']);
     }
     header("Location: /");
     exit;
@@ -71,16 +80,18 @@ function signUp()
 
 #[NoReturn] function redirect($referrer): void
 {
-    //se è stato impostato un referrer reindirizza
+    // Se è stato impostato un referrer reindirizza
     if ($referrer != "") {
         unset($_SESSION['referrer']);
         header("Location: $referrer");
         exit;
     } else if (isset($_SESSION['user']['script']['/admin']) && $_SESSION['user']['script']['/admin']) {
-        Header("Location: /admin");               //se è un admin vai alla pagina di amministrazione
+        // Se è un admin vai alla pagina di amministrazione
+        Header("Location: /admin");
         exit;
     } else {
-        Header("Location: /");                    //se non è admin vai alla home
+        // Se non è admin vai alla home
+        Header("Location: /");
         exit;
     }
 }
