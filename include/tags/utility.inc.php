@@ -4,7 +4,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 
-// TODO: add customization
 function initAdmin()
 {
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/index.html");
@@ -51,18 +50,15 @@ function initUser(bool $dropdown = true)
 
     if (isset($_SESSION['user'])) {
         $logged_in = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/logged-in.html");
-        /*
         if (isset($_SESSION['user']['script']['/admin'])) {
-            $logged->setContent("admin", "<li><a href='/admin'>Amministrazione</a></li>");
+            $logged_in->setContent("admin", "<li><a href='/admin'>Amministrazione</a></li>");
         }
-        */
         $header->setContent("login_status", $logged_in->get());
     } else {
         $to_log = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/to-log.html");
         $to_log->setContent("referrer", "?referrer=".urlencode($_SERVER['REQUEST_URI']));
         $header->setContent("login_status", $to_log->get());
     }
-
 
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());

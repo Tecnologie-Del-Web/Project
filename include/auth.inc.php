@@ -23,7 +23,7 @@ function isOwner($resource, $key = "id"): bool
 
     $data = $oid->fetch_assoc();
 
-    if ($data['email'] != $_SESSION['user']['email']) {
+    if ($data['email_address'] != $_SESSION['user']['email-address']) {
         Header("Location: error.php?code=" . ERROR_OWNERSHIP);
         exit;
     } else {
@@ -36,13 +36,13 @@ function doSignIn(): void
     global $mysqli;
 
     // Se la post contiene email e password
-    if (isset($_POST['email']) and isset($_POST['password'])) {
+    if (isset($_POST['email-address']) and isset($_POST['password'])) {
 
         // Ottiene l'utente dalla tabella user
         $oid = $mysqli->query("
             SELECT *
             FROM user u
-            WHERE u.email_address = '" . $_POST['email'] . "'
+            WHERE u.email_address = '" . $_POST['email-address'] . "'
             AND u.password = '" . crypto($_POST['password']) . "'");
 
 
@@ -69,13 +69,13 @@ function doSignUp(): void
     // Se la post contiene tutti i campi
     if (isset($_POST['name']) and
         isset($_POST['surname']) and
-        isset($_POST['phone_number']) and
-        isset($_POST['email']) and
+        isset($_POST['phone-number']) and
+        isset($_POST['email-address']) and
         isset($_POST['username']) and
         isset($_POST['password'])) {
 
         // Controlla se l'email è già presente
-        $oid = $mysqli->query("SELECT u.user_id FROM user u WHERE u.email_address = '{$_POST['email']}'");
+        $oid = $mysqli->query("SELECT u.user_id FROM user u WHERE u.email_address = '{$_POST['email-address']}'");
         if (!$oid) {
             trigger_error("Generic error, level 21", E_USER_ERROR);
         }
@@ -85,10 +85,10 @@ function doSignUp(): void
         } else {
             // Inserisce l'utente nel database
             $oid = $mysqli->query("INSERT INTO user (email_address, name, surname, phone_number, username, password) 
-                VALUES ('" . $_POST['email'] . "', 
+                VALUES ('" . $_POST['email-address'] . "', 
                 '" . $_POST['name'] . "',
                 '" . $_POST['surname'] . "',
-                '" . $_POST['phone_number'] . "',
+                '" . $_POST['phone-number'] . "',
                 '" . $_POST['username'] . "',
                 '" . crypto($_POST['password']) . "')");
 
@@ -96,7 +96,7 @@ function doSignUp(): void
                 trigger_error("Generic error, level 21", E_USER_ERROR);
             }
 
-            $oid = $mysqli->query("SELECT * FROM user u WHERE u.email_address = '{$_POST['email']}'");
+            $oid = $mysqli->query("SELECT * FROM user u WHERE u.email_address = '{$_POST['email-address']}'");
 
             if (!$oid) {
                 trigger_error("Generic error, level 21", E_USER_ERROR);
@@ -128,7 +128,7 @@ function createSession($user, mysqli $mysqli): void
                 JOIN service_has_group sg ON (sg.group_id = ug.group_id) 
                 JOIN service s
                 ON s.service_id = sg.service_id
-                WHERE u.email_address = '" . $_POST['email'] . "'");
+                WHERE u.email_address = '" . $_POST['email-address'] . "'");
 
     // Se oid non è settato allora c'è un errore
     if (!$oid) {
@@ -136,6 +136,7 @@ function createSession($user, mysqli $mysqli): void
     }
 
     // Imposta i permessi di accesso dell'utente
+    $scripts = [];
     do {
         $data = $oid->fetch_assoc();
         if ($data) {

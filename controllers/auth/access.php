@@ -16,22 +16,15 @@ function signIn()
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         // Se è una richiesta POST
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo "Referrer: " . $_POST['referrer'];
             // Eseguo il login
             doSignIn();
             if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
-                echo "Ok!";
-                /*
                 // Se l'utente è autenticato dopo la funzione di login
                 redirect($_POST['referrer'] ?? "");
-                */
             } else {
-                echo "No! :(";
-                /*
                 // Se l'utente non è stato autenticato
                 $main = initAuth("sign-in");
                 $main->close();
-                */
             }
         } else {
             // Se è una richiesta GET
@@ -66,15 +59,15 @@ function signUp()
 }
 
 
-#[NoReturn] function logout(): void
+#[NoReturn] function signOut(): void
 {
     if ($_SESSION['auth'] = true) {
-        // Rimozione dell'autenticazione
+        // Rimuovo dell'autenticazione
         unset($_SESSION['auth']);
-        // Rimozione dell'utente
+        // Rimuovo dell'utente
         unset($_SESSION['user']);
     }
-    header("Location: /");
+    Header("Location: /");
     exit;
 }
 

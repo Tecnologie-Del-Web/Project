@@ -8,6 +8,7 @@ DELETE FROM service WHERE TRUE;
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Home', '/', 'home.php', 'home', '');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Login', '/sign-in', 'auth/access.php', 'signIn', 'Login');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Registration', '/sign-up', 'auth/access.php', 'signUp', 'Registration');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Logout', '/sign-out', 'auth/access.php', 'signOut', 'Logout');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Product', '/product/%', 'product.php', 'product', 'Product Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Search in Category', '/products%', 'products.php', 'products', 'Product Search Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Dashboard', '/admin', 'admin/index.php', 'admin', 'Dashboard');
