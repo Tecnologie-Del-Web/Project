@@ -1,6 +1,9 @@
 <?php
 
 function product() {
+
+    // echo intval($_GET['variant_id']);
+
     $uri = explode('?', explode('/', $_SERVER['REQUEST_URI'])[2]);
     if (count($uri) > 1) {
         product_detail($uri[0], intval(explode('=',$uri[1])[1]));

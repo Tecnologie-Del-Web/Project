@@ -16,7 +16,7 @@ function signIn()
     if (!(isset($_SESSION['auth']) && $_SESSION['auth'] = true)) {
         // Se è una richiesta POST
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            echo $_POST['referrer'];
+            echo "Referrer: " . $_POST['referrer'];
             // Eseguo il login
             doSignIn();
             if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {

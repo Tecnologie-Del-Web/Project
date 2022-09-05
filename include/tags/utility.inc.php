@@ -18,10 +18,10 @@ function initAdmin()
     return $main;
 }
 
-// TODO: completare!
 function initUser(bool $dropdown = true)
 {
     startSessionIfNeeded();
+
     global $mysqli;
 
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/main.html");
@@ -48,6 +48,20 @@ function initUser(bool $dropdown = true)
             }
         }
     } while ($category);
+
+    if (isset($_SESSION['user'])) {
+        $logged_in = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/logged-in.html");
+        /*
+        if (isset($_SESSION['user']['script']['/admin'])) {
+            $logged->setContent("admin", "<li><a href='/admin'>Amministrazione</a></li>");
+        }
+        */
+        $header->setContent("login_status", $logged_in->get());
+    } else {
+        $to_log = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/to-log.html");
+        $to_log->setContent("referrer", "?referrer=".urlencode($_SERVER['REQUEST_URI']));
+        $header->setContent("login_status", $to_log->get());
+    }
 
 
     $main->setContent("header", $header->get());
