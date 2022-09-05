@@ -22,6 +22,7 @@
                 <div class="form-group">
                     <input type="text" id="coupon_description" name="coupon_description" required aria-required="true"
                            class="form-control"
+                           value="<[description]>"
                            placeholder="Descrizione"/>
                 </div>
             </div>
@@ -35,6 +36,7 @@
                             type="number"
                             id="coupon_percentage"
                             class="form-control"
+                            value="<[percentage]>"
                             required aria-required="true"
                             placeholder="Percentuale">
                 </div>
@@ -44,8 +46,9 @@
             <label class="col-sm-2 col-form-label" for="coupon_start_date">Inizio</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="date" id="coupon_start_date" name="coupon_start_date" required aria-required="true"
+                    <input type="datetime-local" id="coupon_start_date" name="coupon_start_date" required aria-required="true"
                            class="form-control"
+                           value="<[start_date]>"
                            placeholder="Inizio"/>
                 </div>
             </div>
@@ -54,13 +57,14 @@
             <label class="col-sm-2 col-form-label" for="coupon_end_date">Fine</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="date" id="coupon_end_date" name="coupon_end_date" required aria-required="true"
+                    <input type="datetime-local" id="coupon_end_date" name="coupon_end_date" required aria-required="true"
                            class="form-control"
+                           value="<[expiration_date]>"
                            placeholder="Fine"/>
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
+        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
             <span class="bx bx-save me-1"></span> Modifica
         </button>
     </div>
@@ -71,10 +75,10 @@
             $('body').find('.alert').remove();
             let formData = new FormData();
             formData.append('coupon_code', $('#coupon_code').val());
-            formData.append('coupon_description', $('#coupon_description').val());
             formData.append('coupon_percentage', $('#coupon_percentage').val());
             formData.append('coupon_start_date', $('#coupon_start_date').val());
             formData.append('coupon_end_date', $('#coupon_end_date').val());
+            formData.append('coupon_description', $('#coupon_description').val());
             // Controllo che serve a vedere se tutti gli input sono riempiti
             if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
                 $.ajax({

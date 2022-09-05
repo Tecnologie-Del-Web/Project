@@ -37,7 +37,8 @@ CREATE TABLE coupon
     start_date      DATETIME           NOT NULL,
     expiration_date DATETIME           NOT NULL,
     `description`   TEXT               NULL,
-    CHECK (percentage BETWEEN 1.00 AND 99.00)
+    CHECK (percentage BETWEEN 1.00 AND 99.00),
+    CHECK (coupon.start_date < coupon.expiration_date )
 );
 
 CREATE TABLE `order`
@@ -63,9 +64,13 @@ CREATE TABLE `order`
 
 CREATE TABLE brand
 (
-    brand_id    INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    brand_name  VARCHAR(255) UNIQUE NOT NULL,
-    brand_image VARCHAR(255)        NOT NULL
+    brand_id      INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    brand_name    VARCHAR(255) UNIQUE NOT NULL,
+    brand_image   VARCHAR(255)        NOT NULL,
+    website       VARCHAR(50)         NOT NULL,
+    phone_number  VARCHAR(15)         NOT NULL,
+    email_address VARCHAR(25)         NOT NULL,
+    address       VARCHAR(50)         NOT NULL
 );
 
 CREATE TABLE category
@@ -150,8 +155,7 @@ CREATE TABLE product_review
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (rating BETWEEN 0 AND 5),
-    UNIQUE (`date`, user_id, product_id)
+    CHECK (rating BETWEEN 0 AND 5)
 );
 
 CREATE TABLE shipment_address

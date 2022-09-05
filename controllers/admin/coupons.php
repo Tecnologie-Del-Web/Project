@@ -58,8 +58,8 @@ function create(): void
     (coupon_code, percentage, start_date, expiration_date, description)
             VALUES ('" . $coupon_code . "', 
             " . $coupon_percentage . ",
-             '" . $coupon_start_date . "',
-              '" . $coupon_end_date . "',
+             " . $coupon_start_date . ",
+              " . $coupon_end_date . ",
                '" . $coupon_description . "');");
 
                 if ($mysqli->affected_rows == 1) {
@@ -67,13 +67,13 @@ function create(): void
                 } elseif ($mysqli->affected_rows == 0) {
                     $response['warning'] = "Nessun dato modificato";
                 } else {
-                    $response['error'] = "Errore nella creazione della coupon";
+                    $response['error'] = "Errore nella creazione del coupon";
                 }
             } catch (Exception $e) {
-                $response['error'] = $mysqli . $e . "Errore nella creazione della coupon";
+                $response['error'] = $e . "Errore nella creazione del coupon";
             }
         } else {
-            $response['error'] = "Errore nella creazione della coupon";
+            $response['error'] = "Errore nella creazione del coupon";
         }
         exit(json_encode($response));
     } else {
@@ -88,7 +88,7 @@ function coupon()
 {
     global $mysqli;
     $coupon_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_id = $coupon_id");
+    $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_id = $coupon_id;");
     if ($coupon->num_rows == 0) {
         header("Location: /admin/coupons"); //No coupon found, redirect to coupon page
     } else {
@@ -117,10 +117,10 @@ function edit()
     if ($coupon_id != "" && $coupon_code != "") {
         $mysqli->query("UPDATE coupon SET
                 coupon_code = '$coupon_code', 
-                percentage = '$coupon_percentage',
-                start_date = '$coupon_start_date',
-                expiration_date='$coupon_end_date',
-                description = '$coupon_description'
+                description = '$coupon_description',
+                percentage = $coupon_percentage,
+                start_date = $coupon_start_date,
+                expiration_date = $coupon_end_date
                 WHERE coupon_id = $coupon_id");
 
         if ($mysqli->affected_rows == 1) {
@@ -128,10 +128,10 @@ function edit()
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessun dato modificato";
         } else {
-            $response['error'] = "Errore nella modifica della coupon";
+            $response['error'] = "Errore nella modifica del coupon";
         }
     } else {
-        $response['error'] = "Errore nella modifica della categoria";
+        $response['error'] = "Errore nella modifica del coupon";
     }
     exit(json_encode($response));
 }
