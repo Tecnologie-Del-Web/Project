@@ -1,0 +1,20 @@
+<div class="review-form-wrapper">
+    <h3 class="title tab-pane-title font-weight-bold mb-1">Scrivi una recensione per questo prodotto!</h3>
+    <p class="mb-3">Il tuo indirizzo e-mail non verrà mostrato. I campi richiesti sono contrassegnati *</p>
+    <div class="review-form">
+        <p id="product-id" hidden><[product_id]></p>
+        <div class="rating-form">
+            <label for="rating">La tua valutazione per questo prodotto:</label>
+            <select class="select-box ml-3" name="rating" id="rating" required>
+                <option value="0">Valuta…</option>
+                <option value="5"><p>Ottimo (5)</p></option>
+                <option value="4">Buono (4)</option>
+                <option value="3">Nella media (3)</option>
+                <option value="2">Non molto buono (2)</option>
+                <option value="1">Molto scarso (1)</option>
+            </select>
+        </div>
+        <textarea cols="30" rows="6" placeholder="Scrivi la tua recensione..." class="form-control" id="review"></textarea>
+        <button id="submit-review-button" type="submit" class="btn btn-dark">Inserisci Recensione</button>
+    </div>
+</div>

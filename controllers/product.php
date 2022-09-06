@@ -176,6 +176,15 @@ function findReviews(mysqli $mysqli, string $id, Template $body)
         } while ($review);
         $body->setContent("reviews", $reviews->get());
     }
+
+    if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
+        $add_review = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/add-review.html");
+        $add_review->setContent("product_id", $id);
+        $body->setContent("add_review", $add_review->get());
+    }
+    else {
+        $body->setContent("add_review",  '<div style="text-align: center; padding: 3rem;"><p class="font-weight-bold ml-3 mb-3">Entra per aggiungere una recensione di questo prodotto!</p></div>');
+    }
 }
 
 /**
