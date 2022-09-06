@@ -12,7 +12,7 @@ CREATE TABLE `user` (
     surname VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     username VARCHAR(30) UNIQUE NULL,
-    `password` VARCHAR(255) NOT NULL
+    `password` VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE payment_method (
@@ -119,11 +119,11 @@ CREATE TABLE product_image (
 CREATE TABLE offer (
     offer_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `description` TEXT NULL,
-    percentage SMALLINT NOT NULL,
+    percentage DECIMAL(5, 2) NOT NULL,
     start_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     product_id INTEGER UNSIGNED NOT NULL,
-    CHECK (percentage BETWEEN 0 AND 100),
+    CHECK (percentage BETWEEN 0.00 AND 100.00),
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
@@ -197,15 +197,15 @@ CREATE TABLE service (
     service_description TEXT NULL
 );
 
-CREATE TABLE service_has_group (
+CREATE TABLE user_has_service (
+    user_id INTEGER UNSIGNED,
     service_id INTEGER UNSIGNED,
-    group_id INTEGER UNSIGNED,
-    PRIMARY KEY (service_id, group_id),
+    PRIMARY KEY (user_id , service_id),
+    FOREIGN KEY (user_id)
+        REFERENCES `user` (user_id)
+        ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (service_id)
         REFERENCES service (service_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE,
-	FOREIGN KEY (group_id)
-        REFERENCES `group` (group_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 

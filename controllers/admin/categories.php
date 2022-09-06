@@ -32,17 +32,17 @@ function delete()
     global $mysqli;
     $category_id = explode('/', $_SERVER['REQUEST_URI'])[3];
     $mysqli->query("DELETE FROM category WHERE category_id = {$category_id} AND 
-                           category_id NOT IN (SELECT product.category_id FROM product)");
+                           category_id NOT IN (SELECT product.category_id FROM product);");
     $response = array();
     if ($mysqli->affected_rows == 1) {
-        $response['success'] = "Categoria eliminata con successo.";
+        $response['success'] = "Coupon eliminata con successo.";
     } else {
-        $response['error'] = "Impossibile cancellare una categoria con prodotti associati.";
+        $response['error'] = "Impossibile cancellare una coupon con prodotti associati.";
     }
     exit(json_encode($response));
 }
 
-function create(): void
+function create()
 {
     global $mysqli;
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -61,17 +61,17 @@ function create(): void
                     }
                 }
                 if ($mysqli->affected_rows == 1) {
-                    $response['success'] = "Categoria " . $category_name . " creata con successo";
+                    $response['success'] = "Coupon " . $category_name . " creata con successo";
                 } elseif ($mysqli->affected_rows == 0) {
                     $response['warning'] = "Nessun dato modificato";
                 } else {
-                    $response['error'] = "Errore nella creazione della categoria";
+                    $response['error'] = "Errore nella creazione della coupon";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione della categoria";
+                $response['error'] = $e . "Errore nella creazione della coupon";
             }
         } else {
-            $response['error'] = "Errore nella creazione della categoria";
+            $response['error'] = "Errore nella creazione della coupon";
         }
         exit(json_encode($response));
     } else {
@@ -134,11 +134,11 @@ function edit()
         }
 
         if ($mysqli->affected_rows == 1) {
-            $response['success'] = "Categoria {$category_name} modificata con successo";
+            $response['success'] = "Coupon {$category_name} modificata con successo";
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessun dato modificato";
         } else {
-            $response['error'] = "Errore nella modifica della categoria";
+            $response['error'] = "Errore nella modifica della coupon";
         }
     } else {
         $response['error'] = "Errore nella modifica della categoria";

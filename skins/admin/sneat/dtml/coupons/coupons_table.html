@@ -1,22 +1,22 @@
 <[foreach]>
 <tr>
-    <td data-href="/admin/coupons/<[id]>">
+    <td data-href="/admin/coupons/<[coupon_id]>">
         <strong><[coupon_id]></strong></td>
-    <td data-href="/admin/coupons/<[id]>"><[coupon_code]></td>
-    <td data-href="/admin/coupons/<[id]>"><[percentage]>%</td>
-    <td data-href="/admin/coupons/<[id]>"><[start_date::format_datetime library="Format"]></td>
-    <td data-href="/admin/coupons/<[id]>"><[expiration_date::format_datetime library="Format"]></td>
+    <td data-href="/admin/coupons/<[coupon_id]>"><[coupon_code]></td>
+    <td data-href="/admin/coupons/<[coupon_id]>"><[percentage]>%</td>
+    <td data-href="/admin/coupons/<[coupon_id]>"><[start_date::format_datetime library="Format"]></td>
+    <td data-href="/admin/coupons/<[coupon_id]>"><[expiration_date::format_datetime library="Format"]></td>
     <td>
         <div class="dropdown">
-            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+            <button type="button" class="btn p-0 dropdown-toggle he-arrow"
                     data-bs-toggle="dropdown">
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/coupons/<[id]>"
+                <a class="dropdown-item" href="/admin/coupons/<[coupon_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/coupons/<[id]>/delete"
+                <a class="dropdown-item" href="/admin/coupons/<[coupon_id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a
                 >
             </div>
@@ -62,6 +62,6 @@
 
 <script>
     $(document).ready(function () {
-        $('.card-header').append('<a class="btn btn-primary" href="/admin/coupons/create"><span class="fe fe-plus fs-14"></span> Aggiungi</a>');
+        $('.card-header').append('<a class="btn btn-primary" href="/admin/coupons/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
     })
 </script>
