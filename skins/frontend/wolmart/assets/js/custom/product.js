@@ -16,11 +16,20 @@ $(document).ready(() => {
 function addReview(product_id, rating, review) {
     $.ajax({
         type: "POST",
-        url: "/reviews/add",
+        url: "/reviews/add/",
         data: {
-            product_id: product_id,
             rating: rating,
-            review: review
+            review: review,
+            product_id: product_id
+        },
+        success: function (data) {
+            console.log(data);
+            /*
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.reload();
+            }
+            */
         }
     });
 }
