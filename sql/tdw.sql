@@ -253,3 +253,14 @@ CREATE TABLE user_product_cart (
         REFERENCES product (product_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
+
+CREATE TABLE slider
+(
+    slider_id        INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    background_image VARCHAR(255),
+    front_image      VARCHAR(255),
+    subtitle         VARCHAR(255),
+    title            VARCHAR(255),
+    top_title        VARCHAR(255),
+    redirect_url     VARCHAR(255)
+)

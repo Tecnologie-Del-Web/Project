@@ -1,6 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/auth.inc.php";
@@ -59,7 +58,7 @@ function signUp()
 }
 
 
-#[NoReturn] function signOut(): void
+function signOut(): void
 {
     if ($_SESSION['auth'] = true) {
         // Rimuovo dell'autenticazione
@@ -71,7 +70,7 @@ function signUp()
     exit;
 }
 
-#[NoReturn] function redirect($referrer): void
+function redirect($referrer): void
 {
     // Se è stato impostato un referrer reindirizza
     if ($referrer != "") {
