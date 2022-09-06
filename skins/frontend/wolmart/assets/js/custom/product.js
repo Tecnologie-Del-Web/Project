@@ -11,25 +11,24 @@ $(document).ready(() => {
             addAlert('error', $('#msg'), 'Per favore, compila tutti i campi!');
         }
     });
+
 })
 
 function addReview(product_id, rating, review) {
     $.ajax({
         type: "POST",
-        url: "/reviews/add/",
+        url: "/reviews/add",
         data: {
             rating: rating,
             review: review,
             product_id: product_id
         },
-        success: function (data) {
+        success: (data) => {
             console.log(data);
-            /*
             let response = JSON.parse(data);
             if (response['success']) {
                 window.location.reload();
             }
-            */
         }
     });
 }

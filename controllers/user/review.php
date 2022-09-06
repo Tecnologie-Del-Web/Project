@@ -1,10 +1,7 @@
 <?php
 
-function add()
+#[NoReturn] function add(): void
 {
-
-    echo "Eccomi!";
-
     global $mysqli;
 
     $rating = $_POST['rating'];
@@ -13,18 +10,16 @@ function add()
 
     $user_id = $_SESSION['user']['user_id'];
 
-    $mysqli->query("INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ($review, $rating, NOW(), $user_id, $product_id);");
-
+    $mysqli->query("INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('$review', $rating, NOW(), $user_id, $product_id);");
 
     if ($mysqli->affected_rows == 1) {
-        // $response['success'] = "Recensione aggiunta con successo";
-        exit(json_encode(array('response' => 'success')));
+        $response['success'] = "Recensione aggiunta con successo";
     } elseif ($mysqli->affected_rows == 0) {
-        // $response['warning'] = "Nessuna recensione aggiunta";
-        exit(json_encode(array('response' => 'warning')));
+        $response['warning'] = "Nessuna recensione aggiunta";
     } else {
-        // $response['error'] = "Errore nell'aggiunta della recensione";
-        exit(json_encode(array('response' => 'error')));
+        $response['error'] = "Errore nell'inserimento!";
     }
+
+    exit(json_encode($response));
 
 }
