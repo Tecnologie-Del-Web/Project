@@ -25,7 +25,7 @@ function product_detail($id, $variant_id = 0)
 
     // Prendo il prodotto con l'id in esame
     // Lo sku è quello della variante di default!
-    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, p.brand_id, p.category_id, pv.sku
+    $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, p.quantity_available, p.brand_id, p.category_id, pv.sku
                                     FROM product p JOIN product_variant pv ON (p.product_id = pv.product_id)
                                     WHERE p.product_id = $id AND pv.default = true;");
 
@@ -178,9 +178,16 @@ function findReviews(mysqli $mysqli, string $id, Template $body)
     }
 
     if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
-        $add_review = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/add-review.html");
-        $add_review->setContent("product_id", $id);
-        $body->setContent("add_review", $add_review->get());
+        $user_id = $_SESSION['user']['user_id'];
+        $previous_review = $mysqli->query("SELECT * FROM product_review WHERE product_id = $id AND user_id = $user_id;");
+
+        if ($previous_review->num_rows > 0) {
+            $body->setContent("add_review", '<div style="text-align: center; padding: 3rem;"><p class="font-weight-bold ml-3 mb-3">Hai già recensito questo prodotto!</p></div>');
+        } else {
+            $add_review = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/detail/add-review.html");
+            $add_review->setContent("product_id", $id);
+            $body->setContent("add_review", $add_review->get());
+        }
     }
     else {
         $body->setContent("add_review",  '<div style="text-align: center; padding: 3rem;"><p class="font-weight-bold ml-3 mb-3">Entra per aggiungere una recensione di questo prodotto!</p></div>');
