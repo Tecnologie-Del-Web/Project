@@ -21,6 +21,8 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('P
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Cart', '/cart', 'user/cart.php', 'cart', 'Shopping Cart Page');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Personal Wishlist Page');
 
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Review', '/reviews/add', 'user/review.php', 'add', 'Review Page (Add Review)');
+
 
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti' , 'Visualizza utenti', '/admin/users', 'admin/users.php', 'users');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione gruppi', 'Visualizza gruppi', '/admin/groups', 'admin/groups.php', 'groups');

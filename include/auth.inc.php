@@ -23,7 +23,7 @@ function isOwner($resource, $key = "id"): bool
 
     $data = $oid->fetch_assoc();
 
-    if ($data['email_address'] != $_SESSION['user']['email-address']) {
+    if ($data['email_address'] != $_SESSION['user']['email_address']) {
         Header("Location: error.php?code=" . ERROR_OWNERSHIP);
         exit;
     } else {

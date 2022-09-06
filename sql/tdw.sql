@@ -143,8 +143,8 @@ CREATE TABLE product_review (
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    CHECK (rating BETWEEN 0 AND 5),
-    UNIQUE (`date`, user_id, product_id)
+    CHECK (rating BETWEEN 1 AND 5),
+    UNIQUE (user_id, product_id)
 );
 
 CREATE TABLE shipment_address (
