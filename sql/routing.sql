@@ -18,7 +18,11 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('A
 
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Profile', '/profile', 'user/profile.php', 'profile', 'Personal Profile Page');
+
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Cart', '/cart', 'user/cart.php', 'cart', 'Shopping Cart Page');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Product To Cart', '/cart/add', 'user/cart.php', 'add', 'Add Product To Cart');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Clear Cart', '/cart/clear', 'user/cart.php', 'clear', 'Clear Cart');
+
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Personal Wishlist Page');
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Review', '/reviews/add', 'user/review.php', 'add', 'Review Page (Add Review)');

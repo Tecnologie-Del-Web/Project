@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 function cart() {
 
     global $mysqli;
@@ -92,4 +94,58 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
             }
         } while ($address);
     }
+}
+
+
+#[NoReturn] function add(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['product_id'])) {
+
+            global $mysqli;
+
+            $product_id = $_POST['product_id'];
+
+            $oid = $mysqli->query("SELECT product_id FROM user_product_cart WHERE user_id = {$_SESSION["user"]["user_id"]} AND product_id = {$product_id}");
+
+
+            if ($oid->num_rows == 0) {
+                $product_to_add = $mysqli->query("SELECT * FROM product WHERE product_id = {$product_id}")->fetch_assoc();
+                $price = $product_to_add['price'];
+                $mysqli->query("INSERT INTO user_product_cart (user_id, product_id, quantity, date, subtotal) VALUES ({$_SESSION["user"]["user_id"]}, {$product_id}, 1, NOW(), {$price})");
+                $response['success'] = "success";
+            } else {
+                // Aumento la quantità del prodotto nel carrello
+                $mysqli->query("UPDATE user_product_cart SET quantity = quantity + 1 WHERE user_id = {$_SESSION["user"]["user_id"]} AND product_id = {$product_id}");
+                $response['success'] = "success";
+            }
+        } else {
+            $response['error'] = "error";
+        }
+    }
+
+    exit(json_encode($response));
+}
+
+#[NoReturn] function clear(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        global $mysqli;
+
+        $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
+        $user = $user->fetch_assoc();
+
+        $mysqli->query("DELETE FROM user_product_cart WHERE user_id = {$user["user_id"]}");
+
+        if ($mysqli->affected_rows != 0) {
+            $response['success'] = "Carrello svuotato correttamente!";
+        } else {
+            $response['warning'] = "Nessun elemento rimosso (il carello era già vuoto?)";
+        }
+    }
+    exit(json_encode($response));
 }
