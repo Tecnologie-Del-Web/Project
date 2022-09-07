@@ -149,3 +149,58 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     }
     exit(json_encode($response));
 }
+
+#[NoReturn] function edit_quantity(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        global $mysqli;
+
+        $product_id = $_POST['product_id'];
+        $increment = $_POST['increment'];
+
+        $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
+        $user = $user->fetch_assoc();
+
+        $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+
+        try {
+            if ($mysqli->affected_rows != 0) {
+                $response['success'] = "Quantità modificata correttamente!";
+            } else {
+                $response['warning'] = "Nessuna modifica effettuata";
+            }
+        } catch (mysqli_sql_exception $e) {
+            $response['error'] = "Errore nell'aggiornamento";
+        }
+    }
+    exit(json_encode($response));
+}
+
+#[NoReturn] function remove(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        global $mysqli;
+
+        $product_id = $_POST['product_id'];
+
+        $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
+        $user = $user->fetch_assoc();
+
+        $mysqli->query("DELETE FROM user_product_cart WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+
+        try {
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Elemento rimosso correttamente!";
+            } else {
+                $response['warning'] = "Nessuna modifica effettuata";
+            }
+        } catch (mysqli_sql_exception $e) {
+            $response['error'] = "Errore nella rimozione";
+        }
+    }
+    exit(json_encode($response));
+}

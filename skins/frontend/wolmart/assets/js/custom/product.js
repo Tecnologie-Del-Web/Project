@@ -12,6 +12,21 @@ $(document).ready(() => {
         clearCart();
     });
 
+    $(".item-quantity-increase").click((event) => {
+        let editedProductId = parseInt(event.target.id.split("-")[1]);
+        changeProductQuantity(editedProductId, 1);
+    });
+
+    $(".item-quantity-decrease").click((event) => {
+        let editedProductId = parseInt(event.target.id.split("-")[1]);
+        changeProductQuantity(editedProductId, -1);
+    });
+
+    $(".remove-item-icon").click((event) => {
+        let productToRemoveId = parseInt(event.target.id.split("-")[1]);
+        removeProductFromCart(productToRemoveId);
+    });
+
     $("#submit-review-button").click(() => {
         let rating = parseInt($("#rating").val());
         let review = $("#review").val();
@@ -53,6 +68,39 @@ function clearCart() {
     $.ajax({
         type: "POST",
         url: "/cart/clear",
+        success: (data) => {
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.reload();
+            }
+        }
+    });
+}
+
+function changeProductQuantity(editedProductId, increment) {
+    $.ajax({
+        type: "POST",
+        url: "/cart/quantity",
+        data: {
+            product_id: editedProductId,
+            increment: increment
+        },
+        success: (data) => {
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.reload();
+            }
+        }
+    });
+}
+
+function removeProductFromCart(productToRemoveId) {
+    $.ajax({
+        type: "POST",
+        url: "/cart/remove",
+        data: {
+            product_id: productToRemoveId
+        },
         success: (data) => {
             let response = JSON.parse(data);
             if (response['success']) {
