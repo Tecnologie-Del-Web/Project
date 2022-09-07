@@ -1,4 +1,4 @@
-- Aggiunto 'sku' a 'product_variant'
+- Aggiunto 'sku' a 'product'
 - Modificato expiration_date and start_date in discount con DATETIME, mi si sono verificati gli errori seguenti. Con datetime tutto ok.
 
 [2022-08-16 21:42:26] [42000][1067] Invalid default value for 'expiration_date'

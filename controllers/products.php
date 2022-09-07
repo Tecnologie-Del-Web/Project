@@ -16,15 +16,15 @@ function products() {
 
     if ($category == 0) {
         // Prendo tutti i prodotti compatibili
-        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
-                                    FROM product p JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
-                                    WHERE p.product_name LIKE '%$query%' AND pv.default = true AND pi.type='main';");
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pi.image_id, pi.file_name
+                                    FROM product p JOIN product_image pi ON (pi.product_id = p.product_id)
+                                    WHERE p.product_name LIKE '%$query%' AND pi.type='main';");
     }
     else {
         // Prendo solo i prodotti compatibili della categoria selezionata
-        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pv.variant_id, pi.image_id, pi.file_name
-                                    FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pv.variant_id = pi.variant_id)
-                                    WHERE p.product_name LIKE '%$query%' AND c.category_id = $category AND pv.default = true AND pi.type='main';");
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pi.image_id, pi.file_name
+                                    FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_image pi ON (p.product_id = pi.product_id)
+                                    WHERE p.product_name LIKE '%$query%' AND c.category_id = $category AND pi.type='main';");
     }
 
     if ($oid->num_rows == 0) {
