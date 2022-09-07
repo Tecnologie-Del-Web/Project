@@ -26,9 +26,9 @@ function cart() {
  */
 function findCartProducts(mysqli $mysqli, $user_id, Template $body)
 {
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, upc.quantity, pv.variant_id, pi.file_name
-                                            FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) JOIN product_variant pv ON (pv.product_id = p.product_id) JOIN product_image pi ON (pi.variant_id = pv.variant_id) 
-                                            WHERE upc.user_id = {$user_id} AND pv.default = true AND pi.type='main'");
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, upc.quantity, pi.file_name
+                                            FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) JOIN product_image pi ON (pi.product_id = p.product_id) 
+                                            WHERE upc.user_id = {$user_id} AND pi.type='main'");
 
     if ($oid->num_rows == 0) {
         $body->setContent("products", '

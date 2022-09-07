@@ -80,6 +80,7 @@ CREATE TABLE product (
     price FLOAT NOT NULL,
     quantity_available SMALLINT NOT NULL,
     product_description TEXT NOT NULL,
+    sku VARCHAR(20) NOT NULL,
     brand_id INTEGER UNSIGNED NOT NULL,
     category_id INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (brand_id)
@@ -91,29 +92,15 @@ CREATE TABLE product (
 	UNIQUE (product_name, brand_id)
 );
 
-CREATE TABLE product_variant (
-    variant_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    variant_name VARCHAR(20) NOT NULL,
-    `type` ENUM('default', 'size', 'color') NOT NULL,
-    `description` TEXT NULL,
-    sku VARCHAR(20) NOT NULL,
-    `default` BOOLEAN NOT NULL,
-    product_id INTEGER UNSIGNED NOT NULL,
-    FOREIGN KEY (product_id)
-        REFERENCES product (product_id)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-	UNIQUE (variant_name, product_id)
-);
-
 CREATE TABLE product_image (
     image_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     file_name VARCHAR(255) NOT NULL,
     `type` VARCHAR(20) NOT NULL,
-    variant_id INTEGER UNSIGNED NOT NULL,
-    FOREIGN KEY (variant_id)
-        REFERENCES product_variant (variant_id)
+    product_id INTEGER UNSIGNED NOT NULL,
+    FOREIGN KEY (product_id)
+        REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-	UNIQUE (file_name, variant_id)
+	UNIQUE (file_name, product_id)
 );
 
 CREATE TABLE offer (
