@@ -6,6 +6,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
 function initAdmin()
 {
+    startSessionIfNeeded();
+    global $mysqli;
+
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/index.html");
     $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/header.html");
     $navbar = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/navbar.html");
@@ -60,6 +63,12 @@ function initUser(bool $dropdown = true)
         $header->setContent("login_status", $to_log->get());
     }
 
+    $customization = $mysqli->query("SELECT phone_number, site_name FROM customization")->fetch_assoc();
+    foreach ($customization as $key => $value) {
+        $header->setContent($key, $value);
+        $main->setContent($key,$value);
+        $footer->setContent($key,$value);
+    }
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());
     return $main;

@@ -56,11 +56,11 @@ function create(): void
             try {
                 $mysqli->query("INSERT INTO coupon 
     (coupon_code, percentage, start_date, expiration_date, description)
-            VALUES ('" . $coupon_code . "', 
-            " . $coupon_percentage . ",
-             " . $coupon_start_date . ",
-              " . $coupon_end_date . ",
-               '" . $coupon_description . "');");
+            VALUES ('$coupon_code', 
+                    $coupon_percentage, 
+                    '$coupon_start_date',
+                    '$coupon_end_date',
+                    '$coupon_description');");
 
                 if ($mysqli->affected_rows == 1) {
                     $response['success'] = "Coupon " . $coupon_code . " creata con successo";
@@ -70,7 +70,7 @@ function create(): void
                     $response['error'] = "Errore nella creazione del coupon";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione del coupon";
+                $response['error'] = "Errore nella creazione del coupon";
             }
         } else {
             $response['error'] = "Errore nella creazione del coupon";
@@ -119,8 +119,8 @@ function edit()
                 coupon_code = '$coupon_code', 
                 description = '$coupon_description',
                 percentage = $coupon_percentage,
-                start_date = $coupon_start_date,
-                expiration_date = $coupon_end_date
+                start_date = '$coupon_start_date',
+                expiration_date = '$coupon_end_date'
                 WHERE coupon_id = $coupon_id");
 
         if ($mysqli->affected_rows == 1) {

@@ -1,11 +1,11 @@
 <[foreach]>
 <tr>
-    <td data-href="/admin/coupons/<[coupon_id]>">
+   <td class="clickable-row" data-href="/admin/coupons/<[coupon_id]>">
         <strong><[coupon_id]></strong></td>
-    <td data-href="/admin/coupons/<[coupon_id]>"><[coupon_code]></td>
-    <td data-href="/admin/coupons/<[coupon_id]>"><[percentage]>%</td>
-    <td data-href="/admin/coupons/<[coupon_id]>"><[start_date::format_datetime library="Format"]></td>
-    <td data-href="/admin/coupons/<[coupon_id]>"><[expiration_date::format_datetime library="Format"]></td>
+   <td class="clickable-row" data-href="/admin/coupons/<[coupon_id]>"><[coupon_code]></td>
+   <td class="clickable-row" data-href="/admin/coupons/<[coupon_id]>"><[percentage]>%</td>
+   <td class="clickable-row" data-href="/admin/coupons/<[coupon_id]>"><[start_date::format_datetime library="Format"]></td>
+   <td class="clickable-row" data-href="/admin/coupons/<[coupon_id]>"><[expiration_date::format_datetime library="Format"]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle he-arrow"

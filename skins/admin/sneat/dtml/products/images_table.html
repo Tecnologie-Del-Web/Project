@@ -1,0 +1,44 @@
+<[foreach]>
+<div class="table-responsive text-nowrap">
+    <table class="table" style="min-height: 200px;">
+        <thead>
+        <tr>
+            <[foreach]>
+            <th><[column_name]></th>
+            <[/foreach]>
+            <th>Azioni</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        <tr>
+            <td class="clickable-row" data-href="/images/products/<[product_id]>/<[file_name]>">
+                <div class="d-flex">
+                    <div class="mt-0 mt-sm-3 d-block">
+                        <h6 class="mb-0 fs-14 fw-semibold">
+                            <[image_id]>
+                        </h6>
+                    </div>
+                </div>
+            </td>
+            <td class="clickable-row" data-href="/images/products/<[product_id]>/<[file_name]>">
+                <div class="d-flex">
+                    <div class="mt-0 mt-sm-3 d-block text-center">
+                        <img src="/images/products/<[product_id]>/<[file_name]>" width="30%" height="auto" alt="Immagine">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="g-2">
+                    <a class="btn btn-sm"
+                       data-bs-toggle="modal"
+                       data-bs-target="#deleteconfirmation"
+                       data-bs-original-title="Cancella"
+                       data-id="/admin/products/<[product_id]>/images/<[image_id]>/delete"
+                       href="/admin/products/<[product_id]>/images/<[image_id]>/delete"><span
+                            class="fe fe-trash-2 fs-14"></span></a>
+                </div>
+            </td>
+            <[/foreach]>
+        </tbody>
+    </table>
+</div>

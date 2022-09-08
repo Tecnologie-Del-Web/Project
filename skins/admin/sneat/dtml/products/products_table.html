@@ -1,13 +1,14 @@
 <[foreach]>
 <tr>
-  <td data-href="/admin/products/<[id]>">
+  <td class="clickable-row" data-href="/admin/products/<[product_id]>">
     <strong><[product_id]></strong></td>
-  <td data-href="/admin/products/<[id]>"><[product_name:truncate length="30" library="Format"]></td>
-  <td data-href="/admin/products/<[id]>"><[price]> €</td>
-  <td data-href="/admin/products/<[id]>"><[quantity_available]></td>
-  <td data-href="/admin/products/<[id]>"><[product_description::truncate length="30" library="Format"]></td>
-  <td data-href="/admin/products/<[id]>"><[brand]></td>
-  <td data-href="/admin/products/<[id]>"><[category]></td>
+  <td class="clickable-row" data-href="/admin/products/<[product_id]>"><img style="height: 48px; width: 48px;" src="/images/products/<[product_id]>/<[file_name]>" alt=""></td>
+  <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_name::truncate length="20" library="Format"]></td>
+ <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[price]> €</td>
+ <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[quantity_available]></td>
+ <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_description::truncate length="20" library="Format"]></td>
+ <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[brand_name]></td>
+ <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[category_name]></td>
   <td>
     <div class="dropdown">
       <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -15,10 +16,10 @@
         <i class="bx bx-dots-vertical-rounded"></i>
       </button>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="/admin/products/<[id]>"
+        <a class="dropdown-item" href="/admin/products/<[product_id]>"
         ><i class="bx bx-edit-alt me-1"></i>Edita</a
         >
-        <a class="dropdown-item" href="/admin/products/<[id]>/delete"
+        <a class="dropdown-item" href="/admin/products/<[product_id]>/delete"
         ><i class="bx bx-trash me-1"></i>Elimina</a
         >
       </div>

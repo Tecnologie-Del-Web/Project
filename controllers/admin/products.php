@@ -1,15 +1,24 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "/include/template2.inc.php";
 
-function products(): void
+function products()
 {
     global $mysqli;
-    $columns = array("ID", "Nome", "Prezzo", "Disponibilità", "Descrizione", "Brand", "Categoria");
-    $result = $mysqli->query("SELECT product.product_id, product_name, price, quantity_available, 
-       product_description, b.brand_name as brand,c.category_name as category FROM product 
-            JOIN brand b on b.brand_id = product.brand_id 
-           JOIN category c on product.category_id = c.category_id");
-
+    $columns = array("ID", "Immagine", "Nome", "Prezzo", "Qty", "Descrizione", "Brand", "Categoria");
+    $result = $mysqli->query("SELECT p.product_id, 
+        p.product_name, 
+        p.price, 
+        p.quantity_available, 
+        p.product_description, 
+        b.brand_name, 
+        c.category_name,
+        pi.file_name
+    FROM product p
+    JOIN brand b on b.brand_id = p.brand_id 
+    JOIN category c on c.category_id = p.category_id
+    LEFT JOIN product_image pi on p.product_id = pi.product_id GROUP BY p.product_id;"
+    );
+    //With left join whe allow to see also products without image
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
     $table->setContent("title", "Prodotti");
@@ -28,7 +37,8 @@ function products(): void
     $main->close();
 }
 
-function create(){
+function create()
+{
     global $mysqli;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "POST";
@@ -38,7 +48,7 @@ function create(){
         $quantita_disponibile = $_POST["quantita_disponibile"];
         $descrizione = $_POST["descrizione"];
         $categoria = $_POST["categoria"];
-        $produttore = $_POST["produttore"];
+        $produttore = $_POST["brand"];
         $provenienza = $_POST["provenienza"];
         $response = array();
         if ($nome !== "" && $prezzo !== "" && $dimensione !== "" && $quantita_disponibile !== "" && $descrizione !== "" && $categoria !== "" && $produttore !== "" && $provenienza !== "") {
@@ -67,32 +77,97 @@ function create(){
     }
 }
 
-function populateSelectFields(mysqli $mysqli, Template $template): void {
-    $oid = $mysqli->query("SELECT id as produttore_id, ragione_sociale as produttore FROM tdw_ecommerce.produttori ORDER BY ragione_sociale");
+function product()
+{
+    global $mysqli;
+    $id = strtok(explode('/', $_SERVER['REQUEST_URI'])[3], '?');
+    $product = $mysqli->query("SELECT product_id, product_name, price, quantity_available, product_description, sku, brand_id, category_id FROM product WHERE product_id=$id");
+    $main = initAdmin();
+    $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/products/edit_product.html");
+    populateSelectFields($mysqli, $main);
+    foreach ($product->fetch_assoc() as $key => $value) {
+        $content->setContent($key, $value);
+    }
+    /*$content->setContent("categoria_selected", $product['categoria_selected']);
+    $content->setContent("produttore_selected", $product['produttore_selected']);
+    $content->setContent("nazione_selected", $product['nazione_selected']);
+    $content->setContent("regione_selected", $product['regione_selected']);*/
+    $result = $mysqli->query("SELECT image_id, file_name FROM product_image WHERE product_id = $id");
+    $content->setContent("images", $result->fetch_assoc());
+    while ($image = $result->fetch_assoc()) {
+        foreach ($image as $key => $value) {
+            echo $key;
+            echo $value;
+            $content->setContent($key, $value);
+        }
+    }
+    $main->setContent("content", $content->get());
+    $main->close();
+}
+
+function edit()
+{
+    global $mysqli;
+    $product_id = explode("/", $_SERVER["REQUEST_URI"])[3];
+    $product_name = $_POST["product_name"];
+    $product_description = $_POST["description"];
+    $product_price = $_POST["price"];
+    $quantity_available = $_POST["quantity_available"];
+    $product_sku = $_POST["sku"];
+    $uploaded_images = $_POST["uploaded_images"];
+    $response = array();
+    if ($product_id != "" && $product_name != "") {
+        $mysqli->query("DELETE FROM product_image WHERE product_id=$product_id");
+        if (isset($_FILES["product_images"])) {
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
+            }
+
+            $product_images = $_FILES["product_images"];
+            foreach ($product_images["tmp_name"] as $key => $value) {
+                $filename = $product_images["name"][$key];
+                try {
+                    $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main',$product_id)");
+                    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
+                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
+                    }
+                } catch (Exception) {
+                }
+            }
+
+        }
+        if (isset($uploaded_images)) {
+            foreach ($uploaded_images as $value) {
+                try {
+                    $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$value','main',$product_id)");
+                } catch (Exception) {
+                }
+            }
+        }
+    } else {
+        $response['error'] = "Errore nella modifica del prodotto" . $product_id . $product_name . $product_price;
+    }
+    exit(json_encode($response));
+}
+
+function populateSelectFields(mysqli $mysqli, Template $template): void
+{
+    $result = $mysqli->query("SELECT category_id, category_name FROM category ORDER BY category_name");
     do {
-        $produttori = $oid->fetch_assoc();
-        if ($produttori) {
-            foreach ($produttori as $key => $value) {
+        $categories = $result->fetch_assoc();
+        if ($categories) {
+            foreach ($categories as $key => $value) {
                 $template->setContent($key, $value);
             }
         }
-    } while ($produttori);
-    $oid = $mysqli->query("SELECT id as categoria_id, nome as categoria FROM tdw_ecommerce.categorie ORDER BY nome");
+    } while ($categories);
+    $result = $mysqli->query("SELECT brand_id, brand_name FROM brand ORDER BY brand_name");
     do {
-        $categorie = $oid->fetch_assoc();
-        if ($categorie) {
-            foreach ($categorie as $key => $value) {
+        $brands = $result->fetch_assoc();
+        if ($brands) {
+            foreach ($brands as $key => $value) {
                 $template->setContent($key, $value);
             }
         }
-    } while ($categorie);
-    $oid = $mysqli->query("SELECT id as provenienza_id, nazione, regione FROM tdw_ecommerce.provenienze ORDER BY nazione, regione");
-    do {
-        $provenienze = $oid->fetch_assoc();
-        if ($provenienze) {
-            foreach ($provenienze as $key => $value) {
-                $template->setContent($key, $value);
-            }
-        }
-    } while ($provenienze);
+    } while ($brands);
 }

@@ -21,6 +21,7 @@ function home()
     $main->close();
 }
 
+
 /**
  * @param mysqli $mysqli
  * @param Template $body

@@ -12,7 +12,7 @@ function reviews()
         "Commento",
         "Data",
     );
-    $result = $mysqli->query("SELECT u.username as username, p.product_name as product_name, rating, text, date FROM product_review 
+    $result = $mysqli->query("SELECT u.username as username, p.product_name as product_name, p.product_id, rating, text, date FROM product_review 
     JOIN product p on p.product_id = product_review.product_id
     JOIN user u on product_review.user_id = u.user_id");
     $main = initAdmin();
@@ -27,6 +27,7 @@ function reviews()
             $reviews_table->setContent($key, $value);
         }
     }
+
     $table->setContent("table_rows", $reviews_table->get());
     $main->setContent("content", $table->get());
     $main->close();

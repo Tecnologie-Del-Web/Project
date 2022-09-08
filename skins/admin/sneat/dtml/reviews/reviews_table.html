@@ -1,9 +1,18 @@
 <[foreach]>
 <tr>
-    <td><[username]></td>
-    <td><[product_name]></td>
-    <td><[rating]></td>
-    <td><[text]></td>
-    <td><[date::format_datetime library="Format"]></td>
+    <td class="clickable-row" data-href="/product/<[product_id]>"><[username]></td>
+    <td class="clickable-row" data-href="/product/<[product_id]>"><[product_name]></td>
+    <td class="clickable-row" data-href="/product/<[product_id]>" data-target="_blank"><[rating]></td>
+    <td class="clickable-row" data-href="/product/<[product_id]>"><[text]></td>
+    <td class="clickable-row" data-href="/product/<[product_id]>"><[date::format_datetime library="Format"]></td>
 </tr>
 <[/foreach]>
+
+<script>
+    $(document).ready(function () {
+        $(".clickable-row").css("cursor", "pointer");
+        $(".clickable-row").click(function () {
+            window.open($(this).data("href"), $(this).data("target"));
+        });
+    });
+</script>
