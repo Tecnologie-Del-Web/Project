@@ -26,3 +26,5 @@ INSERT INTO service_has_group VALUES (52, 2);
 INSERT INTO service_has_group VALUES (53, 2);
 INSERT INTO service_has_group VALUES (54, 2);
 INSERT INTO service_has_group VALUES (55, 2);
+INSERT INTO service_has_group VALUES (56, 2);
+INSERT INTO service_has_group VALUES (57, 2);
