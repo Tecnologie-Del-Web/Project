@@ -18,25 +18,27 @@
                              style="height: 150px !important; width: 100px !important;">
                     </figure>
                 </a>
-                <button type="submit" class="btn btn-close"><i
-                        class="fas fa-times"></i></button>
+                <button class="btn btn-close"><i id="rm-<[product_id]>" class="w-icon-return remove-item-icon"></i></button>
             </div>
         </td>
         <td class="product-name">
             <a href="/product/<[product_id]>">
                 <[product_name]>
             </a>
+            <p class="product-id" hidden><[product_id]></p>
         </td>
         <[price]>
-        <td class="product-quantity">
-            <div class="input-group">
-                <input class="quantity form-control" type="number" min="1" max="100000">
-                <button class="quantity-plus w-icon-plus"></button>
-                <button class="quantity-minus w-icon-minus"></button>
-            </div>
-        </td>
+            <td class="product-quantity">
+                <div class="input-group" style="text-align: center !important; margin-top: 20px;">
+                    <p class="product-quantity-p" style="width: 100% !important;"><[quantity]></p>
+                </div>
+                <div class="input-group" style="width: 100% !important;">
+                    <a id="i-<[product_id]>" class="w-icon-minus item-quantity-decrease" style="font-size: 2rem; width: 50% !important; text-align: center;"></a>
+                    <a id="d-<[product_id]>" class="w-icon-plus item-quantity-increase" style="font-size: 2rem; width: 50% !important; text-align: center;"></a>
+                </div>
+            </td>
         <td class="product-subtotal">
-            <span class="amount">€<[subtotal]></span>
+            €<span class="amount item-subtotal"><[subtotal]></span>
         </td>
     </tr>
     <[/foreach]>

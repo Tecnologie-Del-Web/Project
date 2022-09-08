@@ -43,10 +43,12 @@ function product()
 
     findOtherProducts($mysqli, $brand_id, $category_id, $body);
 
+    setupAddToCart($mysqli, $id, $body);
 
     $main->setContent("content", $body->get());
     $main->close();
 }
+
 
 /**
  * @param mysqli $mysqli
@@ -266,5 +268,33 @@ function findOtherProducts(mysqli $mysqli, mixed $brand_id, mixed $category_id, 
             }
         } while ($product);
         $body->setContent("other_products", $other_products->get());
+    }
+}
+
+/**
+ * @param mysqli $mysqli
+ * @param string $id
+ * @param Template $body
+ * @return void
+ */
+function setupAddToCart(mysqli $mysqli, string $id, Template $body)
+{
+    if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
+        $body->setContent("add_to_cart", '
+            <button id="add-to-wihslist-button" class="btn btn-secondary w-100 br-sm mb-2">
+                <i class="w-icon-heart"></i>
+                <span>Aggiungi alla Wishlist</span>
+            </button>
+            <button id="add-to-cart-button" class="btn btn-primary w-100 br-sm">
+                <i class="w-icon-cart"></i>
+                <span>Aggiungi al Carrello</span>
+            </button>
+        ');
+    } else {
+        $body->setContent("add_to_cart", '
+            <div style="text-align: center; padding: 3rem; width: 100% !important;">
+                <p class="font-weight-bold ml-3 mb-3"><a href="/sign-in?referrer=/product/' . $id . '">Entra</a> per aggiungere al carrello e alla wishlist!</p>
+            </div>
+        ');
     }
 }

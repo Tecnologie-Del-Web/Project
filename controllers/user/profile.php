@@ -29,8 +29,9 @@ function findOrders($mysqli, Template $body, $user_id)
 
     if ($oid->num_rows == 0) {
         $body->setContent("orders", '
-            <div class="content-title-section" style="margin: 100px 0 !important;">
-                <h3 class="title title-center mb-3">Non hai ancora effettuato ordini. Torna allo shopping!</h3>
+            <div class="content-title-section" style="margin: 100px 0 !important; text-align: center !important;">
+                <h3 class="title title-center mb-3">Non hai ancora effettuato ordini</h3>
+                <a href="/" class="btn btn-primary mt-10">Torna allo shopping</a>
             </div>
         ');
     } else {

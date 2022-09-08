@@ -1,0 +1,47 @@
+<thead>
+  <tr>
+    <th class="product-name"><span>Articolo</span></th>
+    <th></th>
+    <th class="product-price"><span>Prezzo</span></th>
+    <th class="product-stock-status"><span>Disponibilità</span></th>
+    <th class="wishlist-action">Azioni</th>
+  </tr>
+</thead>
+<tbody style="text-align: center !important;">
+
+<[foreach]>
+<tr>
+  <td class="product-thumbnail">
+    <div class="p-relative">
+      <a href="/product/<[product_id]>">
+        <figure>
+          <img src="/images/<[product_id]>/<[file_name]>" alt="product" width="300"
+               height="338">
+        </figure>
+      </a>
+      <button type="submit" class="btn btn-close"><i
+              class="w-icon-return"></i></button>
+    </div>
+  </td>
+  <td class="product-name">
+    <a href="/product/<[product_id]>">
+      <[product_name]>
+    </a>
+  </td>
+  <td class="product-price">
+    <ins class="new-price"><[price]></ins>
+  </td>
+  <td class="product-stock-status">
+    <span class="wishlist-in-stock"><[availability]></span>
+  </td>
+  <td class="wishlist-action">
+    <div class="d-lg-flex">
+      <a href="#"
+         class="btn btn-quickview btn-outline btn-default btn-rounded btn-sm mb-2 mb-lg-0">Vedi Prodotto</a>
+      <a href="#" class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Aggiungi al Carrello</a>
+    </div>
+  </td>
+</tr>
+<[/foreach]>
+
+</tbody>

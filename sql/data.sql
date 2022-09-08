@@ -89,6 +89,7 @@ INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES 
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Un libro meraviglioso', 4.50, NOW(), 3, 26);
 
 -- Inserisco un'offerta
-INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto sul disco', 20, NOW(), '2022-09-20 00:00:00', 16);
-INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto su Homogenic', 25, NOW(), '2022-09-21 00:00:00', 15);
-INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ('Sconto su The Division Bell', 30, NOW(), '2022-09-18 00:00:00', 18);
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ("Sconto sul disco dei Pink Floyd", 20, NOW(), '2022-09-14 00:00:00', 32);
+
+-- E un coupon sconto
+INSERT INTO coupon (coupon_code, percentage, start_date, expiration_date, description) VALUES ('PROMO15', 15, NOW(), '2022-09-15 00:00:00', "Sconto del 15% su tutto l'ordine");

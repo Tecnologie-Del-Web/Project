@@ -18,8 +18,19 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('A
 
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Profile', '/profile', 'user/profile.php', 'profile', 'Personal Profile Page');
+
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Cart', '/cart', 'user/cart.php', 'cart', 'Shopping Cart Page');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Product To Cart', '/cart/add', 'user/cart.php', 'add', 'Add Product To Cart');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Clear Cart', '/cart/clear', 'user/cart.php', 'clear', 'Clear Cart');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Edit Product Quantity', '/cart/quantity', 'user/cart.php', 'editQuantity', 'Edit Product Quantity');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Remove Product From Cart', '/cart/remove', 'user/cart.php', 'remove', 'Remove Product From Cart');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Apply Coupon to Order', '/cart/coupon/apply', 'user/cart.php', 'applyCoupon', 'Apply Coupon To Order');
+
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Personal Wishlist Page');
+
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Checkout', '/checkout', 'user/checkout.php', 'checkout', 'Checkout Page');
+
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Order Completion', '/order', 'user/order.php', 'order', 'Order Completion Page');
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Review', '/reviews/add', 'user/review.php', 'add', 'Review Page (Add Review)');
 

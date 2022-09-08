@@ -1,5 +1,7 @@
+<script src="/skins/frontend/wolmart/assets/js/custom/product.js"></script>
+
 <div class="page-wrapper">
-    <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
+    <h1 class="d-none">TDW</h1>
 
 
     <!-- Start of Main -->
@@ -9,8 +11,8 @@
             <div class="container">
                 <ul class="breadcrumb shop-breadcrumb bb-no">
                     <li class="active"><a href="cart.html">Carrello</a></li>
-                    <li><a href="checkout.html">Pagamento</a></li>
-                    <li><a href="order.html">Ordine Completato</a></li>
+                    <li><a href="/checkout">Pagamento</a></li>
+                    <li><a href="/order">Ordine Completato</a></li>
                 </ul>
             </div>
         </nav>
@@ -23,26 +25,21 @@
                     <div class="col-lg-8 pr-lg-4 mb-6">
                         <table class="shop-table cart-table">
 
-                                <[products]>
+                            <[products]>
 
                         </table>
 
                         <div class="cart-action mb-6">
                             <a href="/categories" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
                                     class="w-icon-long-arrow-left"></i>Continua lo Shopping</a>
-                            <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart"
+                            <button id="clear-cart-button" type="submit" class="btn btn-rounded btn-default btn-clear"
+                                    name="clear_cart"
                                     value="Clear Cart">Svuota Carrello
-                            </button>
-                            <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart"
-                                    value="Update Cart">Aggiorna Carrello
                             </button>
                         </div>
 
                         <form class="coupon">
-                            <h5 class="title coupon-title font-weight-bold text-uppercase">Sconto Coupon</h5>
-                            <input type="text" class="form-control mb-4" placeholder="Inserisci il codice del coupon..."
-                                   required/>
-                            <button class="btn btn-dark btn-outline btn-rounded">Applica Coupon</button>
+                            <[coupon_application]>
                         </form>
                     </div>
                     <div class="col-lg-4 sticky-sidebar-wrapper">
@@ -51,7 +48,7 @@
                                 <h3 class="cart-title text-uppercase">Totali del carrello</h3>
                                 <div class="cart-subtotal d-flex align-items-center justify-content-between">
                                     <label class="ls-25">Subtotale</label>
-                                    <span>[Subtotal]</span>
+                                    €<span id="subtotal"></span>
                                 </div>
 
                                 <hr class="divider">
@@ -63,56 +60,84 @@
                                     <li>
                                         <div class="custom-radio">
                                             <input type="radio" id="free-shipping" class="custom-control-input"
-                                                   name="shipping">
+                                                   name="shipping" checked>
                                             <label for="free-shipping"
                                                    class="custom-control-label color-dark">Spedizione Gratuita</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="local-pickup" class="custom-control-input"
-                                                   name="shipping">
-                                            <label for="local-pickup"
-                                                   class="custom-control-label color-dark">Ritiro a mano</label>
                                         </div>
                                     </li>
                                 </ul>
 
                                 <div class="shipping-calculator mt-5">
                                     <form class="shipping-calculator-form">
-                                        <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="country" class="form-control form-control-md">
-                                                    <[foreach]>
-                                                        <option value="<[address_id]>"><[address]></option>
-                                                    <[/foreach]>
-                                                </select>
+                                        <div class="payment-methods" id="payment_method">
+                                            <h4 class="title font-weight-bold ls-25 pb-0 mb-5">Indirizzo di
+                                                Spedizione</h4>
+                                            <div class="accordion payment-accordion mb-5">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <a href="#existing-address" class="collapse">Utilizza un
+                                                            indirizzo esistente</a>
+                                                    </div>
+                                                    <div id="existing-address" class="card-body expanded">
+                                                        <form action="">
+                                                            <[foreach]>
+                                                            <div class="mb-5" style="display: flex;">
+                                                                <input id="<[address_id]>" type="radio"
+                                                                       name="shipping-address"
+                                                                       style="height: 20px; width: 20px; margin-right: 2rem;">
+                                                                <label for="free-shipping"
+                                                                       class="font-size-normal custom-control-label color-dark"
+                                                                       style="display: flex; align-items: center;">
+                                                                    <[address]>, <[city]>, <[postal_code]>, <[country]>
+                                                                </label>
+                                                            </div>
+                                                            <[/foreach]>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <a href="#new-address" class="expand">Inserisci un nuovo
+                                                            indirizzo</a>
+                                                    </div>
+                                                    <div id="new-address" class="card-body collapsed">
+                                                        <div class="review-form-wrapper">
+                                                            <form action="#" method="POST" class="review-form">
+                                                                <div class="row gutter-md">
+                                                                    <div class="col-md-6 mr-5 mb-5">
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Your Name" id="author">
+                                                                    </div>
+                                                                    <div class="col-md-6 mr-5 mb-5">
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Your Email" id="email_1">
+                                                                    </div>
+                                                                    <div class="col-md-6 mr-5 mb-5">
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Your Email" id="email_1">
+                                                                    </div>
+                                                                    <div class="col-md-6 mr-5 mb-5">
+                                                                        <input type="text" class="form-control"
+                                                                               placeholder="Your Email" id="email_1">
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-dark">Submit
+                                                                    Review
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="state" class="form-control form-control-md">
-                                                    <option value="default" selected="selected">California
-                                                    </option>
-                                                    <option value="ohio">Ohio</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                   name="town-city" placeholder="Town / City">
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                   name="zipcode" placeholder="ZIP">
-                                        </div>
+
                                     </form>
                                 </div>
 
                                 <hr class="divider mb-6">
                                 <div class="order-total d-flex justify-content-between align-items-center">
-                                    <label>Total</label>
-                                    <span class="ls-50">€100.00</span>
+                                    <label>Totale</label>
+                                    €<span id="total" class="ls-50"></span>
                                 </div>
                                 <a href="#" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                     Procedi al checkout<i class="w-icon-long-arrow-right"></i></a>
@@ -163,7 +188,8 @@
                     </div>
                     <figure class="product-media">
                         <a href="#">
-                            <img src="/skins/frontend/wolmart/assets/images/cart/product-1.jpg" alt="product" height="84"
+                            <img src="/skins/frontend/wolmart/assets/images/cart/product-1.jpg" alt="product"
+                                 height="84"
                                  width="94"/>
                         </a>
                     </figure>
