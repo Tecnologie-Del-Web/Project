@@ -100,7 +100,7 @@ function setupMostLovedCategories(mysqli $mysqli, Template $body)
 function setupHomePageCategories(mysqli $mysqli, Template $body): void
 {
     // Seleziono Abbigliamento
-    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, pi.file_name
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, p.price, pi.file_name
                                     FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_image pi ON (pi.product_id = p.product_id) 
                                     WHERE category_name = 'Abbigliamento' AND pi.type = 'main';");
 
@@ -120,7 +120,7 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
     }
 
     // Seleziono Libri
-    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, pi.file_name
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, p.price, pi.file_name
                                     FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_image pi ON (pi.product_id = p.product_id) 
                                     WHERE category_name = 'Libri' AND pi.type = 'main';");
 
@@ -140,7 +140,7 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
     }
 
     // Seleziono Elettronica
-    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, pi.file_name
+    $oid = $mysqli->query("SELECT c.category_id, c.category_name, p.product_id, p.product_name, p.price, pi.file_name
                                     FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_image pi ON (pi.product_id = p.product_id) 
                                     WHERE category_name = 'Elettronica' AND pi.type = 'main';");
 

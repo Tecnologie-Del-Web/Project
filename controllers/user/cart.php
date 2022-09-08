@@ -16,7 +16,7 @@ function cart() {
 
     setupSide($mysqli, $user["user_id"], $body);
 
-    setupCouponApplication($mysqli, $brand_id, $body);
+    // setupCouponApplication($mysqli, $brand_id, $body);
 
     $main->setContent("content", $body->get());
     $main->close();
@@ -104,6 +104,7 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
  */
 function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
 {
+    /*
     // Prendo le informazioni sul brand di cui ho bisogno
     $applied_coupon = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image
                                     FROM coupon c WHERE
@@ -119,6 +120,7 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
             $body->setContent($key, $value);
         }
     }
+    */
 }
 
 #[NoReturn] function add(): void

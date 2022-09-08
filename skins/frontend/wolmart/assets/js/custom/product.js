@@ -51,6 +51,7 @@ function calculateSubTotal() {
        subtotal += parseFloat(obj.innerHTML);
     });
     $("#subtotal").text(subtotal.toFixed(2));
+    $("#total").text(subtotal.toFixed(2));
 }
 
 function addToCart(product_id) {

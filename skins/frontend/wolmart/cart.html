@@ -59,17 +59,9 @@
                                     <li>
                                         <div class="custom-radio">
                                             <input type="radio" id="free-shipping" class="custom-control-input"
-                                                   name="shipping">
+                                                   name="shipping" checked>
                                             <label for="free-shipping"
                                                    class="custom-control-label color-dark">Spedizione Gratuita</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="custom-radio">
-                                            <input type="radio" id="local-pickup" class="custom-control-input"
-                                                   name="shipping">
-                                            <label for="local-pickup"
-                                                   class="custom-control-label color-dark">Ritiro a mano</label>
                                         </div>
                                     </li>
                                 </ul>
@@ -77,38 +69,25 @@
                                 <div class="shipping-calculator mt-5">
                                     <form class="shipping-calculator-form">
                                         <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="country" class="form-control form-control-md">
-                                                    <[foreach]>
-                                                        <option value="<[address_id]>"><[address]></option>
-                                                    <[/foreach]>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="select-box">
-                                                <select name="state" class="form-control form-control-md">
-                                                    <option value="default" selected="selected">California
-                                                    </option>
-                                                    <option value="ohio">Ohio</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                   name="town-city" placeholder="Town / City">
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="form-control form-control-md" type="text"
-                                                   name="zipcode" placeholder="ZIP">
+                                            <p class="subtitle font-weight-bold">Indirizzo di spedizione</p>
+                                            <form action="">
+                                                <[foreach]>
+                                                    <div class="mb-5" style="display: flex;">
+                                                        <input id="<[address_id]>" type="radio" name="shipping-address" style="height: 20px; width: 20px; margin-right: 2rem;">
+                                                        <label for="free-shipping" class="font-size-normal custom-control-label color-dark" style="display: flex; align-items: center;">
+                                                            <[address]>, <[city]>, <[postal_code]>, <[country]>
+                                                        </label>
+                                                    </div>
+                                                <[/foreach]>
+                                            </form>
                                         </div>
                                     </form>
                                 </div>
 
                                 <hr class="divider mb-6">
                                 <div class="order-total d-flex justify-content-between align-items-center">
-                                    <label>Total</label>
-                                    <span class="ls-50">€100.00</span>
+                                    <label>Totale</label>
+                                    €<span id="total" class="ls-50"></span>
                                 </div>
                                 <a href="#" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                     Procedi al checkout<i class="w-icon-long-arrow-right"></i></a>
