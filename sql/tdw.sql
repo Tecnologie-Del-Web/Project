@@ -30,11 +30,11 @@ CREATE TABLE payment_method (
 CREATE TABLE coupon (
 	coupon_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     coupon_code VARCHAR(20) UNIQUE NOT NULL,
-    percentage DECIMAL(5,2) NOT NULL,
+    percentage SMALLINT NOT NULL,
     start_date DATETIME NOT NULL,
     expiration_date DATETIME NOT NULL,
     `description` TEXT NULL,
-    CHECK (percentage BETWEEN 0.00 AND 1.00)
+    CHECK (percentage BETWEEN 0 AND 100)
 );
 
 CREATE TABLE `order` (

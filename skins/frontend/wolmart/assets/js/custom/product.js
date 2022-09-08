@@ -38,11 +38,16 @@ $(document).ready(() => {
         }
     });
 
+    $("#apply-coupon-button").click(() => {
+        let couponCode = ($("#coupon-code-input").val());
+        applyCoupon(couponCode);
+    });
+
 })
 
 function calculateSubTotal() {
     let subtotal = 0;
-    $(".subtotal").each((i, obj) => {
+    $(".item-subtotal").each((i, obj) => {
        subtotal += parseFloat(obj.innerHTML);
     });
     $("#subtotal").text(subtotal.toFixed(2));
@@ -100,6 +105,22 @@ function removeProductFromCart(productToRemoveId) {
         url: "/cart/remove",
         data: {
             product_id: productToRemoveId
+        },
+        success: (data) => {
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.reload();
+            }
+        }
+    });
+}
+
+function applyCoupon(couponCode) {
+    $.ajax({
+        type: "POST",
+        url: "/cart/coupon/apply",
+        data: {
+            coupon_code: couponCode
         },
         success: (data) => {
             let response = JSON.parse(data);

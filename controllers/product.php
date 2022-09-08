@@ -293,7 +293,7 @@ function setupAddToCart(mysqli $mysqli, string $id, Template $body)
     } else {
         $body->setContent("add_to_cart", '
             <div style="text-align: center; padding: 3rem; width: 100% !important;">
-                <p class="font-weight-bold ml-3 mb-3"><a href="/sign-in?referrer=/product/' . $id . '">Entra</a> per aggiungere al carrello!</p>
+                <p class="font-weight-bold ml-3 mb-3"><a href="/sign-in?referrer=/product/' . $id . '">Entra</a> per aggiungere al carrello e alla wishlist!</p>
             </div>
         ');
     }

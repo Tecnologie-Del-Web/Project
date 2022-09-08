@@ -16,6 +16,8 @@ function cart() {
 
     setupSide($mysqli, $user["user_id"], $body);
 
+    setupCouponApplication($mysqli, $brand_id, $body);
+
     $main->setContent("content", $body->get());
     $main->close();
 }
@@ -28,7 +30,7 @@ function cart() {
  */
 function findCartProducts(mysqli $mysqli, $user_id, Template $body)
 {
-    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, upc.quantity, pi.file_name
+    $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, ROUND(upc.subtotal, 2) as subtotal, upc.quantity, pi.file_name
                                             FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) JOIN product_image pi ON (pi.product_id = p.product_id) 
                                             WHERE upc.user_id = {$user_id} AND pi.type='main'");
 
@@ -59,12 +61,10 @@ function findCartProducts(mysqli $mysqli, $user_id, Template $body)
                     $cart_products->setContent("price", '
                         <td class="product-price">€' . $old_price . ' -' . $discount_percentage . '% = ' . '<span class="amount">€' . $new_price . '</span></td>
                     ');
-                    $cart_products->setContent("subtotal", $new_price * $quantity);
                 } else {
                     $cart_products->setContent("price", '
                         <td class="product-price"><span class="amount">€' . $old_price . '</span></td>
                     ');
-                    $cart_products->setContent("subtotal", $old_price * $quantity);
                 }
             }
         } while ($product);
@@ -96,6 +96,30 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     }
 }
 
+/**
+ * @param mysqli $mysqli
+ * @param $brand_id
+ * @param Template $body
+ * @return void
+ */
+function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
+{
+    // Prendo le informazioni sul brand di cui ho bisogno
+    $applied_coupon = $mysqli->query("SELECT b.brand_id, b.brand_name, b.brand_image
+                                    FROM coupon c WHERE
+                                    WHERE b.brand_id = $brand_id;");
+
+    if ($brand->num_rows == 0) {
+        // TODO: gestire!
+        echo "\n" . "Ricordati di gestire questo caso!";
+        // header("Location: /products");
+    } else {
+        $brand = $brand->fetch_assoc();
+        foreach ($brand as $key => $value) {
+            $body->setContent($key, $value);
+        }
+    }
+}
 
 #[NoReturn] function add(): void
 {
@@ -150,7 +174,7 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     exit(json_encode($response));
 }
 
-#[NoReturn] function edit_quantity(): void
+#[NoReturn] function editQuantity(): void
 {
     $response = array();
 
@@ -163,7 +187,16 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
         $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
         $user = $user->fetch_assoc();
 
-        $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+        $product = $mysqli->query("SELECT price FROM product WHERE product_id = $product_id");
+        $product = $product->fetch_assoc();
+        $product_price = $product['price'];
+
+        if ($increment > 0){
+            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal + $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+        }
+        elseif ($increment < 0){
+            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal - $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+        }
 
         try {
             if ($mysqli->affected_rows != 0) {
@@ -204,3 +237,33 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     }
     exit(json_encode($response));
 }
+
+#[NoReturn] function applyCoupon(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        global $mysqli;
+
+        $user_id = $_SESSION['user']['user_id'];
+
+        $coupon_code = $_POST['coupon_code'];
+
+        $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_code = '$coupon_code'");
+        $coupon = $coupon->fetch_assoc();
+        $coupon_percentage = $coupon['percentage'];
+
+        try {
+            if ($mysqli->affected_rows == 1) {
+                $mysqli->query("UPDATE user_product_cart SET subtotal = subtotal - subtotal * $coupon_percentage / 100 WHERE user_id = $user_id");
+                $response['success'] = "Coupon applicato correttamente!";
+            } else {
+                $response['warning'] = "Nessun coupon applicato";
+            }
+        } catch (mysqli_sql_exception $e) {
+            $response['error'] = "Errore nell'applicazione del coupon";
+        }
+    }
+    exit(json_encode($response));
+}
+
