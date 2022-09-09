@@ -7,7 +7,7 @@ function offers()
     global $mysqli;
     $columns = array("ID", "Percentuale", "Inizio", "Fine", "Prodotto", "Prezzo", "Prezzo Scontato");
     $result = $mysqli->query("SELECT offer_id, percentage, start_date, end_date, offer.product_id,product_name,price
-    FROM offer JOIN product p on offer.product_id = p.product_id WHERE end_date> NOW()");
+    FROM offer JOIN product p on offer.product_id = p.product_id WHERE end_date > NOW()");
 
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
@@ -23,7 +23,7 @@ function offers()
         foreach ($offers as $key => $value) {
             $offers_table->setContent($key, $value);
         }
-        $offers_table->setContent("discounted_price", $offers['price'] -= ($offers['percentage'] / 10));
+        $offers_table->setContent("discounted_price", round($offers['price'] -= ($offers['price'] * $offers['percentage'] / 100), 2));
     }
 
     $table->setContent("table_rows", $offers_table->get());
@@ -72,7 +72,7 @@ function create(): void
                     $response['error'] = "Errore nella creazione dell' offerta";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e. "Errore nella creazione dell' offerta";
+                $response['error'] = $e . "Errore nella creazione dell' offerta";
             }
         } else {
             $response['error'] = "Errore nella creazione dell' offerta";

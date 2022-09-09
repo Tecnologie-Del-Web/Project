@@ -32,7 +32,7 @@ function setupOfferOfTheDay(mysqli $mysqli, Template $body): void
     // Gestisco l'offerta del giorno
     $product = $mysqli->query("SELECT p.product_id, p.product_name, p.price, p.product_description, o.percentage, DATE_FORMAT(o.end_date, '%d/%m/%Y' ) as end_date, pi.file_name
                                     FROM product p JOIN offer o ON (o.product_id = p.product_id) JOIN  product_image pi ON (pi.product_id = p.product_id) 
-                                    WHERE pi.type = 'main'
+                                    WHERE pi.type = 'main' AND o.start_date < NOW() AND o.end_date > NOW()
                                     ORDER BY o.start_date DESC
                                     LIMIT 1");
 
