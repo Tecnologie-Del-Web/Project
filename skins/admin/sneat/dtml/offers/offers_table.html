@@ -1,13 +1,13 @@
 <[foreach]>
 <tr>
-   <td class="clickable-row" data-href="/admin/offers/<[id]>">
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>">
         <strong><[offer_id]></strong></td>
-   <td class="clickable-row" data-href="/admin/offers/<[id]>"><[percentage]>%</td>
-   <td class="clickable-row" data-href="/admin/offers/<[id]>"><[start_date::format_datetime library="Format"]></td>
-   <td class="clickable-row" data-href="/admin/offers/<[id]>"><[expiration_date::format_datetime library="Format"]></td>
-   <td class="clickable-row" data-href="/admin/products/<[id]>"><[product_name]></td>
-   <td class="clickable-row" data-href="/admin/products/<[id]>"><s><[price]></s></td>
-   <td class="clickable-row" data-href="/admin/products/<[id]>"><[discounted_price]></td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><[percentage]>%</td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><[start_date::format_datetime library="Format"]></td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><[expiration_date::format_datetime library="Format"]></td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><[product_name]></td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><s><[price]></s></td>
+   <td class="clickable-row" data-href="/admin/offers/<[offer_id]>"><[discounted_price]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -15,10 +15,10 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/offers/<[id]>"
+                <a class="dropdown-item" href="/admin/offers/<[offer_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/offers/<[id]>/delete"
+                <a class="dropdown-item" href="/admin/offers/<[offer_id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a
                 >
             </div>

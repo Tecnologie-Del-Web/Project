@@ -41,38 +41,57 @@ function create()
 {
     global $mysqli;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        echo "POST";
-        /*$nome = $_POST["nome"];
-        $prezzo = $_POST["prezzo"];
-        $dimensione = $_POST["dimensione"];
-        $quantita_disponibile = $_POST["quantita_disponibile"];
-        $descrizione = $_POST["descrizione"];
-        $categoria = $_POST["categoria"];
-        $produttore = $_POST["brand"];
-        $provenienza = $_POST["provenienza"];
+        $product_id = explode("/", $_SERVER["REQUEST_URI"])[3];
+        $product_name = $_POST["product_name"];
+        $product_description = $_POST["description"];
+        $product_price = $_POST["price"];
+        $quantity_available = $_POST["quantity_available"];
+        $product_sku = $_POST["sku"];
+        $category_id = $_POST["category_id"];
+        $brand_id = $_POST["brand_id"];
         $response = array();
-        if ($nome !== "" && $prezzo !== "" && $dimensione !== "" && $quantita_disponibile !== "" && $descrizione !== "" && $categoria !== "" && $produttore !== "" && $provenienza !== "") {
-            if ($mysqli->affected_rows == 1) {
-                $id = $mysqli->insert_id;
-                foreach ($_FILES["immagini"]["tmp_name"] as $key => $value) {
-                    $filename = basename($value). "." . substr($_FILES["immagini"]["name"][$key], strpos($_FILES["immagini"]["name"][$key], ".") + 1);
-                    move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/uploads/".$filename);
+        if ($product_id != "" && $product_name != "") {
+            if (isset($_FILES["product_images"])) {
+                if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
+                    mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
                 }
-                $response['success'] = "Prodotto creato con successo";
-            } elseif ($mysqli->affected_rows == 0) {
-                $response['warning'] = "Nessun dato modificato";
-            } else {
-                $response['error'] = "Errore nella creazione del prodotto";
+
+                $product_images = $_FILES["product_images"];
+                foreach ($product_images["tmp_name"] as $key => $value) {
+                    $filename = $product_images["name"][$key];
+                    try {
+                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main',$product_id)");
+                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
+                            move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
+                        }
+                    } catch (Exception) {
+                    }
+                }
+
+            }
+            try {
+                $mysqli->query("INSERT INTO product (product_name, price, quantity_available, product_description, sku, brand_id, category_id) 
+                VALUES (
+                    '" . mysqli_real_escape_string($mysqli, $product_name) . "',
+                   $product_price,
+                   $quantity_available,                    
+                   '" . mysqli_real_escape_string($mysqli, $product_description) . "',
+                   '$product_sku',
+                   $brand_id,
+                   $category_id);");
+                $response['success'] = "Prodotto $product_name creato con successo";
+            } catch (Exception $e) {
+                $response['error'] = "Errore nella creazione del prodotto " . $product_name . $e;
             }
         } else {
-            $response['error'] = "Errore nella creazione del prodotto";
+            $response['error'] = "Errore nella creazione del prodotto" . $product_name;
         }
-        exit(json_encode($response));*/
+        exit(json_encode($response));
     } else {
         $main = initAdmin();
-        $create = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/products/create_product.html");
-        populateSelectFields($mysqli, $create);
-        $main->setContent("content", $create->get());
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/products/create_product.html");
+        populateSelectFields($mysqli, $content);
+        $main->setContent("content", $content->get());
         $main->close();
     }
 }
@@ -81,28 +100,45 @@ function product()
 {
     global $mysqli;
     $id = strtok(explode('/', $_SERVER['REQUEST_URI'])[3], '?');
-    $product = $mysqli->query("SELECT product_id, product_name, price, quantity_available, product_description, sku, brand_id, category_id FROM product WHERE product_id=$id");
-    $main = initAdmin();
-    $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/products/edit_product.html");
-    populateSelectFields($mysqli, $main);
-    foreach ($product->fetch_assoc() as $key => $value) {
-        $content->setContent($key, $value);
-    }
-    /*$content->setContent("categoria_selected", $product['categoria_selected']);
-    $content->setContent("produttore_selected", $product['produttore_selected']);
-    $content->setContent("nazione_selected", $product['nazione_selected']);
-    $content->setContent("regione_selected", $product['regione_selected']);*/
-    $result = $mysqli->query("SELECT image_id, file_name FROM product_image WHERE product_id = $id");
-    $content->setContent("images", $result->fetch_assoc());
-    while ($image = $result->fetch_assoc()) {
-        foreach ($image as $key => $value) {
-            echo $key;
-            echo $value;
+    $product = $mysqli->query("SELECT product_id, 
+       product_name, 
+       price,
+       quantity_available, 
+       product_description, 
+       sku, 
+       b.brand_name,
+       c.category_name 
+       FROM product JOIN category c on product.category_id = c.category_id
+       JOIN brand b on product.brand_id = b.brand_id WHERE product_id=$id");
+    if ($product->num_rows === 0) {
+        header("Location: /admin/products"); //No product found, redirect to offer page
+    } else {
+        $product = $product->fetch_assoc();
+        $main = initAdmin();
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/products/edit_product.html");
+
+        populateSelectFields($mysqli, $content);
+
+        foreach ($product as $key => $value) {
             $content->setContent($key, $value);
         }
+        $content->setContent("category_selected", $product['category_name']);
+        $content->setContent("brand_selected", $product['brand_name']);
+
+        $result = $mysqli->query("SELECT image_id, file_name FROM product_image WHERE product_id = $id LIMIT 1");
+        $content->setContent("contains_images", $result->fetch_assoc());
+
+        $result = $mysqli->query("SELECT image_id, file_name FROM product_image WHERE product_id = $id ORDER BY image_id DESC;");
+        if ($result->num_rows > 0) {
+            while ($images = $result->fetch_assoc()) {
+                foreach ($images as $key => $value) {
+                    $content->setContent($key, $value);
+                }
+            }
+        }
+        $main->setContent("content", $content->get());
+        $main->close();
     }
-    $main->setContent("content", $content->get());
-    $main->close();
 }
 
 function edit()
@@ -114,7 +150,8 @@ function edit()
     $product_price = $_POST["price"];
     $quantity_available = $_POST["quantity_available"];
     $product_sku = $_POST["sku"];
-    $uploaded_images = $_POST["uploaded_images"];
+    $category_id = $_POST["category_id"];
+    $brand_id = $_POST["brand_id"];
     $response = array();
     if ($product_id != "" && $product_name != "") {
         $mysqli->query("DELETE FROM product_image WHERE product_id=$product_id");
@@ -136,23 +173,41 @@ function edit()
             }
 
         }
-        if (isset($uploaded_images)) {
-            foreach ($uploaded_images as $value) {
+        if (isset($_POST["uploaded_images"])) {
+            foreach ($_POST["uploaded_images"] as $value) {
                 try {
                     $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$value','main',$product_id)");
                 } catch (Exception) {
                 }
             }
         }
+        try {
+            $mysqli->query("UPDATE product SET 
+                   product_name = '" . mysqli_real_escape_string($mysqli, $product_name) . "',
+                   product_description = '" . mysqli_real_escape_string($mysqli, $product_description) . "',
+                   price = $product_price,
+                   quantity_available = $quantity_available,
+                   sku = '$product_sku'
+                   WHERE product_id = $product_id;");
+            if ($category_id != "") {
+                $mysqli->query("UPDATE product SET category_id = $category_id WHERE product_id = $product_id;");
+            }
+            if ($brand_id != "") {
+                $mysqli->query("UPDATE product SET brand_id = $brand_id WHERE product_id = $product_id;");
+            }
+            $response['success'] = "Prodotto $product_name modificato con successo";
+        } catch (Exception $e) {
+            $response['error'] = "Errore nella modifica del prodotto, nome duplicato: " . $product_name;
+        }
     } else {
-        $response['error'] = "Errore nella modifica del prodotto" . $product_id . $product_name . $product_price;
+        $response['error'] = "Errore nella modifica del prodotto" . $product_name;
     }
     exit(json_encode($response));
 }
 
 function populateSelectFields(mysqli $mysqli, Template $template): void
 {
-    $result = $mysqli->query("SELECT category_id, category_name FROM category ORDER BY category_name");
+    $result = $mysqli->query("SELECT category_id, category_name FROM category");
     do {
         $categories = $result->fetch_assoc();
         if ($categories) {
@@ -161,7 +216,7 @@ function populateSelectFields(mysqli $mysqli, Template $template): void
             }
         }
     } while ($categories);
-    $result = $mysqli->query("SELECT brand_id, brand_name FROM brand ORDER BY brand_name");
+    $result = $mysqli->query("SELECT brand_id, brand_name FROM brand");
     do {
         $brands = $result->fetch_assoc();
         if ($brands) {
@@ -170,4 +225,18 @@ function populateSelectFields(mysqli $mysqli, Template $template): void
             }
         }
     } while ($brands);
+}
+
+function delete()
+{
+    global $mysqli;
+    $product_id = explode('/', $_SERVER['REQUEST_URI'])[3];
+    $mysqli->query("DELETE FROM product WHERE product_id = {$product_id};");
+    $response = array();
+    if ($mysqli->affected_rows == 1) {
+        $response['success'] = "Prodotto eliminato con successo.";
+    } else {
+        $response['error'] = "Impossibile cancellare una prodotto.";
+    }
+    exit(json_encode($response));
 }

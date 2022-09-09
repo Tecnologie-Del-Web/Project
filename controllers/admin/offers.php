@@ -32,3 +32,126 @@ function offers()
 
 }
 
+function delete()
+{
+    global $mysqli;
+    $offer_id = explode('/', $_SERVER['REQUEST_URI'])[3];
+    $mysqli->query("DELETE FROM offer WHERE offer_id = {$offer_id};");
+    $response = array();
+    if ($mysqli->affected_rows == 1) {
+        $response['success'] = "Offerta eliminata con successo.";
+    } else {
+        $response['error'] = "Impossibile cancellare una offer con prodotti associati.";
+    }
+    exit(json_encode($response));
+}
+
+function create(): void
+{
+    global $mysqli;
+    if ($_SERVER['REQUEST_METHOD'] === "POST") {
+        $offer_percentage = $_POST["offer_percentage"];
+        $offer_start_date = $_POST["offer_start_date"];
+        $offer_end_date = $_POST["offer_end_date"];
+        $offer_product_id = $_POST["product_id"];
+        $response = array();
+        if ($offer_product_id != "") {
+            try {
+                $mysqli->query("INSERT INTO offer (percentage, start_date, end_date, product_id)
+            VALUES (
+                    $offer_percentage, 
+                    '$offer_start_date',
+                    '$offer_end_date',
+                    $offer_product_id);");
+
+                if ($mysqli->affected_rows == 1) {
+                    $response['success'] = "Offerta creata con successo";
+                } elseif ($mysqli->affected_rows == 0) {
+                    $response['warning'] = "Nessun dato modificato";
+                } else {
+                    $response['error'] = "Errore nella creazione dell' offerta";
+                }
+            } catch (Exception $e) {
+                $response['error'] = $e. "Errore nella creazione dell' offerta";
+            }
+        } else {
+            $response['error'] = "Errore nella creazione dell' offerta";
+        }
+        exit(json_encode($response));
+    } else {
+        $main = initAdmin();
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/offers/create_offer.html");
+        $result = $mysqli->query("SELECT product_id, product_name FROM product");
+        do {
+            $products = $result->fetch_assoc();
+            if ($products) {
+                foreach ($products as $key => $value) {
+                    $content->setContent($key, $value);
+                }
+            }
+        } while ($products);
+
+        $main->setContent("content", $content->get());
+        $main->close();
+    }
+}
+
+function offer()
+{
+    global $mysqli;
+    $offer_id = explode('/', $_SERVER['REQUEST_URI'])[3];
+    $offer = $mysqli->query("SELECT offer_id, percentage, start_date, end_date, product_id FROM offer WHERE offer_id = $offer_id;");
+    if ($offer->num_rows == 0) {
+        header("Location: /admin/offers"); //No offer found, redirect to offer page
+    } else {
+        $offer = $offer->fetch_assoc();
+        $main = initAdmin();
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/offers/edit_offer.html");
+        foreach ($offer as $key => $value) {
+            $content->setContent($key, $value);
+        }
+
+        $result = $mysqli->query("SELECT product_id, product_name FROM product");
+        do {
+            $product = $result->fetch_assoc();
+            if ($product) {
+                foreach ($product as $key => $value) {
+                    $content->setContent($key, $value);
+                }
+            }
+        } while ($product);
+        $main->setContent("content", $content->get());
+        $main->close();
+    }
+}
+
+function edit()
+{
+    global $mysqli;
+    $offer_id = explode("/", $_SERVER["REQUEST_URI"])[3];
+    $offer_percentage = $_POST["offer_percentage"];
+    $offer_start_date = $_POST["offer_start_date"];
+    $offer_end_date = $_POST["offer_end_date"];
+    $offer_product_id = $_POST["product_id"];
+
+    $response = array();
+    if ($offer_id != "" && $offer_product_id != "") {
+        $mysqli->query("UPDATE offer SET
+                percentage = $offer_percentage,
+                start_date = '$offer_start_date',
+                end_date='$offer_end_date',
+                product_id = '$offer_product_id'            
+                WHERE offer_id = $offer_id");
+
+        if ($mysqli->affected_rows == 1) {
+            $response['success'] = "Offerta modificata con successo";
+        } elseif ($mysqli->affected_rows == 0) {
+            $response['warning'] = "Nessun dato modificato";
+        } else {
+            $response['error'] = "Errore nella modifica del offer";
+        }
+    } else {
+        $response['error'] = "Errore nella modifica del offer";
+    }
+    exit(json_encode($response));
+}

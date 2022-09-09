@@ -24,8 +24,9 @@
                         <label class="col-sm-2 col-form-label" for="description">Descrizione</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <textarea class="form-control" id="description" name="description" required
-                                          aria-required="true"></textarea>
+                                <textarea class="form-control"
+                                          id="description" name="description" required
+                                          aria-required="true"><[product_description]></textarea>
                             </div>
                         </div>
                     </div>
@@ -37,11 +38,6 @@
                                        value="<[price]>"
                                        name="price"
                                        required aria-required="true">
-                                <div class="invalid-feedback">
-                                            <span class="text-danger">
-                                                Inserisci un prezzo valido.
-                                            </span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,7 +45,9 @@
                         <label class="col-sm-2 col-form-label" for="quantity_available">Quantità disponibile</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input type="number" step="1" class="form-control" id="quantity_available"
+                                <input type="number" step="1"
+                                       value="<[quantity_available]>"
+                                       class="form-control" id="quantity_available"
                                        name="quantity_available" required aria-required="true">
                                 <div class="invalid-feedback">
                                             <span class="text-danger">
@@ -63,7 +61,7 @@
                         <label class="col-sm-2 col-form-label" for="sku">SKU</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="sku" name="sku" required
+                                <input type="text" class="form-control" value="<[sku]>" id="sku" name="sku" required
                                        aria-required="true">
                             </div>
                         </div>
@@ -72,7 +70,7 @@
                         <label class="col-sm-2 col-form-label" for="category">Categoria</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <select class="form-control select2-selection form-select" id="category"
+                                <select class="form-control form-select" id="category"
                                         name="category" required aria-required="true">
                                     <[foreach]>
                                     <option value="<[category_id]>"><[category_name]></option>
@@ -85,7 +83,7 @@
                         <label class="col-sm-2 col-form-label" for="brand">Brand</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <select class="form-control select2-selection form-select" id="brand"
+                                <select class="form-control form-select" id="brand"
                                         name="brand" required aria-required="true">
                                     <[foreach]>
                                     <option value="<[brand_id]>"><[brand_name]></option>
@@ -95,10 +93,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label" for="brand">Immagini</label>
+                        <label class="col-sm-2 col-form-label" for="images">Immagini</label>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <form action="post" enctype="multipart/form-data">
+                                <form id="images" name="images" action="post" enctype="multipart/form-data">
                                     <div class="input-field">
                                         <div class="input-images-2"
                                              style="padding-top: .5rem;"></div>
@@ -117,77 +115,94 @@
     </div>
 </div>
 <script>
+
     $(document).ready(function () {
-        <[if!empty images]>
+        <[if!empty contains_images]>
         let pid = <[product_id]>;
-        let preloaded = [<[foreach]>
+        let preloaded = [
+            <[foreach]>
         {id: <[image_id]>, src: `/images/products/${pid}/<[file_name]>`},
         <[/foreach]>
     ];
         <[/if!empty]>
-        $('.input-images-2').imageUploader(<[if!empty images]>{preloaded: preloaded} <[/if!empty]>);
+        $("#brand option").each(function() {
+            if ($(this).text() == '<[brand_selected]>') {
+                $(this).attr('selected', true);
+            }
+        });
+        $("#category option").each(function() {
+            if ($(this).text() == '<[category_selected]>') {
+                $(this).attr('selected', true);
+            }
+        });
+        $('.input-images-2').imageUploader(<[if!empty contains_images]> {preloaded: preloaded} <[/if!empty]>);
+
         $('#button_edit').click(function () {
             $('body').find('.alert').remove();
             // Controllo che serve a vedere se tutti gli input sono riempiti
-            //if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
-            let formData = new FormData();
+            if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
+                let formData = new FormData();
 
-            const images = document.getElementsByName('images[]')[0].files;
-            // Loop through each of the selected files.
-            for (let i = 0; i < images.length; i++) {
-                const image = images[i];
-                // Check the file type.
-                if (!image.type.match('image.*')) {
-                    continue;
+                const images = document.getElementsByName('images[]')[0].files;
+                // Loop through each of the selected files.
+                for (let i = 0; i < images.length; i++) {
+                    const image = images[i];
+                    // Check the file type.
+                    if (!image.type.match('image.*')) {
+                        continue;
+                    }
+                    // Add the file to the request.
+                    formData.append('product_images[]', image);
                 }
-                // Add the file to the request.
-                formData.append('product_images[]', image);
-            }
 
-            const uploaded_images = document.getElementsByClassName("uploaded")[0].getElementsByTagName("img");
-            for (let j = 0; j<uploaded_images.length; ++j) {
-                const uploaded_image = uploaded_images[j];
-                if (uploaded_image.currentSrc.includes("/images/products/")) {
-                    formData.append('uploaded_images[]', uploaded_image.currentSrc.split('/')[6]);
-                }
-            }
-            // Loop through each of the selected files.
-            formData.append('product_name', $('#name').val());
-            formData.append('description', $('#description').val());
-            formData.append('price', $('#price').val());
-            formData.append('quantity_available', $('#quantity_available').val());
-            formData.append('sku', $('#sku').val());
-            $.ajax({
-                type: 'POST',
-                url: '/admin/products/<[product_id]>/edit',
-                processData: false,
-                contentType: false,
-                data: formData,
-                success: function (data) {
-                    let response = JSON.parse(data);
-                    if (response['success']) {
-                        $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                            response['success'] + '</div>');
-                        setTimeout(function () {
-                            location.reload();
-                        }, 2000);
-                    } else if (response['error']) {
-                        $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                            response['error'] + '</div>');
-                    } else if (response['warning']) {
-                        $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                            response['warning'] + '</div>');
+                const uploaded_images = document.getElementsByClassName("uploaded")[0].getElementsByTagName("img");
+                for (let j = 0; j < uploaded_images.length; ++j) {
+                    const uploaded_image = uploaded_images[j];
+                    if (uploaded_image.currentSrc.includes("/images/products/")) {
+                        formData.append('uploaded_images[]', uploaded_image.currentSrc.split('/')[6]);
                     }
                 }
-            });
-            /*} else {
+                // Loop through each of the selected files.
+                formData.append('product_name', $('#name').val());
+                formData.append('description', $('#description').val());
+                formData.append('price', $('#price').val());
+                formData.append('quantity_available', $('#quantity_available').val());
+                formData.append('sku', $('#sku').val());
+                formData.append('category_id', $('#category').val());
+                formData.append('brand_id', $('#brand').val());
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/products/<[product_id]>/edit',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        if (response['success']) {
+                            $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                response['success'] + '</div>');
+                            /*setTimeout(function () {
+                                location.reload();
+                            }, 2000);*/
+                        } else if (response['error']) {
+                            $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['error'] + '</div>');
+                        } else if (response['warning']) {
+                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['warning'] + '</div>');
+                        }
+                    }
+                });
+            } else {
                 $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                     '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
                     'Compilare tutti i campi correttamente' + '</div>');
-            }*/
+            }
         });
+
+
     });
 </script>
