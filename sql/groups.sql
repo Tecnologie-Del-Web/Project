@@ -17,14 +17,14 @@ VALUES (2, 2);
 
 -- ASSEGNAZIONE SERVICE AI GRUPPI
 -- Ad esempio, gli utenti (loggati!) possono accedere alla pagina del loro carrello
-INSERT INTO user_has_service VALUES (2, 14);
-INSERT INTO user_has_service VALUES (2, 15);
-INSERT INTO user_has_service VALUES (2, 16);
-INSERT INTO user_has_service VALUES (2, 17);
-INSERT INTO user_has_service VALUES (2, 18);
-INSERT INTO user_has_service VALUES (2, 19);
-INSERT INTO user_has_service VALUES (2, 20);
-INSERT INTO user_has_service VALUES (2, 21);
-INSERT INTO user_has_service VALUES (2, 22);
-INSERT INTO user_has_service VALUES (2, 23);
-INSERT INTO user_has_service VALUES (2, 24);
+INSERT INTO service_has_group VALUES (14, 2);
+INSERT INTO service_has_group VALUES (15, 2);
+INSERT INTO service_has_group VALUES (16, 2);
+INSERT INTO service_has_group VALUES (17, 2);
+INSERT INTO service_has_group VALUES (18, 2);
+INSERT INTO service_has_group VALUES (19, 2);
+INSERT INTO service_has_group VALUES (20, 2);
+INSERT INTO service_has_group VALUES (21, 2);
+INSERT INTO service_has_group VALUES (22, 2);
+INSERT INTO service_has_group VALUES (23, 2);
+INSERT INTO service_has_group VALUES (24, 2);

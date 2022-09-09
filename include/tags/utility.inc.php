@@ -63,14 +63,20 @@ function initUser(bool $dropdown = true)
         $header->setContent("login_status", $to_log->get());
     }
 
-    $customization = $mysqli->query("SELECT phone_number, site_name FROM customization")->fetch_assoc();
-    foreach ($customization as $key => $value) {
-        $header->setContent($key, $value);
-        $main->setContent($key,$value);
-        $footer->setContent($key,$value);
+    $customization = $mysqli->query("SELECT phone_number, site_name FROM customization");
+
+    if ($customization->num_rows > 0) {
+        $customization = $customization->fetch_assoc();
+        foreach ($customization as $key => $value) {
+            $header->setContent($key, $value);
+            $main->setContent($key,$value);
+            $footer->setContent($key,$value);
+        }
     }
+
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());
+
     return $main;
 }
 

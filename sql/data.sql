@@ -86,9 +86,10 @@ INSERT INTO product_image(file_name, type, product_id) VALUES ('mac3.jpg', 'stan
 -- Inserisco alcune recensioni
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Uno dei miei libri preferiti!', 5, NOW(), 2, 1);
 INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Un libro meraviglioso', 4.50, NOW(), 3, 3);
+INSERT INTO product_review (`text`, rating, `date`, user_id, product_id) VALUES ('Disco fantastico', 5.00, NOW(), 2, 7);
 
 -- Inserisco un'offerta
-INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ("Sconto sul disco dei Pink Floyd", 20, NOW(), '2022-09-14 00:00:00', 32);
+INSERT INTO offer (description, percentage, start_date, end_date, product_id) VALUES ("Sconto sul disco dei Pink Floyd", 20, NOW(), '2022-09-14 00:00:00', 7);
 
 -- E un coupon sconto
 INSERT INTO coupon (coupon_code, percentage, start_date, expiration_date, description) VALUES ('PROMO15', 15, NOW(), '2022-09-15 00:00:00', "Sconto del 15% su tutto l'ordine");

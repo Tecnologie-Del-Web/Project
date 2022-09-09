@@ -80,18 +80,7 @@
                                                     </div>
                                                     <div id="existing-address" class="card-body expanded">
                                                         <form action="">
-                                                            <[foreach]>
-                                                            <div class="mb-5" style="display: flex;">
-                                                                <input id="<[address_id]>" type="radio"
-                                                                       name="shipping-address"
-                                                                       style="height: 20px; width: 20px; margin-right: 2rem;">
-                                                                <label for="free-shipping"
-                                                                       class="font-size-normal custom-control-label color-dark"
-                                                                       style="display: flex; align-items: center;">
-                                                                    <[address]>, <[city]>, <[postal_code]>, <[country]>
-                                                                </label>
-                                                            </div>
-                                                            <[/foreach]>
+                                                            <[addresses]>
                                                         </form>
                                                     </div>
                                                 </div>
