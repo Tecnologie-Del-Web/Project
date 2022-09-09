@@ -69,13 +69,13 @@ function create(): void
                 } elseif ($mysqli->affected_rows == 0) {
                     $response['warning'] = "Nessun dato modificato";
                 } else {
-                    $response['error'] = "Errore nella creazione dell' offerta";
+                    $response['error'] = "Errore nella creazione dell'offerta";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione dell' offerta";
+                $response['error'] = "Errore nella creazione dell' offerta, controlla i campi";
             }
         } else {
-            $response['error'] = "Errore nella creazione dell' offerta";
+            $response['error'] = "Errore nella creazione dell'offerta";
         }
         exit(json_encode($response));
     } else {
@@ -100,7 +100,9 @@ function offer()
 {
     global $mysqli;
     $offer_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $offer = $mysqli->query("SELECT offer_id, percentage, start_date, end_date, product_id FROM offer WHERE offer_id = $offer_id;");
+    $offer = $mysqli->query("SELECT offer_id, percentage, start_date, end_date, p.product_id, p.product_name
+    as offer_product_name
+FROM offer JOIN product p on offer.product_id = p.product_id WHERE offer_id = $offer_id;");
     if ($offer->num_rows == 0) {
         header("Location: /admin/offers"); //No offer found, redirect to offer page
     } else {
@@ -120,6 +122,7 @@ function offer()
                 }
             }
         } while ($product);
+        $content->setContent("product_selected", $offer['offer_product_name']);
         $main->setContent("content", $content->get());
         $main->close();
     }
@@ -135,23 +138,28 @@ function edit()
     $offer_product_id = $_POST["product_id"];
 
     $response = array();
-    if ($offer_id != "" && $offer_product_id != "") {
-        $mysqli->query("UPDATE offer SET
+    if ($offer_id != "") {
+        try {
+            $mysqli->query("UPDATE offer SET
                 percentage = $offer_percentage,
                 start_date = '$offer_start_date',
-                end_date='$offer_end_date',
-                product_id = '$offer_product_id'            
-                WHERE offer_id = $offer_id");
-
-        if ($mysqli->affected_rows == 1) {
-            $response['success'] = "Offerta modificata con successo";
-        } elseif ($mysqli->affected_rows == 0) {
-            $response['warning'] = "Nessun dato modificato";
-        } else {
-            $response['error'] = "Errore nella modifica del offer";
+                end_date='$offer_end_date'  
+                WHERE offer_id = $offer_id;");
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Offerta modificata con successo";
+            } elseif ($mysqli->affected_rows == 0) {
+                $response['warning'] = "Nessun dato modificato";
+            } else {
+                $response['error'] = "Errore nella modifica dell' offerta, controlla i campi";
+            }
+            if ($offer_product_id) {
+                $mysqli->query("UPDATE offer SET product_id = $offer_product_id WHERE offer_id = $offer_id;");
+            }
+        } catch (Exception) {
+            $response['error'] = "Errore nella modifica dell' offerta, controlla i campi";
         }
     } else {
-        $response['error'] = "Errore nella modifica del offer";
+        $response['error'] = "Errore nella modifica del offerta";
     }
     exit(json_encode($response));
 }

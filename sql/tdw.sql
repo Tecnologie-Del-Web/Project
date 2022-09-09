@@ -121,6 +121,7 @@ CREATE TABLE offer
     end_date      DATETIME         NOT NULL,
     product_id    INTEGER UNSIGNED NOT NULL,
     CHECK (percentage BETWEEN 1.00 AND 100.00),
+    CHECK (start_date < offer.end_date),
     FOREIGN KEY (product_id)
         REFERENCES product (product_id)
         ON DELETE CASCADE ON UPDATE CASCADE,

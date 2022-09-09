@@ -126,12 +126,12 @@
     ];
         <[/if!empty]>
         $("#brand option").each(function() {
-            if ($(this).text() == '<[brand_selected]>') {
+            if ($(this).text() === '<[brand_selected]>') {
                 $(this).attr('selected', true);
             }
         });
         $("#category option").each(function() {
-            if ($(this).text() == '<[category_selected]>') {
+            if ($(this).text() === '<[category_selected]>') {
                 $(this).attr('selected', true);
             }
         });

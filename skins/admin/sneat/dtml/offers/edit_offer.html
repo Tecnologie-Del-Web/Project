@@ -56,14 +56,19 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
+        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
             <span class="bx bx-save me-1"></span> Modifica
         </button>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-        $('#button_add').click(function () {
+        $("#product option").each(function() {
+            if ($(this).text() === "<[product_selected]>") {
+                $(this).attr('selected', true);
+            }
+        });
+        $('#button_edit').click(function () {
             $('body').find('.alert').remove();
             let formData = new FormData();
             formData.append('offer_percentage', $('#offer_percentage').val());
@@ -92,6 +97,10 @@
                             $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
                                 response['error'] + '</div>');
+                        } else if (response['warning']) {
+                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['warning'] + '</div>');
                         }
                     }
                 });
