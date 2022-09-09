@@ -51,8 +51,6 @@ function doSignIn(): void
             trigger_error("Generic error, level 21", E_USER_ERROR);
         }
 
-        //echo "Numero di righe: " . $oid->num_rows;
-
         // Se viene restituito un numero di righe maggiore di 0 allora l'utente esiste
         if ($oid->num_rows > 0) {
             // Ottiene i dati dell'utente
