@@ -1,0 +1,114 @@
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Modifica coupon</h5>
+        <a href="/admin/coupons" class="btn btn-primary btn-sm mx-3">
+            <span class="bx bx-arrow-left"></span> Torna indietro </a>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="coupon_code">Codice</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="coupon_code" name="coupon_code" required aria-required="true"
+                           class="form-control"
+                           value="<[coupon_code]>"
+                           placeholder="Codice"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="coupon_description">Descrizione</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="coupon_description" name="coupon_description" required aria-required="true"
+                           class="form-control"
+                           value="<[description]>"
+                           placeholder="Descrizione"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="coupon_percentage">Percentuale</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input
+                            type="number"
+                            id="coupon_percentage"
+                            class="form-control"
+                            value="<[percentage]>"
+                            required aria-required="true"
+                            placeholder="Percentuale">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="coupon_start_date">Inizio</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="datetime-local" id="coupon_start_date" name="coupon_start_date" required aria-required="true"
+                           class="form-control"
+                           value="<[start_date]>"
+                           placeholder="Inizio"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="coupon_end_date">Fine</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="datetime-local" id="coupon_end_date" name="coupon_end_date" required aria-required="true"
+                           class="form-control"
+                           value="<[expiration_date]>"
+                           placeholder="Fine"/>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
+            <span class="bx bx-save me-1"></span> Modifica
+        </button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#button_edit').click(function () {
+            $('body').find('.alert').remove();
+            let formData = new FormData();
+            formData.append('coupon_code', $('#coupon_code').val());
+            formData.append('coupon_percentage', $('#coupon_percentage').val());
+            formData.append('coupon_start_date', $('#coupon_start_date').val());
+            formData.append('coupon_end_date', $('#coupon_end_date').val());
+            formData.append('coupon_description', $('#coupon_description').val());
+            // Controllo che serve a vedere se tutti gli input sono riempiti
+            if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
+                $.ajax({
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    url: '/admin/coupons/<[coupon_id]>/edit',
+                    data: formData,
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        if (response['success']) {
+                            $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                response['success'] + '</div>');
+                        } else if (response['error']) {
+                            $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['error'] + '</div>');
+                        } else if (response['warning']) {
+                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['warning'] + '</div>');
+                        }
+                    }
+                });
+            } else {
+                $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="" aria-hidden="true">×</button>\n' +
+                    'Compilare tutti i campi correttamente prima di proseguire' + '</div>');
+            }
+        });
+    });
+</script>
