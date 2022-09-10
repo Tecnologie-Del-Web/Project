@@ -7,6 +7,7 @@ function groups()
     $columns = array(
         "ID",
         "Nome",
+        "Descrizione"
     );
 
     $main = initAdmin();
@@ -26,53 +27,52 @@ function groups()
     }
 
     $table->setContent("table_rows", $groups_table->get());
-    $main->setContent("content", $table->get());
-    $main->close();
+
     do {
         $groups = $result->fetch_assoc();
         if ($groups) {
             if ($groups["group_name"] == "admin") {
-                $groups_table->setContent("id", 1);
-                $groups_table->setContent("group_name", "ADMIN");
+                $groups_table->setContent("group_id", 1);
+                $groups_table->setContent("group_name", "Admin");
                 $groups_table->setContent("actions", "<div class='g-2 text-center'>-</div>");
 
             } else if ($groups["group_name"] == "user") {
-                $groups_table->setContent("id", 2);
-                $groups_table->setContent("group_name", "UTENTE");
+                $groups_table->setContent("group_id", 2);
+                $groups_table->setContent("group_name", "User");
                 $groups_table->setContent("actions", "<div class='g-2 text-center'>-</div>");
 
             } else {
                 $actions = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/actions.html");
-                $groups_table->setContent("id", $groups["id"]);
+                $groups_table->setContent("id", $groups["group_id"]);
                 $groups_table->setContent("group_name", $groups["group_name"]);
-                $actions->setContent("id", $groups["id"]);
+                $actions->setContent("id", $groups["group_id"]);
                 $groups_table->setContent("actions", $actions->get());
             }
         }
     } while ($groups);
-    $main->setContent("content", $crud->get());
+    $main->setContent("content", $table->get());
     $main->close();
 }
 
-function show()
+function group()
 {
     global $mysqli;
     $id = explode('/', $_SERVER['REQUEST_URI'])[3];
     //prende tutte le informazioni del gruppo da mostrare
-    $group = $mysqli->query("SELECT DISTINCT * FROM tdw_ecommerce.`groups` WHERE id = $id");
+    $group = $mysqli->query("SELECT DISTINCT * FROM `group` WHERE group_id = $id");
 
     if ($group->num_rows == 0) {    //se non ci sono risultati reindirizza alla index dei gruppi
         header("Location: /admin/groups");
     } else {
-        $main = setupMainAdmin();
-        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/show.html");
+        $main = initAdmin();
+        $show = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/show.html");
 
         //Inserisco i dati del gruppo nel template
         $group = $group->fetch_assoc();
-        $show->setContent("id", $group['id']);
+        $show->setContent("id", $group['group_id']);
         $show->setContent("group_name", $group['group_name']);
 
-        if ($group['group_name'] != "ADMIN" && $group['group_name'] != "UTENTE") {
+        if ($group['group_name'] != "ADMIN" && $group['group_name'] != "User") {
             $show->setContent("edit", "
                 <button class='btn btn-primary btn-sm mx-3' id='edit' name='edit' value='edit' type='submit'>
                         <span class='fe fe-edit fs-14'></span> Modifica gruppo
@@ -81,37 +81,35 @@ function show()
             $show->setContent("edit", "Gruppo predefinito");
         }
 
-
         //recupero tutti i tag dei servizi (eccetto i pubblici)
-        $tags = $mysqli->query("SELECT DISTINCT services.tag FROM services WHERE services.tag NOT LIKE 'Public' AND services.tag NOT LIKE 'Gestione gruppi'");
+        $tags = $mysqli->query("SELECT DISTINCT service.tag FROM service WHERE service.tag NOT LIKE 'Public' AND service.tag NOT LIKE 'Gestione gruppi'");
 
         if ($tags->num_rows > 0) {
             //templete per la lista dei tag e dei loro poteri
-            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/powers.html");
+            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/powers.html");
             do {
                 $group_tags = $tags->fetch_assoc();
 
                 if ($group_tags) {
                     foreach ($group_tags as $value) { //per ogni tag seleziono tutte le operazioni associate
                         $powers = $mysqli->query("
-                            SELECT services.id, services.description
-                            FROM services
-                            WHERE services.tag = '{$value}';"
+                            SELECT service.service_id, service.service_description
+                            FROM service
+                            WHERE service.tag = '{$value}';"
                         );
 
                         $powers_tmp->setContent("tag", $group_tags['tag']); //inserisco il tag nel template come titolo
-                        //templete per la lista dei poteri di un tag
-                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/power.html");
+                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/power.html");
 
                         do {
                             $group_powers = $powers->fetch_assoc();
                             if ($group_powers) {
                                 //controllo se il servizio è associato al gruppo
                                 $check = $mysqli->query("
-                                        SELECT services.id
-                                        FROM services
-                                        JOIN services_has_groups shg on services.id = shg.services_id
-                                        WHERE services.tag = '{$value}' AND groups_id = $id AND services.id = {$group_powers['id']};");
+                                        SELECT service.service_id
+                                        FROM service
+                                        JOIN service_has_group shg on service.service_id = shg.service_id
+                                        WHERE service.tag = '{$value}' AND group_id = $id AND service.service_id = {$group_powers['service_id']};");
                                 $check = $check->fetch_assoc();
                                 if ($check) {
                                     //se il servizio è associato al gruppo allora rendo la checkbox checked
@@ -120,8 +118,8 @@ function show()
                                     $power_tmp->setContent("checked", "");
                                 }
                                 //inserisco i campo nella checkbox
-                                $power_tmp->setContent('id', $group_powers['id']);
-                                $power_tmp->setContent('description', $group_powers['description']);
+                                $power_tmp->setContent('id', $group_powers['service_id']);
+                                $power_tmp->setContent('description', $group_powers['service_description']);
                             }
                         } while ($group_powers);
                         //inserisco il singolo potere nella lista dei poteri del tag
@@ -136,14 +134,13 @@ function show()
     }
 }
 
-
 function delete()
 {
     global $mysqli;
     $id = explode('/', $_SERVER['REQUEST_URI'])[3];
 
     if ($id != 1 && $id != 2) {
-        $mysqli->query("DELETE FROM tdw_ecommerce.`groups` WHERE id = $id");
+        $mysqli->query("DELETE FROM `group` WHERE group_id = $id");
         if ($mysqli->affected_rows == 1) {
             $response['success'] = "Gruppo eliminato con successo";
         } else {
@@ -160,26 +157,21 @@ function create()
     global $mysqli;
     $response = array();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['nome'])) {
-            $nome = $_POST["nome"];
-            $oid = $mysqli->query("SELECT id FROM tdw_ecommerce.groups WHERE group_name = '$nome'");
+        if (isset($_POST['name'])) {
+            $name = $_POST["name"];
+            $oid = $mysqli->query("SELECT group_id FROM `group` WHERE group_name = '$name'");
             if ($oid->num_rows != 0) {
                 $response['error'] = "Nome già esistente";
                 exit(json_encode($response));
             }
 
-            if (isset($_POST["powers"])) {
-                $powers = $_POST["powers"];
-            } else {
-                $powers = null;
-            }
-
-            $mysqli->query("INSERT INTO tdw_ecommerce.groups (group_name) VALUES ('$nome')");
+            $powers = $_POST["powers"] ?? null;
+            $mysqli->query("INSERT INTO `group` (group_name) VALUES ('$name')");
             if ($mysqli->affected_rows == 1) {
                 $id = $mysqli->insert_id;
                 if ($powers != null) {
                     foreach ($powers as $power) {
-                        $mysqli->query("INSERT INTO tdw_ecommerce.services_has_groups (groups_id, services_id) VALUES ($id, $power)");
+                        $mysqli->query("INSERT INTO service_has_group (group_id, service_id) VALUES ($id, $power)");
                     }
                 }
                 $response['redirect'] = "/admin/groups";
@@ -189,36 +181,35 @@ function create()
             exit(json_encode($response));
         }
     } else {
-        $main = setupMainAdmin();
-        $edit = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/edit.html");
+        $main = initAdmin();
+        $edit = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/edit_group.html");
 
         //recupero tutti i tag dei servizi (eccetto i pubblici)
-        $tags = $mysqli->query("SELECT DISTINCT services.tag FROM services WHERE services.tag NOT LIKE 'Public' AND services.tag NOT LIKE 'Gestione gruppi'");
+        $tags = $mysqli->query("SELECT DISTINCT service.tag FROM service WHERE service.tag NOT LIKE 'Public' AND service.tag NOT LIKE 'Gestione gruppi'");
 
         if ($tags->num_rows > 0) {
             //templete per la lista dei tag e dei loro poteri
-            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/powers.html");
+            $powers_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/powers.html");
             do {
                 $group_tags = $tags->fetch_assoc();
 
                 if ($group_tags) {
                     foreach ($group_tags as $value) { //per ogni tag seleziono tutte le operazioni associate
                         $powers = $mysqli->query("
-                            SELECT services.id, services.description
-                            FROM services
-                            WHERE services.tag = '{$value}';"
+                            SELECT service.service_id, service.service_description
+                            FROM service
+                            WHERE service.tag = '{$value}';"
                         );
 
                         $powers_tmp->setContent("tag", $group_tags['tag']); //inserisco il tag nel template come titolo
-                        //templete per la lista dei poteri di un tag
-                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sash/dtml/components/groups/power.html");
+                        $power_tmp = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/groups/power.html");
 
                         do {
                             $group_powers = $powers->fetch_assoc();
                             if ($group_powers) {
                                 $power_tmp->setContent("checked", "");
-                                $power_tmp->setContent('id', $group_powers['id']);
-                                $power_tmp->setContent('description', $group_powers['description']);
+                                $power_tmp->setContent('id', $group_powers['service_id']);
+                                $power_tmp->setContent('description', $group_powers['service_description']);
                             }
                         } while ($group_powers);
                         //inserisco il singolo potere nella lista dei poteri del tag
@@ -235,7 +226,7 @@ function create()
 
 function edit()
 {
-    if (!(isset($_POST['id']) && isset($_POST['nome']))) {
+    if (!(isset($_POST['id']) && isset($_POST['name']))) {
         Header("Location: /admin/groups");
     }
 
@@ -248,7 +239,7 @@ function edit()
     $response = array();
 
     $id = $_POST["id"];
-    $nome = $_POST["nome"];
+    $nome = $_POST["name"];
 
     if (isset($_POST["powers"])) {
         $powers = $_POST["powers"];
@@ -257,17 +248,17 @@ function edit()
     }
 
     if ($id != "" && $nome != "") {
-        $oid = $mysqli->query("SELECT group_name FROM `groups` WHERE id = $id");
+        $oid = $mysqli->query("SELECT group_name FROM `group` WHERE group_id = $id");
         $oid = $oid->fetch_assoc();
         if ($oid['group_name'] != $nome) {
-            $mysqli->query("UPDATE tdw_ecommerce.`groups` SET group_name = '$nome' WHERE id = $id");
+            $mysqli->query("UPDATE `group` SET group_name = '$nome' WHERE group_id = $id");
             if ($mysqli->affected_rows == 0) {
-                $response['error'] = "Errore nella modifica del nome del gruppo";
+                $response['error'] = "Errore nella modifica del name del gruppo";
                 exit(json_encode($response));
             }
         }
 
-        $oid = $mysqli->query("SELECT id FROM services WHERE tag = 'Gestione gruppi'");
+        $oid = $mysqli->query("SELECT service_id FROM service WHERE tag = 'Gestione gruppi'");
         $gestione_gruppi = array();
         do {
             $potere_gruppo = $oid->fetch_assoc();
@@ -276,14 +267,14 @@ function edit()
             }
         } while ($potere_gruppo);
 
-        $mysqli->query("DELETE FROM tdw_ecommerce.`services_has_groups` 
-                                    WHERE groups_id = $id AND services_id                                          
+        $mysqli->query("DELETE FROM service_has_group
+                                    WHERE group_id = $id AND service_id                                          
                                     NOT IN ($gestione_gruppi[0], $gestione_gruppi[1], 
                                             $gestione_gruppi[2], $gestione_gruppi[3], 
                                             $gestione_gruppi[4])");
         if ($powers != null) {
             foreach ($powers as $power) {
-                $mysqli->query("INSERT INTO tdw_ecommerce.`services_has_groups` (services_id, groups_id) VALUES ($power, $id)");
+                $mysqli->query("INSERT INTO service_has_group(service_id, group_id) VALUES ($power, $id)");
             }
             if ($mysqli->affected_rows == 0) {
                 $response['warning'] = "Nessun dato modificato";

@@ -9,12 +9,11 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <input type="hidden" value="<[id]>" name="id" id="id" required aria-required="true">
-
+                    <input type="hidden" value="<[group_id]>" name="id" id="id" required aria-required="true">
                             <div class="form-group">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" value="<[nome]>"
-                                       readonly required aria-required="true">
+                                        required aria-required="true">
                                 <div class="invalid-feedback">
                                             <span class="text-danger">
                                                 Inserisci un nome valido.
@@ -25,7 +24,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="cognome">Cognome</label>
                                 <input type="text" class="form-control" id="cognome" name="cognome"
-                                       value="<[cognome]>" readonly required aria-required="true">
+                                       value="<[cognome]>"  required aria-required="true">
                                 <div class="invalid-feedback">
                                             <span class="text-danger">
                                                 Inserisci un cognome valido.
@@ -36,7 +35,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                       value="<[email]>" readonly required aria-required="true">
+                                       value="<[email]>"  required aria-required="true">
                                 <div class="invalid-feedback">
                                             <span class="text-danger">
                                                 Inserisci una mail valida.
@@ -47,7 +46,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="telefono">Telefono</label>
                                 <input type="tel" class="form-control" id="telefono" name="telefono"
-                                       value="<[telefono]>" readonly required aria-required="true">
+                                       value="<[telefono]>"  required aria-required="true">
                                 <div class="invalid-feedback">
                                             <span class="text-danger">
                                                 Inserisci un numero di telefono valido.
@@ -57,7 +56,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="gruppi">Gruppi</label>
                                 <select name="gruppi[]" id="gruppi" class="form-control select2" style="width: 100%"
-                                        data-placeholder="Scegli i gruppi" multiple required disabled>
+                                        data-placeholder="Scegli i gruppi" multiple required>
                                     <[foreach]>
                                     <option class="<[select]>" selected value="<[group_id]>"><[group_name]></option>
                                     <[/foreach]>
@@ -81,27 +80,6 @@
 
 
         $('#edit').click(function () {
-
-            if ($(this).val() === 'edit') {
-                $('body').find('.alert').remove();
-                $('#nome').attr('readonly', function (_, attr) {
-                    return !attr
-                });
-                $('#cognome').attr('readonly', function (_, attr) {
-                    return !attr
-                });
-                $('#email').attr('readonly', function (_, attr) {
-                    return !attr
-                });
-                $('#telefono').attr('readonly', function (_, attr) {
-                    return !attr
-                });
-                $('#gruppi').attr('disabled', function (_, attr) {
-                    return !attr
-                });
-                $('#edit').val('save');
-                $('#edit').html('<span class="fe fe-check fs-14"></span> Salva modifiche');
-            } else {
                 // Controllo che serve a vedere se tutti gli input sono riempiti
                 if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
                     // Faccio la chiamata e in base al risultato lo mostro a schermo
@@ -115,7 +93,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/users/<[id]>/edit',
+                        url: '/admin/users/<[user_id]>/edit',
                         data: {
                             'nome': $('#nome').val(),
                             'cognome': $('#cognome').val(),
@@ -131,16 +109,16 @@
                             if (response['success']) {
                                 $('#edit').val('edit');
                                 $('#edit').html('<span class="fe fe-edit fs-14"></span> Modifica utente');
-                                $('#nome').attr('readonly', function (_, attr) {
+                                $('#nome').attr('', function (_, attr) {
                                     return !attr
                                 });
-                                $('#cognome').attr('readonly', function (_, attr) {
+                                $('#cognome').attr('', function (_, attr) {
                                     return !attr
                                 });
-                                $('#email').attr('readonly', function (_, attr) {
+                                $('#email').attr('', function (_, attr) {
                                     return !attr
                                 });
-                                $('#telefono').attr('readonly', function (_, attr) {
+                                $('#telefono').attr('', function (_, attr) {
                                     return !attr
                                 });
                                 $('#edit').parent().after('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
@@ -158,17 +136,6 @@
                         }
                     });
                 }
-            }
-        });
-
-        $('input').on('propertychange change click keyup input paste', function () {
-            if ($(this)[0].checkValidity()) {
-                $(this).css('border-color', '#ced4da');
-                $(this).parent().find('.invalid-feedback').hide();
-            } else {
-                $(this).css('border-color', '#dc3545');
-                $(this).parent().find('.invalid-feedback').show();
-            }
         });
     });
 </script>
