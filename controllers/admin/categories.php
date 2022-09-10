@@ -26,7 +26,6 @@ function categories()
 
 }
 
-
 function delete()
 {
     global $mysqli;
@@ -68,7 +67,7 @@ function create()
                     $response['error'] = "Errore nella creazione della coupon";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione della coupon";
+                $response['error'] = "Errore nella creazione della coupon";
             }
         } else {
             $response['error'] = "Errore nella creazione della coupon";

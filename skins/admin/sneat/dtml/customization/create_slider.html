@@ -6,37 +6,55 @@
     </div>
     <div class="card-body">
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="slider_name">Nome</label>
+            <label class="col-sm-2 col-form-label" for="top_title">Top Titolo</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="text" id="slider_name" name="slider_name" required aria-required="true"
+                    <input type="text" id="top_title" name="top_title" required aria-required="true"
                            class="form-control"
-                           placeholder="Nome"/>
+                           placeholder="Top titolo"/>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"
-                   for="slider_description">Descrizione</label>
+            <label class="col-sm-2 col-form-label" for="title">Titolo</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <textarea
-                            id="slider_description"
-                            class="form-control"
-                            required aria-required="true"
-                            placeholder="Descrizione"></textarea>
+                    <input type="text" id="title" name="title" required aria-required="true"
+                           class="form-control"
+                           placeholder="Titolo"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="subtitle">Sottotitolo</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="subtitle" name="subtitle" required aria-required="true"
+                           class="form-control"
+                           placeholder="Sottotitolo"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="redirect_url">Redirect</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="redirect_url" name="redirect_url" required aria-required="true"
+                           class="form-control"
+                           placeholder="Redirect"/>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"
-                   for="slider_image">Immagine</label>
+                   for="background_image">Immagine background (1903x520 consigliato)</label>
             <div class="col-sm-10">
+
                 <div class="form-group">
                     <input class="form-control"
-                           onchange="preview_image(this)"
+                           onchange="preview_background_image(this)"
                            type="file"
-                           id="slider_image"
+                           id="background_image"
                            accept="image/*"
                            required aria-required="true">
                 </div>
@@ -44,9 +62,30 @@
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"
-                   for="slider_image"></label>
+                   for="slider_background_preview"></label>
             <div class="col-sm-10" style="text-align: center">
-                <img id="slider_image_preview" style="max-height: 256px;max-width: 512px;" src="#" alt="">
+                <img id="slider_background_preview" style="max-height: 256px;max-width: 512px;" src="#" alt="">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="background_image">Immagine Front (310x444 consigliato, png)</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input class="form-control"
+                           onchange="preview_front_image(this)"
+                           type="file"
+                           id="front_image"
+                           accept="image/*"
+                           required aria-required="true">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="slider_front_preview"></label>
+            <div class="col-sm-10" style="text-align: center">
+                <img id="slider_front_preview" style="max-height: 256px;max-width: 512px;" src="#" alt="">
             </div>
         </div>
         <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
@@ -55,11 +94,23 @@
     </div>
 </div>
 <script>
-    function preview_image(input) {
+    function preview_front_image(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                $('#slider_image_preview')
+                $('#slider_front_preview')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function preview_background_image(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#slider_background_preview')
                     .attr('src', e.target.result)
             };
 
@@ -72,12 +123,14 @@
         $('#button_add').click(function () {
             $('body').find('.alert').remove();
             let formData = new FormData();
-            formData.append('slider_name', $('#slider_name').val());
-            formData.append('slider_description', $('#slider_description').val());
-            let images = $('#slider_image')[0].files;
-            for (let i = 0; i < images.length; i++) {
-                formData.append('slider_image[]', images[i]);
-            }
+            formData.append('top_title', $('#top_title').val());
+            formData.append('title', $('#title').val());
+            formData.append('subtitle', $('#subtitle').val());
+            formData.append('redirect_url', $('#redirect_url').val());
+            let front_image = $('#front_image')[0].files[0];
+            formData.append('front_image', front_image);
+            let background_image = $('#background_image')[0].files[0];
+            formData.append('background_image', background_image);
             // Controllo che serve a vedere se tutti gli input sono riempiti
             if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
                 $.ajax({
@@ -89,10 +142,14 @@
                     success: function (data) {
                         let response = JSON.parse(data);
                         if (response['success']) {
-                            $('#slider_name').val('');
-                            $('#slider_description').val('');
-                            $('#slider_image').val('');
-                            $('#slider_image_preview').attr('src', '#')
+                            $('#top_title').val('');
+                            $('#title').val('');
+                            $('#subtitle').val('');
+                            $('#redirect_url').val('');
+                            $('#front_image').val('');
+                            $('#background_image').val('');
+                            $('#slider_front_preview').attr('src', '#')
+                            $('#slider_background_preview').attr('src', '#')
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');

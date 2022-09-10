@@ -1,11 +1,11 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 
-function slider()
+function sliders()
 {
     global $mysqli;
-    $columns = array("ID", "Immagine", "Nome", "Descrizione");
-    $result = $mysqli->query("SELECT slider_id, background_image, front_image, subtitle, title, top_title, href FROM slider");
+    $columns = array("ID", "Top Titolo","Titolo","Sottotitolo");
+    $result = $mysqli->query("SELECT slider_id, background_image, front_image, subtitle, title, top_title, redirect_url FROM slider");
 
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
@@ -13,6 +13,7 @@ function slider()
     foreach ($columns as $column) {
         $table->setContent("column_name", $column);
     }
+
     $categories_table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/customization/slider_table.html");
 
     while ($categories = $result->fetch_assoc()) {
@@ -26,53 +27,78 @@ function slider()
 
 }
 
+function slider()
+{
+    global $mysqli;
+    $slider_id = explode('/', $_SERVER['REQUEST_URI'])[3];
+    $slider = $mysqli->query("SELECT slider_id, background_image, front_image, subtitle, title, top_title, redirect_url FROM slider WHERE slider_id = $slider_id");
+    if ($slider->num_rows == 0) {
+        header("Location: /admin/sliders"); //No slider found, redirect to category page
+    } else {
+        $slider = $slider->fetch_assoc();
+        $main = initAdmin();
+        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/customization/edit_slider.html");
+        foreach ($slider as $key => $value) {
+            $content->setContent($key, $value);
+        }
+        $main->setContent("content", $content->get());
+        $main->close();
+    }
+}
 
 function delete()
 {
     global $mysqli;
     $slider_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $mysqli->query("DELETE FROM slider WHERE slider_id = {$slider_id} AND 
-                           slider_id NOT IN (SELECT product.slider_id FROM product)");
+    $mysqli->query("DELETE FROM slider WHERE slider_id = {$slider_id}");
     $response = array();
     if ($mysqli->affected_rows == 1) {
-        $response['success'] = "Categoria eliminata con successo.";
+        $response['success'] = "Slider eliminato con successo.";
     } else {
-        $response['error'] = "Impossibile cancellare una categoria con prodotti associati.";
+        $response['error'] = "Impossibile cancellare lo slider.";
     }
     exit(json_encode($response));
 }
 
-function create(): void
+function create()
 {
     global $mysqli;
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $slider_name = $_POST["slider_name"];
-        $slider_description = $_POST["slider_description"];
+        $title = $_POST["title"];
+        $top_title = $_POST["top_title"];
+        $subtitle = $_POST["subtitle"];
+        $redirect_url = $_POST["redirect_url"];
         $response = array();
-        if ($slider_name != "") {
-            try {
-                if (isset($_FILES["slider_image"])) {
-                    $slider_image = $_FILES["slider_image"];
-                    foreach ($slider_image["tmp_name"] as $key => $value) {
-                        $filename = $slider_image["name"][$key];
-                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/slider/" . $filename);
-                        $mysqli->query("INSERT INTO slider (slider_name,slider_description, slider_image)
-            VALUES ('" . $slider_name . "', '" . $slider_description . "', '" . $filename . "');");
-                    }
-                }
-                if ($mysqli->affected_rows == 1) {
-                    $response['success'] = "Categoria " . $slider_name . " creata con successo";
-                } elseif ($mysqli->affected_rows == 0) {
-                    $response['warning'] = "Nessun dato modificato";
-                } else {
-                    $response['error'] = "Errore nella creazione della categoria";
-                }
-            } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione della categoria";
+        if (isset($_FILES["front_image"]) && isset($_FILES["background_image"])) {
+            $front_image = $_FILES["front_image"];
+            $front_image_filename = $front_image["name"];
+
+            $background_image = $_FILES["background_image"];
+            $background_image_filename = $background_image["name"];
+
+            $mysqli->query("INSERT INTO slider(background_image, front_image, subtitle, title, top_title, redirect_url) 
+VALUES ('$background_image_filename','$front_image_filename','$subtitle','$title','$top_title','$redirect_url');");
+            $slider_id = $mysqli->insert_id;
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id")) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id");
             }
-        } else {
-            $response['error'] = "Errore nella creazione della categoria";
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$front_image_filename")) {
+                move_uploaded_file($front_image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$front_image_filename");
+            }
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$background_image_filename")) {
+                move_uploaded_file($background_image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$background_image_filename");
+            }
+
+
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Slider creato con successo";
+            } elseif ($mysqli->affected_rows == 0) {
+                $response['warning'] = "Nessun dato modificato";
+            } else {
+                $response['error'] = "Errore nella creazione dello slider";
+            }
         }
+
         exit(json_encode($response));
     } else {
         $main = initAdmin();
@@ -81,67 +107,47 @@ function create(): void
         $main->close();
     }
 }
-/*
-function slider()
-{
-    global $mysqli;
-    $slider_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $slider = $mysqli->query("SELECT * FROM slider WHERE slider_id = $slider_id");
-    if ($slider->num_rows == 0) {
-        header("Location: /admin/slider"); //No slider found, redirect to slider page
-    } else {
-        $slider = $slider->fetch_assoc();
-        $main = initAdmin();
-        $content = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/slider/edit_slider.html");
-        foreach ($slider as $key => $value) {
-            $content->setContent($key, $value);
-        }
-        $main->setContent("content", $content->get());
-        $main->close();
-    }
-}*/
+
 
 function edit()
 {
+
     global $mysqli;
     $slider_id = explode("/", $_SERVER["REQUEST_URI"])[3];
-    $slider_name = $_POST["slider_name"];
-    $slider_description = $_POST["slider_description"];
+    $title = $_POST["title"];
+    $top_title = $_POST["top_title"];
+    $subtitle = $_POST["subtitle"];
+    $redirect_url = $_POST["redirect_url"];
     $response = array();
-    if ($slider_id != "" && $slider_name != "") {
-        if (isset($_FILES["slider_image"])) {
-            $slider_image = $_FILES["slider_image"];
-            foreach ($slider_image["tmp_name"] as $key => $value) {
-                $filename = $slider_image["name"][$key];
 
-                $mysqli->query("UPDATE slider SET
-                slider_name = '$slider_name', 
-                slider_description = '$slider_description',
-                slider_image = '$filename'
-        
-                WHERE slider_id = $slider_id");
+    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id")) {
+        mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id");
+    }
 
-                if (!file_exists("/images/slider/" . $filename)) {
-                    move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/slider/" . $filename);
-                }
-
-            }
-        } else {
-            $mysqli->query("UPDATE slider SET
-                slider_name = '$slider_name', 
-                slider_description = '$slider_description'
-                WHERE slider_id = $slider_id");
+    if (isset($_FILES["front_image"])) {
+        $front_image = $_FILES["front_image"];
+        $filename = $front_image["name"];
+        $mysqli->query("UPDATE slider SET front_image = '${filename}' WHERE slider_id=$slider_id;");
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$filename")) {
+            move_uploaded_file($front_image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$filename");
         }
-
-        if ($mysqli->affected_rows == 1) {
-            $response['success'] = "Categoria {$slider_name} modificata con successo";
-        } elseif ($mysqli->affected_rows == 0) {
-            $response['warning'] = "Nessun dato modificato";
-        } else {
-            $response['error'] = "Errore nella modifica della categoria";
+    }
+    if (isset($_FILES["background_image"])) {
+        $background_image = $_FILES["background_image"];
+        $filename = $background_image["name"];
+        $mysqli->query("UPDATE slider SET background_image = '${filename}' WHERE slider_id=$slider_id;");
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$filename")) {
+            move_uploaded_file($background_image["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/images/slider/$slider_id/$filename");
         }
+    }
+
+    $mysqli->query("UPDATE slider SET title='$title', top_title='$top_title', subtitle='$subtitle', redirect_url='$redirect_url' 
+              WHERE slider_id=$slider_id;");
+
+    if ($mysqli->affected_rows >= 0) {
+        $response['success'] = "Slider modificato con successo";
     } else {
-        $response['error'] = "Errore nella modifica della categoria";
+        $response['error'] = "Errore nella modifica dello slider";
     }
     exit(json_encode($response));
 }

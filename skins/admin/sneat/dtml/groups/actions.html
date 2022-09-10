@@ -1,14 +1,8 @@
-<div class="g-2 text-center">
-    <a class="btn text-primary btn-sm"
-       data-bs-toggle="tooltip"
-       data-bs-original-title="Modifica"
-       href="/admin/groups/<[id]>"><span
-            class="fe fe-edit fs-14"></span></a>
-    <a class="btn btn-sm"
-       data-bs-toggle="modal"
-       data-bs-target="#deleteconfirmation"
-       data-bs-original-title="Modifica Status"
-       data-id="/admin/groups/<[id]>/delete"
-       href="/admin/groups/<[id]>/delete"><span
-            class="fe fe-user-x fs-14"></span></a>
+<div class="dropdown-menu">
+    <a class="dropdown-item" href="/admin/groups/<[id]>"
+    ><i class="bx bx-edit-alt me-1"></i>Edita</a
+    >
+    <a class="dropdown-item" href="/admin/groups/<[id]>/delete"
+    ><i class="bx bx-trash me-1"></i>Elimina</a
+    >
 </div>

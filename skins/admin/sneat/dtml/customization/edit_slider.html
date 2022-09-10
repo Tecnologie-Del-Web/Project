@@ -1,44 +1,63 @@
 <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Modifica categoria</h5>
+        <h5 class="mb-0">Modifica slider</h5>
         <a href="/admin/slider" class="btn btn-primary btn-sm mx-3">
             <span class="bx bx-arrow-left"></span> Torna indietro </a>
     </div>
     <div class="card-body">
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="slider_name">Nome</label>
+            <label class="col-sm-2 col-form-label" for="top_title">Top Titolo</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="text" id="slider_name" name="slider_name" required aria-required="true"
+                    <input type="text" id="top_title" name="top_title" required aria-required="true"
                            class="form-control"
-                           value="<[slider_name]>"
-                           placeholder="Nome"/>
+                           placeholder="Top titolo"
+                           value="<[top_title]>"/>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"
-                   for="slider_description">Descrizione</label>
+            <label class="col-sm-2 col-form-label" for="title">Titolo</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <textarea
-
-                            id="slider_description"
-                            class="form-control"
-                            required aria-required="true"
-                            placeholder="Descrizione"><[slider_description]></textarea>
+                    <input type="text" id="title" name="title" required aria-required="true"
+                           class="form-control"
+                           value="<[title]>"
+                           placeholder="Titolo"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="subtitle">Sottotitolo</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="subtitle" name="subtitle" required aria-required="true"
+                           class="form-control"
+                           value="<[subtitle]>"
+                           placeholder="Sottotitolo"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="redirect_url">Redirect</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="redirect_url" name="redirect_url" required aria-required="true"
+                           class="form-control"
+                           value="<[redirect_url]>"
+                           placeholder="Redirect"/>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"
-                   for="slider_image">Immagine</label>
+                   for="background_image">Immagine background (1903x520 consigliato)</label>
             <div class="col-sm-10">
                 <div class="form-group">
                     <input class="form-control"
-                           onchange="preview_image(this)"
+                           onchange="preview_background_image(this)"
                            type="file"
-                           id="slider_image"
+                           id="background_image"
                            accept="image/*"
                            required aria-required="true">
                 </div>
@@ -46,23 +65,57 @@
         </div>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"
-                   for="slider_image_preview"></label>
+                   for="slider_background_preview"></label>
             <div class="col-sm-10" style="text-align: center">
-                <img id="slider_image_preview" style="max-height: 256px;max-width: 512px;"
-                     src="/images/slider/<[slider_image]>" alt="">
+                <img id="slider_background_preview" style="max-height: 256px;max-width: 512px;"
+                     src="/images/slider/<[slider_id]>/<[background_image]>" alt="">
             </div>
         </div>
-        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="front_image">Immagine Front (310x444 consigliato, png)</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input class="form-control"
+                           onchange="preview_front_image(this)"
+                           type="file"
+                           id="front_image"
+                           accept="image/*"
+                           required aria-required="true">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"
+                   for="slider_front_preview"></label>
+            <div class="col-sm-10" style="text-align: center">
+                <img id="slider_front_preview" style="max-height: 256px;max-width: 512px;"
+                     src="/images/slider/<[slider_id]>/<[front_image]>" alt="">
+            </div>
+        </div>
+        <button class="btn btn-primary" id="button_add" name="button_add" value="button_add" type="submit">
             <span class="bx bx-save me-1"></span> Modifica
         </button>
     </div>
 </div>
 <script>
-    function preview_image(input) {
+    function preview_front_image(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                $('#slider_image_preview')
+                $('#slider_front_preview')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function preview_background_image(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#slider_background_preview')
                     .attr('src', e.target.result)
             };
 
@@ -72,47 +125,37 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('#button_edit').click(function () {
+        $('#button_add').click(function () {
             $('body').find('.alert').remove();
             let formData = new FormData();
-            formData.append('slider_name', $('#slider_name').val());
-            formData.append('slider_description', $('#slider_description').val());
-            let images = $('#slider_image')[0].files;
-            if (images.length!==0){
-            for (let i = 0; i < images.length; i++) {
-                formData.append('slider_image[]', images[i]);
-            }}
-
-            // Controllo che serve a vedere se tutti gli input sono riempiti
-            if ($('#slider_name').val() !== "" && $('#slider_description').val() !== "") {
-                $.ajax({
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    url: '/admin/slider/<[slider_id]>/edit',
-                    data: formData,
-                    success: function (data) {
-                        let response = JSON.parse(data);
-                        if (response['success']) {
-                            $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                                response['success'] + '</div>');
-                        } else if (response['error']) {
-                            $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                                response['error'] + '</div>');
-                        }else if (response['warning']) {
-                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                                response['warning'] + '</div>');
-                        }
+            formData.append('top_title', $('#top_title').val());
+            formData.append('title', $('#title').val());
+            formData.append('subtitle', $('#subtitle').val());
+            formData.append('redirect_url', $('#redirect_url').val());
+            let front_image = $('#front_image')[0].files[0];
+            formData.append('front_image', front_image);
+            let background_image = $('#background_image')[0].files[0];
+            formData.append('background_image', background_image);
+            $.ajax({
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                url: '/admin/slider/<[slider_id]>/edit',
+                data: formData,
+                success: function (data) {
+                    let response = JSON.parse(data);
+                    if (response['success']) {
+                        $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            response['success'] + '</div>');
+                    } else if (response['error']) {
+                        $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            response['error'] + '</div>');
                     }
-                });
-            } else {
-                $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<button type="button" class="btn-close" data-bs-dismiss="" aria-hidden="true">×</button>\n' +
-                    'Compilare tutti i campi correttamente prima di proseguire' + '</div>');
-            }
+                }
+            });
+
         });
     });
 </script>

@@ -17,6 +17,18 @@ function home()
 
     setupHomePageCategories($mysqli, $body);
 
+    // Slider
+    $sliders = $mysqli->query("SELECT slider_id, background_image, front_image, subtitle, title, top_title, redirect_url FROM slider");
+    if ($sliders->num_rows > 0) {
+        do {
+            $slider = $sliders->fetch_assoc();
+            if ($slider) {
+                foreach ($slider as $key => $value) {
+                    $body->setContent($key, $value);
+                }
+            }
+        } while ($slider);
+    }
     $main->setContent("content", $body->get());
     $main->close();
 }
