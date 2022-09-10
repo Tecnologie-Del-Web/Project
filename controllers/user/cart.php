@@ -22,6 +22,14 @@ function cart() {
     $main->close();
 }
 
+function checkout() {
+    $main = initUser(false);
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/checkout.html");
+
+    $main->setContent("content", $body->get());
+    $main->close();
+}
+
 /**
  * @param mysqli $mysqli
  * @param $user_id
@@ -83,7 +91,11 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     $oid = $mysqli->query("SELECT * FROM shipment_address WHERE user_id = {$user_id}");
 
     if ($oid->num_rows == 0) {
-        echo "Gestire questo caso!";
+        $body->setContent("addresses", '
+            <div class="content-title-section" style="margin: 100px 0 !important;">
+                <h3 class="sub-title title-center ml-3 mb-3">Non hai indirizzi di spedizione!</h3>
+            </div>
+        ');
     } else {
         do {
             $address = $oid->fetch_assoc();

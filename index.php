@@ -19,7 +19,8 @@ if ($oid->num_rows > 0) {
     $oid = $oid->fetch_assoc();
 
     // Se si accede a una pagina pubblica
-//todo remove bypass
+
+    //todo remove bypass
     if (!(str_starts_with($oid['script'], "user") || str_starts_with($oid['script'], "bypassadmin"))) {
         // Carico il controller
         $controller = $oid['script'];

@@ -62,84 +62,17 @@
                                             <input type="radio" id="free-shipping" class="custom-control-input"
                                                    name="shipping" checked>
                                             <label for="free-shipping"
-                                                   class="custom-control-label color-dark">Spedizione Gratuita</label>
+                                                   class="custom-control-label color-dark">Spedizione Gratuita <span class="product-price">€0.00</span></label>
                                         </div>
                                     </li>
                                 </ul>
-
-                                <div class="shipping-calculator mt-5">
-                                    <form class="shipping-calculator-form">
-                                        <div class="payment-methods" id="payment_method">
-                                            <h4 class="title font-weight-bold ls-25 pb-0 mb-5">Indirizzo di
-                                                Spedizione</h4>
-                                            <div class="accordion payment-accordion mb-5">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <a href="#existing-address" class="collapse">Utilizza un
-                                                            indirizzo esistente</a>
-                                                    </div>
-                                                    <div id="existing-address" class="card-body expanded">
-                                                        <form action="">
-                                                            <[foreach]>
-                                                            <div class="mb-5" style="display: flex;">
-                                                                <input id="<[address_id]>" type="radio"
-                                                                       name="shipping-address"
-                                                                       style="height: 20px; width: 20px; margin-right: 2rem;">
-                                                                <label for="free-shipping"
-                                                                       class="font-size-normal custom-control-label color-dark"
-                                                                       style="display: flex; align-items: center;">
-                                                                    <[address]>, <[city]>, <[postal_code]>, <[country]>
-                                                                </label>
-                                                            </div>
-                                                            <[/foreach]>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <a href="#new-address" class="expand">Inserisci un nuovo
-                                                            indirizzo</a>
-                                                    </div>
-                                                    <div id="new-address" class="card-body collapsed">
-                                                        <div class="review-form-wrapper">
-                                                            <form action="#" method="POST" class="review-form">
-                                                                <div class="row gutter-md">
-                                                                    <div class="col-md-6 mr-5 mb-5">
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Your Name" id="author">
-                                                                    </div>
-                                                                    <div class="col-md-6 mr-5 mb-5">
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Your Email" id="email_1">
-                                                                    </div>
-                                                                    <div class="col-md-6 mr-5 mb-5">
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Your Email" id="email_1">
-                                                                    </div>
-                                                                    <div class="col-md-6 mr-5 mb-5">
-                                                                        <input type="text" class="form-control"
-                                                                               placeholder="Your Email" id="email_1">
-                                                                    </div>
-                                                                </div>
-                                                                <button type="submit" class="btn btn-dark">Submit
-                                                                    Review
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
 
                                 <hr class="divider mb-6">
                                 <div class="order-total d-flex justify-content-between align-items-center">
                                     <label>Totale</label>
                                     €<span id="total" class="ls-50"></span>
                                 </div>
-                                <a href="#" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
+                                <a href="/checkout" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                     Procedi al checkout<i class="w-icon-long-arrow-right"></i></a>
                             </div>
                         </div>

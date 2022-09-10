@@ -16,13 +16,13 @@ function products() {
 
     if ($category == 0) {
         // Prendo tutti i prodotti compatibili
-        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pi.image_id, pi.file_name
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, pi.image_id, pi.file_name
                                     FROM product p JOIN product_image pi ON (pi.product_id = p.product_id)
                                     WHERE p.product_name LIKE '%$query%' AND pi.type='main';");
     }
     else {
         // Prendo solo i prodotti compatibili della categoria selezionata
-        $oid = $mysqli->query("SELECT p.product_id, p.product_name, pi.image_id, pi.file_name
+        $oid = $mysqli->query("SELECT p.product_id, p.product_name, p.price, pi.image_id, pi.file_name
                                     FROM category c JOIN product p ON (p.category_id = c.category_id) JOIN product_image pi ON (p.product_id = pi.product_id)
                                     WHERE p.product_name LIKE '%$query%' AND c.category_id = $category AND pi.type='main';");
     }
