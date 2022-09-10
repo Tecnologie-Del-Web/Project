@@ -89,6 +89,7 @@ function findAddresses($mysqli, Template $body, $user_id)
 
         if ($mysqli->affected_rows == 1) {
             $response['success'] = "Metodo aggiunto con successo";
+            $response['insert_id'] = $mysqli->insert_id;
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessuna metodo aggiunto";
         } else {
@@ -115,10 +116,11 @@ function findAddresses($mysqli, Template $body, $user_id)
     $user_id = $_SESSION['user']['user_id'];
 
     try {
-        $mysqli->query("INSERT INTO shipment_address (city, address, province, country, postal_code, user_id) VALUES ('$city', '$address', '$province', '$country', '$postal_code', $user_id);");
+        $mysqli->query("INSERT INTO shipment_address (city, address, province, country, postal_code, user_id) VALUES (\"$city\", \"$address\", \"$province\", \"$country\", '$postal_code', $user_id);");
 
         if ($mysqli->affected_rows == 1) {
             $response['success'] = "Indirizzo aggiunto con successo";
+            $response['insert_id'] = $mysqli->insert_id;
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessun indirizzo aggiunto";
         } else {

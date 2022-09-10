@@ -52,14 +52,14 @@
                     <div class="input-wrapper-inline">
                         <input type="text" name="coupon_code" class="form-control form-control-md mr-1 mb-2"
                                placeholder="Codice Coupon" id="coupon_code">
-                        <button type="button" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon"
+                        <button type="button" class="btn button btn-rounded btn-coupon mb-2" id="apply-coupon-button" name="apply_coupon"
                                 value="Apply coupon">Applica Coupon
                         </button>
                     </div>
                 </div>
 
                 <div class="row mb-9">
-                    <div class="col-lg-7 pr-lg-4 mb-4">
+                    <div class="col-lg-7 pr-lg-4 mb-10">
 
                         <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0 mt-5">
                             Metodo di Pagamento
@@ -67,7 +67,7 @@
                         <div class="accordion payment-accordion">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="#existing-method" class="expand">Metodo esistente</a>
+                                    <a id="existing-method-a" href="#existing-method" class="expand">Metodo esistente</a>
                                 </div>
                                 <div id="existing-method" class="card-body collapsed">
                                     <[methods]>
@@ -111,13 +111,13 @@
                             </div>
                         </div>
 
-                        <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0 mt-5">
+                        <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mt-5">
                             Indirizzo di Spedizione
                         </h3>
                         <div class="accordion payment-accordion">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="#existing-address" class="expand">Indirizzo esistente</a>
+                                    <a id="existing-address-a" href="#existing-address" class="expand">Indirizzo esistente</a>
                                 </div>
                                 <div id="existing-address" class="card-body collapsed">
                                     <[addresses]>
@@ -166,7 +166,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-5 mb-4 sticky-sidebar-wrapper">
+                    <div class="col-lg-5 mb-10 sticky-sidebar-wrapper">
                         <div class="order-summary-wrapper sticky-sidebar">
                             <h3 class="title text-uppercase ls-10">Il Tuo Ordine</h3>
                             <div class="order-summary">
@@ -179,23 +179,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="bb-no">
-                                        <td class="product-name">Palm Print Jacket <i
-                                                class="fas fa-times"></i> <span
-                                                class="product-quantity">1</span></td>
-                                        <td class="product-total">$40.00</td>
-                                    </tr>
-                                    <tr class="bb-no">
-                                        <td class="product-name">Brown Backpack <i class="fas fa-times"></i>
-                                            <span class="product-quantity">1</span></td>
-                                        <td class="product-total">$60.00</td>
-                                    </tr>
+                                    <[foreach]>
+                                        <tr class="bb-no">
+                                            <td class="product-name"><[product_name]><i
+                                                    class="fas fa-times"></i> <span
+                                                    class="product-quantity">(<[quantity]> pezzo/i)</span></td>
+                                            <td class="product-total">€<[subtotal]></td>
+                                        </tr>
+                                    <[/foreach]>
                                     <tr class="cart-subtotal bb-no">
                                         <td>
                                             <b>Subtotale</b>
                                         </td>
                                         <td>
-                                            <b>$100.00</b>
+                                            €<b><[total]></b>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -219,7 +216,7 @@
                                             <b>Totale</b>
                                         </th>
                                         <td>
-                                            <b>$100.00</b>
+                                            <b>€<[total]></b>
                                         </td>
                                     </tr>
                                     </tfoot>

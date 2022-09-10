@@ -4,8 +4,8 @@ $(document).ready(() => {
         let selectedMethodId = parseInt($("#method-select").val());
         let selectedAddressId = parseInt($("#address-select").val());
 
-        if (selectedMethodId == 0 || selectedAddressId == 0) {
-            console.log("Non posso procedere!");
+        if (!(selectedMethodId == 0 || selectedAddressId == 0)) {
+            window.location.href = '/order';
         }
     });
 
@@ -39,13 +39,14 @@ function addMethod(code, type, credentials, validity) {
             validity: validity
         },
         success: (data) => {
-            console.log(JSON.parse(data));
-            /*
             let response = JSON.parse(data);
             if (response['success']) {
-                window.location.reload();
+                $('#method-select').append($('<option>', {
+                    value: response['insert_id'],
+                    text: code + ", " + validity
+                }));
             }
-            */
+            $("#existing-method-a").click();
         }
     });
 }
@@ -62,13 +63,15 @@ function addAddress(address, city, province, country, postalCode) {
             postal_code: postalCode
         },
         success: (data) => {
-            console.log(JSON.parse(data));
-            /*
             let response = JSON.parse(data);
             if (response['success']) {
-                window.location.reload();
+                $('#address-select').append($('<option>', {
+                    value: response['insert_id'],
+                    text: address + ", " + city + ", " + postalCode
+                }));
             }
-            */
+            window.scrollTo(0, 300);
+            $("#existing-address-a").click();
         }
     });
 }

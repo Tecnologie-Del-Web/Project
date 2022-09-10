@@ -37,6 +37,8 @@ function checkout() {
 
     findAddresses($mysqli, $user["user_id"], $body);
 
+    findCheckoutProducts($mysqli, $user["user_id"], $body);
+
     $main->setContent("content", $body->get());
     $main->close();
 }
@@ -175,6 +177,36 @@ function findAddresses(mysqli $mysqli, $user_id, Template $body): void
  * @param Template $body
  * @return void
  */
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findCheckoutProducts(mysqli $mysqli, $user_id, Template $body)
+{
+    $oid = $mysqli->query("SELECT p.product_name, ROUND(upc.subtotal, 2) as subtotal, upc.quantity
+                                            FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) 
+                                            WHERE upc.user_id = {$user_id}");
+
+    if ($oid->num_rows == 0) {
+        echo "Gestire!";
+    } else {
+        $total = 0;
+        do {
+            $product = $oid->fetch_assoc();
+            if ($product) {
+                $total += $product['subtotal'];
+                foreach ($product as $key => $value) {
+                    $body->setContent($key, $value);
+                }
+            }
+        } while ($product);
+        $body->setContent("total", $total);
+    }
+}
+
 function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
 {
     /*
