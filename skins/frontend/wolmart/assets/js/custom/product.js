@@ -43,6 +43,12 @@ $(document).ready(() => {
         applyCoupon(couponCode);
     });
 
+    let numberOfArticles = parseInt($("#number_of_articles").text());
+    if (numberOfArticles == 0) {
+        $('#proceed-to-checkout').removeAttr("href");
+        $('#proceed-to-checkout').css("background", "grey").css("border", "1px solid grey");
+    }
+
 })
 
 function calculateSubTotal() {
@@ -92,6 +98,7 @@ function changeProductQuantity(editedProductId, increment) {
             increment: increment
         },
         success: (data) => {
+            console.log(data);
             let response = JSON.parse(data);
             if (response['success']) {
                 window.location.reload();

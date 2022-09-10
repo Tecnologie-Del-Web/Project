@@ -11,8 +11,8 @@
             <div class="container">
                 <ul class="breadcrumb shop-breadcrumb bb-no">
                     <li class="active"><a href="cart.html">Carrello</a></li>
-                    <li><a href="/checkout">Pagamento</a></li>
-                    <li><a href="/order">Ordine Completato</a></li>
+                    <li><a>Pagamento</a></li>
+                    <li><a>Ordine Completato</a></li>
                 </ul>
             </div>
         </nav>
@@ -46,6 +46,7 @@
                         <div class="sticky-sidebar">
                             <div class="cart-summary mb-4">
                                 <h3 class="cart-title text-uppercase">Totali del carrello</h3>
+                                <h3 class="cart-subtotal"><span id="number_of_articles"><[number_of_articles]></span> Articolo/i nel Carrello</h3>
                                 <div class="cart-subtotal d-flex align-items-center justify-content-between">
                                     <label class="ls-25">Subtotale</label>
                                     €<span id="subtotal"></span>
@@ -72,7 +73,7 @@
                                     <label>Totale</label>
                                     €<span id="total" class="ls-50"></span>
                                 </div>
-                                <a href="/checkout" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
+                                <a href="/checkout" id="proceed-to-checkout" class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                     Procedi al checkout<i class="w-icon-long-arrow-right"></i></a>
                             </div>
                         </div>

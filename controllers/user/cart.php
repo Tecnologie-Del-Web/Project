@@ -23,8 +23,21 @@ function cart() {
 }
 
 function checkout() {
+
+    global $mysqli;
+
     $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/checkout.html");
+
+    $user = $_SESSION["user"];
+
+    setupSide($mysqli, $user["user_id"], $body);
+
+    findMethods($mysqli, $user["user_id"], $body);
+
+    findAddresses($mysqli, $user["user_id"], $body);
+
+    findCheckoutProducts($mysqli, $user["user_id"], $body);
 
     $main->setContent("content", $body->get());
     $main->close();
@@ -88,23 +101,73 @@ function findCartProducts(mysqli $mysqli, $user_id, Template $body)
  */
 function setupSide(mysqli $mysqli, $user_id, Template $body)
 {
-    $oid = $mysqli->query("SELECT * FROM shipment_address WHERE user_id = {$user_id}");
+    $oid = $mysqli->query("SELECT COUNT(product_id) as number FROM user_product_cart WHERE user_id = {$user_id}");
+
+    $number_of_articles = $oid->fetch_assoc();
+    $body->setContent("number_of_articles", $number_of_articles['number']);
+
+}
+
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findMethods(mysqli $mysqli, $user_id, Template $body): void
+{
+    // Prendo i metoi di pagamento dell'utente corrente
+    $oid = $mysqli->query("SELECT *
+                                    FROM payment_method
+                                    WHERE user_id = $user_id;");
+
+    if ($oid->num_rows == 0) {
+        $body->setContent("methods", '
+            <h3 class="font-weight-bold ml-3 mb-3">Non hai ancora un indirizzo di spedizione. Inseriscine uno sotto</h3>
+        ');
+    } else {
+        $methods = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/checkout/checkout-methods.html");
+        do {
+            $method = $oid->fetch_assoc();
+            if ($method) {
+                foreach ($method as $key => $value) {
+                    $methods->setContent($key, $value);
+                }
+            }
+        } while ($method);
+        $body->setContent("methods", $methods->get());
+    }
+}
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findAddresses(mysqli $mysqli, $user_id, Template $body): void
+{
+    // Prendo gli indirizzi di spedizione dell'utente corrente
+    $oid = $mysqli->query("SELECT *
+                                    FROM shipment_address
+                                    WHERE user_id = $user_id;");
 
     if ($oid->num_rows == 0) {
         $body->setContent("addresses", '
-            <div class="content-title-section" style="margin: 100px 0 !important;">
-                <h3 class="sub-title title-center ml-3 mb-3">Non hai indirizzi di spedizione!</h3>
-            </div>
+            <h3 class="font-weight-bold ml-3 mb-3">Non hai ancora un indirizzo di spedizione. Inseriscine uno sotto</h3>
         ');
     } else {
+        $addresses = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/checkout/checkout-addresses.html");
         do {
             $address = $oid->fetch_assoc();
             if ($address) {
                 foreach ($address as $key => $value) {
-                    $body->setContent($key, $value);
+                    $addresses->setContent($key, $value);
                 }
             }
         } while ($address);
+        $body->setContent("addresses", $addresses->get());
     }
 }
 
@@ -114,6 +177,36 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
  * @param Template $body
  * @return void
  */
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findCheckoutProducts(mysqli $mysqli, $user_id, Template $body)
+{
+    $oid = $mysqli->query("SELECT p.product_name, ROUND(upc.subtotal, 2) as subtotal, upc.quantity
+                                            FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) 
+                                            WHERE upc.user_id = {$user_id}");
+
+    if ($oid->num_rows == 0) {
+        echo "Gestire!";
+    } else {
+        $total = 0;
+        do {
+            $product = $oid->fetch_assoc();
+            if ($product) {
+                $total += $product['subtotal'];
+                foreach ($product as $key => $value) {
+                    $body->setContent($key, $value);
+                }
+            }
+        } while ($product);
+        $body->setContent("total", $total);
+    }
+}
+
 function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
 {
     /*
@@ -195,32 +288,41 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         global $mysqli;
 
+
         $product_id = $_POST['product_id'];
         $increment = $_POST['increment'];
 
         $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
         $user = $user->fetch_assoc();
+        $user_id = $user['user_id'];
 
-        $product = $mysqli->query("SELECT price FROM product WHERE product_id = $product_id");
-        $product = $product->fetch_assoc();
-        $product_price = $product['price'];
+        /*
 
-        if ($increment > 0){
-            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal + $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
-        }
-        elseif ($increment < 0){
-            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal - $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
-        }
+                if ($increment > 0){
+                    $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal + $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+                }
+                elseif ($increment < 0){
+                    $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal - $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+                }
+
+                try {
+                    if ($mysqli->affected_rows != 0) {
+                        $response['success'] = "Quantità modificata correttamente!";
+                    } else {
+                        $response['warning'] = "Nessuna modifica effettuata";
+                    }
+                } catch (mysqli_sql_exception $e) {
+                    $response['error'] = "Errore nell'aggiornamento";
+                }
+                */
 
         try {
-            if ($mysqli->affected_rows != 0) {
-                $response['success'] = "Quantità modificata correttamente!";
-            } else {
-                $response['warning'] = "Nessuna modifica effettuata";
-            }
+            $mysqli->query("CALL adjust_price($user_id, $product_id, $increment);");
+            $response['success'] = "Quantità modificata correttamente";
         } catch (mysqli_sql_exception $e) {
-            $response['error'] = "Errore nell'aggiornamento";
+            $response['error'] = "Si è verificato un errore durante l'aggiornamento!";
         }
+
     }
     exit(json_encode($response));
 }

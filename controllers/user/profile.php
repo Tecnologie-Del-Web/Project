@@ -72,3 +72,64 @@ function findAddresses($mysqli, Template $body, $user_id)
         $body->setContent("addresses", $addresses->get());
     }
 }
+
+#[NoReturn] function addPaymentMethod(): void
+{
+    global $mysqli;
+
+    $code = $_POST['code'];
+    $type = $_POST['type'];
+    $credentials = $_POST['credentials'];
+    $validity = $_POST['validity'];
+
+    $user_id = $_SESSION['user']['user_id'];
+
+    try {
+        $mysqli->query("INSERT INTO payment_method (payment_code, type, credentials, validity, user_id) VALUES ('$code', '$type', '$credentials', '$validity', $user_id);");
+
+        if ($mysqli->affected_rows == 1) {
+            $response['success'] = "Metodo aggiunto con successo";
+            $response['insert_id'] = $mysqli->insert_id;
+        } elseif ($mysqli->affected_rows == 0) {
+            $response['warning'] = "Nessuna metodo aggiunto";
+        } else {
+            $response['error'] = "Errore nell'inserimento";
+        }
+    } catch (mysqli_sql_exception $e) {
+        $response['error'] = $e->getMessage();
+    }
+
+    exit(json_encode($response));
+
+}
+
+#[NoReturn] function addShipmentAddress(): void
+{
+    global $mysqli;
+
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $province = $_POST['province'];
+    $country = $_POST['country'];
+    $postal_code = $_POST['postal_code'];
+
+    $user_id = $_SESSION['user']['user_id'];
+
+    try {
+        $mysqli->query("INSERT INTO shipment_address (city, address, province, country, postal_code, user_id) VALUES (\"$city\", \"$address\", \"$province\", \"$country\", '$postal_code', $user_id);");
+
+        if ($mysqli->affected_rows == 1) {
+            $response['success'] = "Indirizzo aggiunto con successo";
+            $response['insert_id'] = $mysqli->insert_id;
+        } elseif ($mysqli->affected_rows == 0) {
+            $response['warning'] = "Nessun indirizzo aggiunto";
+        } else {
+            $response['error'] = "Errore nell'inserimento";
+        }
+    } catch (mysqli_sql_exception $e) {
+        $response['error'] = $e->getMessage();
+    }
+
+    exit(json_encode($response));
+
+}
