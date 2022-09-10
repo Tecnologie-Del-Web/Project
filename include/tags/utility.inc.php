@@ -59,15 +59,15 @@ function initUser(bool $dropdown = true)
         $header->setContent("login_status", $logged_in->get());
     } else {
         $to_log = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/to-log.html");
-        $to_log->setContent("referrer", "?referrer=".urlencode($_SERVER['REQUEST_URI']));
+        $to_log->setContent("referrer", "?referrer=" . urlencode($_SERVER['REQUEST_URI']));
         $header->setContent("login_status", $to_log->get());
     }
 
-    $customization = $mysqli->query("SELECT phone_number, site_name FROM customization")->fetch_assoc();
+    $customization = $mysqli->query("SELECT phone_number, email_address, about_info, personal_address, logo, site_name FROM customization")->fetch_assoc();
     foreach ($customization as $key => $value) {
         $header->setContent($key, $value);
-        $main->setContent($key,$value);
-        $footer->setContent($key,$value);
+        $main->setContent($key, $value);
+        $footer->setContent($key, $value);
     }
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());

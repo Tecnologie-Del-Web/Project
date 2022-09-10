@@ -1,0 +1,146 @@
+<div class="main-content app-content mt-5">
+    <div class="side-app">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Personalizzazione</h4>
+                    <a href="/admin" class="btn btn-primary btn-sm mx-3">
+                        <span class="fe fe-arrow-left fs-14"></span> Torna indietro </a>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="id" id="id" required aria-required="true">
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="site_name">Nome del sito</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <input type="text" id="site_name" name="site_name" required aria-required="true"
+                                       class="form-control"
+                                       value="<[site_name]>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="about_info">Chi siamo</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <textarea class="form-control"
+                                          id="about_info" name="about_info" required
+                                          aria-required="true"><[about_info]></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="phone_number">Numero di telefono</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <input type="text" id="phone_number" name="phone_number" required aria-required="true"
+                                       class="form-control"
+                                       value="<[phone_number]>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="email_address">Email</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <input type="text" id="email_address" name="email_address" required aria-required="true"
+                                       class="form-control"
+                                       value="<[email_address]>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="personal_address">Indirizzo</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <input type="text" id="personal_address" name="personal_address" required
+                                       aria-required="true"
+                                       class="form-control"
+                                       value="<[personal_address]>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"
+                               for="logo">Logo</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <input class="form-control"
+                                       onchange="preview_image(this)"
+                                       type="file"
+                                       id="logo"
+                                       accept="image/*"
+                                       required aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"
+                               for="category_image_preview"></label>
+                        <div class="col-sm-10" style="text-align: center">
+                            <img id="category_image_preview" style="max-height: 256px;max-width: 512px;"
+                                 src="/images/<[logo]>" alt="">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit"
+                            type="submit">
+                        <span class="bx bx-save me-1"></span> Modifica
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function preview_image(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $('#category_image_preview')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#button_edit').click(function () {
+            $('body').find('.alert').remove();
+            let formData = new FormData();
+            let images = $('#logo')[0].files;
+            if (images.length !== 0) {
+                formData.append('logo', $('#logo')[0].files[0]);
+            }
+            formData.append('site_name', $('#site_name').val());
+            formData.append('phone_number', $('#phone_number').val());
+            formData.append('email_address', $('#email_address').val());
+            formData.append('personal_address', $('#personal_address').val());
+            formData.append('about_info', $('#about_info').val());
+            $.ajax({
+                type: 'POST',
+                url: '/admin/customization',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (data) {
+                    let response = JSON.parse(data);
+                    if (response['success']) {
+                        $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            response['success'] + '</div>');
+                    } else if (response['error']) {
+                        $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            response['error'] + '</div>');
+                    } else if (response['warning']) {
+                        $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            response['warning'] + '</div>');
+                    }
+                }
+            });
+        });
+    });
+</script>

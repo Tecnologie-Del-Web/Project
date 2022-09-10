@@ -118,7 +118,6 @@ function edit()
                 category_name = '$category_name', 
                 category_description = '$category_description',
                 category_image = '$filename'
-        
                 WHERE category_id = $category_id");
 
                 if (!file_exists("/images/categories/" . $filename)) {

@@ -77,3 +77,4 @@ INSERT INTO service (tag, service_description, url, script, callback) VALUES ('G
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotti', 'Visualizza prodotto', '/admin/products/%', 'admin/products.php', 'product');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotti', 'Modifica prodotto', '/admin/products/%/edit', 'admin/products.php', 'edit');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione prodotti', 'Cancella prodotto', '/admin/products/%/delete', 'admin/products.php', 'delete');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione personalizzazione', 'Visualizza e modifica personalizzazioni', '/admin/customization', 'admin/customization.php', 'customization');
