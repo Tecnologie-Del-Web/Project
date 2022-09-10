@@ -231,12 +231,12 @@ function delete()
 {
     global $mysqli;
     $product_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $mysqli->query("DELETE FROM product WHERE product_id = {$product_id};");
+    $mysqli->query("DELETE FROM product WHERE product_id = $product_id AND product_id NOT IN (SELECT product_id FROM order_product);");
     $response = array();
     if ($mysqli->affected_rows == 1) {
         $response['success'] = "Prodotto eliminato con successo.";
     } else {
-        $response['error'] = "Impossibile cancellare una prodotto.";
+        $response['error'] = "Impossibile cancellare il prodotto.";
     }
     exit(json_encode($response));
 }

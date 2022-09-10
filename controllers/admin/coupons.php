@@ -88,7 +88,7 @@ function coupon()
 {
     global $mysqli;
     $coupon_id = explode('/', $_SERVER['REQUEST_URI'])[3];
-    $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_id = $coupon_id;");
+    $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_id = $coupon_id AND NOT coupon_id IN (SELECT coupon_id FROM `order`);");
     if ($coupon->num_rows == 0) {
         header("Location: /admin/coupons"); //No coupon found, redirect to coupon page
     } else {

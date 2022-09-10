@@ -1,58 +1,85 @@
 <[foreach]>
 <tr>
-  <td class="clickable-row" data-href="/admin/products/<[product_id]>">
-    <strong><[product_id]></strong></td>
-  <td class="clickable-row" data-href="/admin/products/<[product_id]>"><img style="height: 48px; width: 48px;" src="/images/products/<[product_id]>/<[file_name]>" alt=""></td>
-  <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_name::truncate length="20" library="Format"]></td>
- <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[price]> €</td>
- <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[quantity_available]></td>
- <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_description::truncate length="20" library="Format"]></td>
- <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[brand_name]></td>
- <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[category_name]></td>
-  <td>
-    <div class="dropdown">
-      <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-              data-bs-toggle="dropdown">
-        <i class="bx bx-dots-vertical-rounded"></i>
-      </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="/admin/products/<[product_id]>"
-        ><i class="bx bx-edit-alt me-1"></i>Edita</a
-        >
-        <a class="dropdown-item" href="/admin/products/<[product_id]>/delete"
-        ><i class="bx bx-trash me-1"></i>Elimina</a
-        >
-      </div>
-    </div>
-  </td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>">
+        <strong><[product_id]></strong></td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><img style="height: 48px; width: 48px;"
+                                                                              src="/images/products/<[product_id]>/<[file_name]>"
+                                                                              alt=""></td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_name::truncate length="20"
+        library="Format"]>
+    </td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[price]> €</td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[quantity_available]></td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[product_description::truncate length="20"
+        library="Format"]>
+    </td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[brand_name]></td>
+    <td class="clickable-row" data-href="/admin/products/<[product_id]>"><[category_name]></td>
+    <td>
+        <div class="dropdown">
+            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                    data-bs-toggle="dropdown">
+                <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/admin/products/<[product_id]>"
+                ><i class="bx bx-edit-alt me-1"></i>Edita</a>
+                <a data-bs-toggle="modal"
+                   data-bs-target="#delete_confirmation"
+                   class="dropdown-item"
+                   data-id="/admin/products/<[product_id]>/delete"
+                   href="/admin/products/<[product_id]>/delete"
+                ><i class="bx bx-trash me-1"></i>Elimina</a>
+            </div>
+        </div>
+    </td>
 </tr>
 <[/foreach]>
-
+<div class="modal fade" id="error" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Si è verificato un errore</h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body"><h5 class="text-danger"></h5>
+                <div class="modal-footer">
+                    <button aria-label="Procedi" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-  $(document).ready(function () {
-    $(".clickable-row").css("cursor", "pointer");
-    $(".clickable-row").click(function () {
-      window.location = $(this).data("href");
+    $(document).ready(function () {
+        $(".clickable-row").css("cursor", "pointer");
+        $(".clickable-row").click(function () {
+            window.location = $(this).data("href");
+        });
     });
-  });
 </script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         let delid = ''; //global variable
-        $('#delete_confirmation').on('show.bs.modal', function(e) {
+        $('#delete_confirmation').on('show.bs.modal', function (e) {
             delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
         });
 
-        $('#remove-button').click(function() {
+        $('#remove-button').click(function () {
             $.ajax({
                 url: delid,
                 type: 'POST',
-                success: function(data) {
+                success: function (data) {
                     $('#delete_confirmation').modal('hide');
                     let response = JSON.parse(data);
                     if (response['success']) {
-                        window.location.href = window.location.pathname+"?"+$.param({'success':'true'});
+                        window.location.href = window.location.pathname + "?" + $.param({'success': 'true'});
                     } else {
                         $('#error .modal-body .text-danger').text(response['error']);
                         $('#error').modal('show');
@@ -62,34 +89,9 @@
         });
     });
 </script>
-<script>
-  $(document).ready(function () {
-    let delid = ''; //global variable
-    $('#delete_confirmation').on('show.bs.modal', function (e) {
-      delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
-    });
-
-    $('#remove-button').click(function () {
-      $.ajax({
-        url: delid,
-        type: 'POST',
-        success: function (data) {
-          $('#delete_confirmation').modal('hide');
-          let response = JSON.parse(data);
-          if (response['success']) {
-            window.location.href = window.location.pathname + "?" + $.param({'success': 'true'});
-          } else {
-            $('#error .modal-body .text-danger').text(response['error']);
-            $('#error').modal('show');
-          }
-        }
-      });
-    });
-  });
-</script>
 
 <script>
-  $(document).ready(function () {
-    $('.card-header').append('<a class="btn btn-primary" href="/admin/products/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
-  })
+    $(document).ready(function () {
+        $('.card-header').append('<a class="btn btn-primary" href="/admin/products/create"><span class="bx bx-plus me-1"></span> Aggiungi</a>');
+    })
 </script>

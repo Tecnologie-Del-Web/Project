@@ -18,46 +18,16 @@
                 <a class="dropdown-item" href="/admin/orders/<[order_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/orders/<[order_id]>/delete"
-                ><i class="bx bx-trash me-1"></i>Elimina</a
-                >
             </div>
         </div>
     </td>
 </tr>
 <[/foreach]>
-
 <script>
     $(document).ready(function () {
         $(".clickable-row").css("cursor", "pointer");
         $(".clickable-row").click(function () {
             window.location = $(this).data("href");
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        let delid = ''; //global variable
-        $('#delete_confirmation').on('show.bs.modal', function (e) {
-            delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
-        });
-
-        $('#remove-button').click(function () {
-            $.ajax({
-                url: delid,
-                type: 'POST',
-                success: function (data) {
-                    $('#delete_confirmation').modal('hide');
-                    let response = JSON.parse(data);
-                    if (response['success']) {
-                        window.location.href = window.location.pathname + "?" + $.param({'success': 'true'});
-                    } else {
-                        $('#error .modal-body .text-danger').text(response['error']);
-                        $('#error').modal('show');
-                    }
-                }
-            });
         });
     });
 </script>
