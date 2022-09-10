@@ -52,7 +52,7 @@
                     <div class="input-wrapper-inline">
                         <input type="text" name="coupon_code" class="form-control form-control-md mr-1 mb-2"
                                placeholder="Codice Coupon" id="coupon_code">
-                        <button type="submit" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon"
+                        <button type="button" class="btn button btn-rounded btn-coupon mb-2" name="apply_coupon"
                                 value="Apply coupon">Applica Coupon
                         </button>
                     </div>
@@ -70,9 +70,7 @@
                                     <a href="#existing-method" class="expand">Metodo esistente</a>
                                 </div>
                                 <div id="existing-method" class="card-body collapsed">
-                                    <p class="mb-0">
-                                        Metodo esistente
-                                    </p>
+                                    <[methods]>
                                 </div>
                             </div>
                             <div class="card">
@@ -82,33 +80,33 @@
                                     </div>
                                 </div>
                                 <div id="new-method" class="card-body collapsed">
-                                    <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
-                                        Metodo di Pagamento
-                                    </h3>
-                                    <div class="row gutter-sm">
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="code">Codice</label>
-                                                <input type="text" class="form-control form-control-md" id="code" name="code"
-                                                       required>
+                                    <form action="/method/create" method="POST">
+                                        <div class="row gutter-sm">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="code">Codice</label>
+                                                    <input type="text" class="form-control form-control-md" id="code" name="code"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="type">Tipo</label>
+                                                    <input type="text" class="form-control form-control-md" id="type" name="type"
+                                                           required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="type">Tipo</label>
-                                                <input type="text" class="form-control form-control-md" id="type" name="type"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="credentials">Credenziali</label>
+                                            <input type="text" class="form-control form-control-md" id="credentials" name="credentials" required>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="credentials">Credenziali</label>
-                                        <input type="text" class="form-control form-control-md" id="credentials" name="credentials" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="validity">Scadenza</label>
-                                        <input type="month" class="form-control form-control-md" id="validity" name="validity" required>
-                                    </div>
+                                        <div class="form-group">
+                                            <label for="validity">Scadenza</label>
+                                            <input type="month" class="form-control form-control-md" id="validity" name="validity" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-dark btn-block btn-rounded">Inserisci metodo</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -122,9 +120,7 @@
                                     <a href="#existing-address" class="expand">Indirizzo esistente</a>
                                 </div>
                                 <div id="existing-address" class="card-body collapsed">
-                                    <p class="mb-0">
-                                        Pay with cash upon delivery.
-                                    </p>
+                                    <[addresses]>
                                 </div>
                             </div>
                             <div class="card">
@@ -134,34 +130,37 @@
                                     </div>
                                 </div>
                                 <div id="new-address" class="card-body collapsed">
-                                    <div class="row gutter-sm">
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="address">Indirizzo</label>
-                                                <input type="text" class="form-control form-control-md" id="address" name="address"
-                                                       required>
+                                    <form action="/address/create" method="POST">
+                                        <div class="row gutter-sm">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="address">Indirizzo</label>
+                                                    <input type="text" class="form-control form-control-md" id="address" name="address"
+                                                           required>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="city">Città</label>
+                                                    <input type="text" class="form-control form-control-md" id="city" name="city"
+                                                           required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="city">Città</label>
-                                                <input type="text" class="form-control form-control-md" id="city" name="city"
-                                                       required>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="province">Provincia</label>
+                                            <input type="text" class="form-control form-control-md" id="province" name="province" required>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="province">Provincia</label>
-                                        <input type="text" class="form-control form-control-md" id="province" name="province" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="country">Stato</label>
-                                        <input type="text" class="form-control form-control-md" id="country" name="country" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="postal-code">Codice Postale</label>
-                                        <input type="text" class="form-control form-control-md" id="postal-code" name="postal-code" required>
-                                    </div>
+                                        <div class="form-group">
+                                            <label for="country">Stato</label>
+                                            <input type="text" class="form-control form-control-md" id="country" name="country" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="postal-code">Codice Postale</label>
+                                            <input type="text" class="form-control form-control-md" id="postal-code" name="postal-code" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-dark btn-block btn-rounded">Inserisci indirizzo</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -227,9 +226,9 @@
                                 </table>
 
                                 <div class="form-group place-order pt-6">
-                                    <a href="/order" id="place-order" class="btn btn-dark btn-block btn-rounded">
+                                    <button id="place-order" class="btn btn-dark btn-block btn-rounded">
                                         Piazza Ordine
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +330,7 @@
         <form action="#" class="input-wrapper">
             <input type="text" class="form-control" name="search" autocomplete="off"
                    placeholder="Search" required/>
-            <button class="btn btn-search" type="submit">
+            <button class="btn btn-search" type="button">
                 <i class="w-icon-search"></i>
             </button>
         </form>
@@ -360,7 +359,7 @@
         <form action="#" method="get" class="input-wrapper">
             <input type="text" class="form-control" name="search" autocomplete="off"
                    placeholder="Search" required/>
-            <button class="btn btn-search" type="submit">
+            <button class="btn btn-search" type="button">
                 <i class="w-icon-search"></i>
             </button>
         </form>

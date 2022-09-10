@@ -1,0 +1,8 @@
+<select class="select-box ml-3 form-control form-select" name="rating" id="method-select" required style="margin: 10px 0 !important;">
+  <option value="0">Seleziona un metodo...</option>
+
+  <[foreach]>
+  <option value="<[payment_id]>"><[payment_code]>, <[validity]></option>
+  <[/foreach]>
+
+</select>

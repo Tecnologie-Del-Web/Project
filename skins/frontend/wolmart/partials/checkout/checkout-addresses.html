@@ -1,0 +1,8 @@
+<select class="select-box ml-3 form-control form-select" name="rating" id="address-select" required style="margin: 10px 0 !important;">
+    <option value="0">Seleziona un indirizzo...</option>
+
+    <[foreach]>
+    <option value="<[address_id]>"><[address]>, <[city]>, <[postal_code]></option>
+    <[/foreach]>
+
+</select>

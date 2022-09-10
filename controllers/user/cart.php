@@ -33,6 +33,10 @@ function checkout() {
 
     setupSide($mysqli, $user["user_id"], $body);
 
+    findMethods($mysqli, $user["user_id"], $body);
+
+    findAddresses($mysqli, $user["user_id"], $body);
+
     $main->setContent("content", $body->get());
     $main->close();
 }
@@ -100,6 +104,69 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
     $number_of_articles = $oid->fetch_assoc();
     $body->setContent("number_of_articles", $number_of_articles['number']);
 
+}
+
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findMethods(mysqli $mysqli, $user_id, Template $body): void
+{
+    // Prendo i metoi di pagamento dell'utente corrente
+    $oid = $mysqli->query("SELECT *
+                                    FROM payment_method
+                                    WHERE user_id = $user_id;");
+
+    if ($oid->num_rows == 0) {
+        $body->setContent("methods", '
+            <h3 class="font-weight-bold ml-3 mb-3">Non hai ancora un indirizzo di spedizione. Inseriscine uno sotto</h3>
+        ');
+    } else {
+        $methods = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/checkout/checkout-methods.html");
+        do {
+            $method = $oid->fetch_assoc();
+            if ($method) {
+                foreach ($method as $key => $value) {
+                    $methods->setContent($key, $value);
+                }
+            }
+        } while ($method);
+        $body->setContent("methods", $methods->get());
+    }
+}
+
+/**
+ * @param mysqli $mysqli
+ * @param $user_id
+ * @param Template $body
+ * @return void
+ */
+function findAddresses(mysqli $mysqli, $user_id, Template $body): void
+{
+    // Prendo gli indirizzi di spedizione dell'utente corrente
+    $oid = $mysqli->query("SELECT *
+                                    FROM shipment_address
+                                    WHERE user_id = $user_id;");
+
+    if ($oid->num_rows == 0) {
+        $body->setContent("addresses", '
+            <h3 class="font-weight-bold ml-3 mb-3">Non hai ancora un indirizzo di spedizione. Inseriscine uno sotto</h3>
+        ');
+    } else {
+        $addresses = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/checkout/checkout-addresses.html");
+        do {
+            $address = $oid->fetch_assoc();
+            if ($address) {
+                foreach ($address as $key => $value) {
+                    $addresses->setContent($key, $value);
+                }
+            }
+        } while ($address);
+        $body->setContent("addresses", $addresses->get());
+    }
 }
 
 /**
