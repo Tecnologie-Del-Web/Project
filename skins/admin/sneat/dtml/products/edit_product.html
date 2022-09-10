@@ -182,9 +182,6 @@
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');
-                            /*setTimeout(function () {
-                                location.reload();
-                            }, 2000);*/
                         } else if (response['error']) {
                             $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +

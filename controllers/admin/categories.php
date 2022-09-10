@@ -26,7 +26,6 @@ function categories()
 
 }
 
-
 function delete()
 {
     global $mysqli;
@@ -68,7 +67,7 @@ function create()
                     $response['error'] = "Errore nella creazione della coupon";
                 }
             } catch (Exception $e) {
-                $response['error'] = $e . "Errore nella creazione della coupon";
+                $response['error'] = "Errore nella creazione della coupon";
             }
         } else {
             $response['error'] = "Errore nella creazione della coupon";
@@ -118,7 +117,6 @@ function edit()
                 category_name = '$category_name', 
                 category_description = '$category_description',
                 category_image = '$filename'
-        
                 WHERE category_id = $category_id");
 
                 if (!file_exists("/images/categories/" . $filename)) {
