@@ -23,8 +23,15 @@ function cart() {
 }
 
 function checkout() {
+
+    global $mysqli;
+
     $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/checkout.html");
+
+    $user = $_SESSION["user"];
+
+    setupSide($mysqli, $user["user_id"], $body);
 
     $main->setContent("content", $body->get());
     $main->close();
@@ -88,24 +95,11 @@ function findCartProducts(mysqli $mysqli, $user_id, Template $body)
  */
 function setupSide(mysqli $mysqli, $user_id, Template $body)
 {
-    $oid = $mysqli->query("SELECT * FROM shipment_address WHERE user_id = {$user_id}");
+    $oid = $mysqli->query("SELECT COUNT(product_id) as number FROM user_product_cart WHERE user_id = {$user_id}");
 
-    if ($oid->num_rows == 0) {
-        $body->setContent("addresses", '
-            <div class="content-title-section" style="margin: 100px 0 !important;">
-                <h3 class="sub-title title-center ml-3 mb-3">Non hai indirizzi di spedizione!</h3>
-            </div>
-        ');
-    } else {
-        do {
-            $address = $oid->fetch_assoc();
-            if ($address) {
-                foreach ($address as $key => $value) {
-                    $body->setContent($key, $value);
-                }
-            }
-        } while ($address);
-    }
+    $number_of_articles = $oid->fetch_assoc();
+    $body->setContent("number_of_articles", $number_of_articles['number']);
+
 }
 
 /**
@@ -195,32 +189,41 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         global $mysqli;
 
+
         $product_id = $_POST['product_id'];
         $increment = $_POST['increment'];
 
         $user = $mysqli->query("SELECT * FROM user WHERE email_address = '{$_SESSION["user"]["email_address"]}'");
         $user = $user->fetch_assoc();
+        $user_id = $user['user_id'];
 
-        $product = $mysqli->query("SELECT price FROM product WHERE product_id = $product_id");
-        $product = $product->fetch_assoc();
-        $product_price = $product['price'];
+        /*
 
-        if ($increment > 0){
-            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal + $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
-        }
-        elseif ($increment < 0){
-            $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal - $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
-        }
+                if ($increment > 0){
+                    $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal + $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+                }
+                elseif ($increment < 0){
+                    $mysqli->query("UPDATE user_product_cart SET quantity = quantity + $increment, subtotal = subtotal - $product_price WHERE user_id = {$user["user_id"]} AND product_id = $product_id");
+                }
+
+                try {
+                    if ($mysqli->affected_rows != 0) {
+                        $response['success'] = "Quantità modificata correttamente!";
+                    } else {
+                        $response['warning'] = "Nessuna modifica effettuata";
+                    }
+                } catch (mysqli_sql_exception $e) {
+                    $response['error'] = "Errore nell'aggiornamento";
+                }
+                */
 
         try {
-            if ($mysqli->affected_rows != 0) {
-                $response['success'] = "Quantità modificata correttamente!";
-            } else {
-                $response['warning'] = "Nessuna modifica effettuata";
-            }
+            $mysqli->query("CALL adjust_price($user_id, $product_id, $increment);");
+            $response['success'] = "Quantità modificata correttamente";
         } catch (mysqli_sql_exception $e) {
-            $response['error'] = "Errore nell'aggiornamento";
+            $response['error'] = "Si è verificato un errore durante l'aggiornamento!";
         }
+
     }
     exit(json_encode($response));
 }
