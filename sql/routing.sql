@@ -32,6 +32,10 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('C
 
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Order Completion', '/order', 'user/order.php', 'order', 'Order Completion Page');
 
+
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Payment Method', '/method/create', 'user/profile.php', 'addPaymentMethod', 'Payment Method Insertion');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Shipment Address', '/address/create', 'user/profile.php', 'addShipmentAddress', 'Shipment Address Insertion');
+
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Add Review', '/reviews/add', 'user/review.php', 'add', 'Review Page (Add Review)');
 
 

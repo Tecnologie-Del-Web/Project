@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div id="new-method" class="card-body collapsed">
-                                    <form action="/method/create" method="POST">
+                                    <form>
                                         <div class="row gutter-sm">
                                             <div class="col-xs-6">
                                                 <div class="form-group">
@@ -103,9 +103,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="validity">Scadenza</label>
-                                            <input type="month" class="form-control form-control-md" id="validity" name="validity" required>
+                                            <input type="date" class="form-control form-control-md" id="validity" name="validity" required>
                                         </div>
-                                        <button type="submit" class="btn btn-dark btn-block btn-rounded">Inserisci metodo</button>
+                                        <button type="button" id="insert-method-button" class="btn btn-dark btn-block btn-rounded">Inserisci metodo</button>
                                     </form>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
                                             <label for="postal-code">Codice Postale</label>
                                             <input type="text" class="form-control form-control-md" id="postal-code" name="postal-code" required>
                                         </div>
-                                        <button type="submit" class="btn btn-dark btn-block btn-rounded">Inserisci indirizzo</button>
+                                        <button type="button" id="insert-address-button" class="btn btn-dark btn-block btn-rounded">Inserisci indirizzo</button>
                                     </form>
                                 </div>
                             </div>
