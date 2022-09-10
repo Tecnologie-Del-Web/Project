@@ -1,12 +1,12 @@
 <[foreach]>
 <tr>
-    <td class="clickable-row" data-href="/admin/users/<[id]>">
+    <td class="clickable-row" data-href="/admin/users/<[user_id]>">
         <strong><[user_id]></strong></td>
-    <td class="clickable-row" data-href="/admin/users/<[id]>"><[username]></td>
-    <td class="clickable-row" data-href="/admin/users/<[id]>"><[name]></td>
-   <td class="clickable-row" data-href="/admin/users/<[id]>"><[surname]></td>
-   <td class="clickable-row" data-href="/admin/users/<[id]>"><[phone_number]></td>
-   <td class="clickable-row" data-href="/admin/users/<[id]>"><[email_address]></td>
+    <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[username]></td>
+    <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[name]></td>
+   <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[surname]></td>
+   <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[phone_number]></td>
+   <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[email_address]></td>
     <td>
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -14,10 +14,10 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/users/<[id]>"
+                <a class="dropdown-item" href="/admin/users/<[user_id]>"
                 ><i class="bx bx-edit-alt me-1"></i>Edita</a
                 >
-                <a class="dropdown-item" href="/admin/users/<[id]>/delete"
+                <a class="dropdown-item" href="/admin/users/<[user_id]>/delete"
                 ><i class="bx bx-trash me-1"></i>Elimina</a
                 >
             </div>
