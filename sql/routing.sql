@@ -24,7 +24,7 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('C
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/cart/coupon/apply', 'user/cart.php', 'applyCoupon', 'Applica Coupon');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Wishlist');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/checkout', 'user/cart.php', 'checkout', 'Checkout');
-INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order', 'user/order.php', 'order', 'Completamento Ordine');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order', 'user/cart.php', 'order', 'Completamento Ordine');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/method/create', 'user/profile.php', 'addPaymentMethod', 'Metodo di pagamento');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/address/create', 'user/profile.php', 'addShipmentAddress', 'Indirizzo di spedizione');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Recensione', '/reviews/add', 'user/review.php', 'add', 'Aggiungi Review');
