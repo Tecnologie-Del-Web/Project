@@ -14,7 +14,7 @@ function users()
         "Telefono",
         "Gruppo"
     );
-    $result = $mysqli->query("SELECT user_id,  username, name,  surname, email_address, phone_number  FROM user");
+    $result = $mysqli->query("SELECT user_id, username, name, surname, email_address, phone_number FROM user");
     $main = initAdmin();
     $table = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/table.html");
     $table->setContent("title", "Utenti");
@@ -27,7 +27,6 @@ function users()
             $users_table->setContent($key, $value);
         }
 
-        //Ottiene tutti i gruppi dell'utente e li inserisce nella tabella
         $groups = $mysqli->query("SELECT group_name FROM `group`
                                                 JOIN user_has_group uhg on `group`.group_id = uhg.group_id
                                                 JOIN user u on uhg.user_id = u.user_id
@@ -97,11 +96,18 @@ function edit(){
     $user_id = $_POST["user_id"];
     $name = $_POST["name"];
     $surname = $_POST["surname"];
+    $username = $_POST["username"];
     $email = $_POST["email_address"];
     $phone_number = $_POST["phone_number"];
     $response = array();
-    if ($user_id != "" && $name != "" && $surname != "" && $email != "" && $phone_number != "") {
-        $mysqli->query("UPDATE user SET name = '$name', surname = '$surname', email_address = '$email', phone_number = '$phone_number' WHERE user_id = $user_id");
+    if ($user_id != "" && $name != "" && $surname != "" && $email != "" && $phone_number != "" && $username != "") {
+        $mysqli->query("UPDATE user SET 
+                name = '$name', 
+                surname = '$surname', 
+                username = '$username',
+                email_address = '$email', 
+                phone_number = '$phone_number'
+            WHERE user_id = $user_id");
 
         if (isset($_POST["groups"])) {
             $groups = $_POST["groups"];

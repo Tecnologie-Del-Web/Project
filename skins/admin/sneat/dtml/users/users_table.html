@@ -4,9 +4,9 @@
         <strong><[user_id]></strong></td>
     <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[username]></td>
     <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[name]></td>
-   <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[surname]></td>
+    <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[surname]></td>
     <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[email_address]></td>
-   <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[phone_number]></td>
+    <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[phone_number]></td>
     <td class="clickable-row" data-href="/admin/users/<[user_id]>"><[groups]></td>
     <td>
         <div class="dropdown">
@@ -15,12 +15,12 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="/admin/users/<[user_id]>"
-                ><i class="bx bx-edit-alt me-1"></i>Edita</a
-                >
+                <a class="dropdown-item" href="/admin/users/<[user_id]>"><i class="bx bx-edit-alt me-1"></i>Edita</a>
                 <a class="dropdown-item" href="/admin/users/<[user_id]>/delete"
-                ><i class="bx bx-trash me-1"></i>Elimina</a
-                >
+                   data-bs-toggle="modal"
+                   data-bs-target="#delete_confirmation"
+                   data-id="/admin/offers/<[offer_id]>/delete">
+                    <i class="bx bx-trash me-1"></i>Elimina</a>
             </div>
         </div>
     </td>

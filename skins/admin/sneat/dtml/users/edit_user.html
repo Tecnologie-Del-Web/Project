@@ -1,141 +1,120 @@
-<div class="main-content app-content mt-5">
-    <div class="side-app">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header justify-content-between align-items-center">
-                    <h4 class="card-title">Utente</h4>
-                    <button class="btn btn-primary btn-sm mx-3" id="edit" name="edit" value="edit" type="submit">
-                        <span class="fe fe-edit fs-14"></span> Modifica utente
-                    </button>
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Utente</h5>
+        <a href="/admin/users" class="btn btn-primary btn-sm mx-3">
+            <span class="bx bx-arrow-left"></span> Torna indietro </a>
+    </div>
+    <div class="card-body">
+        <input type="hidden" value="<[user_id]>" name="id" id="id" required aria-required="true">
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="username">Username</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" required aria-required="true"
+                           class="form-control"
+                           value="<[username]>"
+                           placeholder="Username"/>
                 </div>
-                <div class="card-body">
-                    <input type="hidden" value="<[group_id]>" name="id" id="id" required aria-required="true">
-                            <div class="form-group">
-                                <label class="form-label" for="nome">Nome</label>
-                                <input type="text" class="form-control" id="nome" name="nome" value="<[nome]>"
-                                        required aria-required="true">
-                                <div class="invalid-feedback">
-                                            <span class="text-danger">
-                                                Inserisci un nome valido.
-                                            </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="cognome">Cognome</label>
-                                <input type="text" class="form-control" id="cognome" name="cognome"
-                                       value="<[cognome]>"  required aria-required="true">
-                                <div class="invalid-feedback">
-                                            <span class="text-danger">
-                                                Inserisci un cognome valido.
-                                            </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                       value="<[email]>"  required aria-required="true">
-                                <div class="invalid-feedback">
-                                            <span class="text-danger">
-                                                Inserisci una mail valida.
-                                            </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label" for="telefono">Telefono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono"
-                                       value="<[telefono]>"  required aria-required="true">
-                                <div class="invalid-feedback">
-                                            <span class="text-danger">
-                                                Inserisci un numero di telefono valido.
-                                            </span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="gruppi">Gruppi</label>
-                                <select name="gruppi[]" id="gruppi" class="form-control select2" style="width: 100%"
-                                        data-placeholder="Scegli i gruppi" multiple required>
-                                    <[foreach]>
-                                    <option class="<[select]>" selected value="<[group_id]>"><[group_name]></option>
-                                    <[/foreach]>
-                                </select>
-                            </div>
-
-                        </div>
-                    </div>
-
+            </div>
         </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="name">Nome</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required aria-required="true"
+                           class="form-control"
+                           value="<[name]>"
+                           placeholder="Nome"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="surname">Cognome</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="surname" name="surname" required aria-required="true"
+                           class="form-control"
+                           value="<[surname]>"
+                           placeholder="Cognome"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="phone_number">Telefono</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="phone_number" name="phone_number" required aria-required="true"
+                           class="form-control"
+                           value="<[phone_number]>"
+                           placeholder="Telefono"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="email_address">Email</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <input type="text" id="email_address" name="email_address" required aria-required="true"
+                           class="form-control"
+                           value="<[email_address]>"
+                           placeholder="Email"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="groups">Gruppi</label>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <select name="groups[]" id="groups" class="form-control select2-selection" style="width: 100%"
+                            data-placeholder="Scegli i gruppi" multiple required>
+                        <[foreach]>
+                        <option <[select]>="<[select]>" value="<[group_id]>"><[group_name]></option>
+                        <[/foreach]>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="button_edit" name="button_edit" value="button_edit" type="submit">
+            <span class="bx bx-save me-1"></span> Modifica
+        </button>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
-        $('.unselected').removeAttr('selected');
-        $('.unselected').removeClass('unselected');
-        $('.selected').attr('selected', 'selected');
-        $('.selected').removeClass('selected');
-        $('select').select2();
-
-
-        $('#edit').click(function () {
-                // Controllo che serve a vedere se tutti gli input sono riempiti
-                if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
-                    // Faccio la chiamata e in base al risultato lo mostro a schermo
-
-                    $('option[selected="selected"]').removeAttr('selected');
-                    $('.select2-selection__choice').text().split('×').forEach(function (element) {
-                        if (element !== '') {
-                            $('option:contains("' + element + '")').attr('selected', true);
+        $('#button_edit').click(function () {
+            $('body').find('.alert').remove();
+            // Controllo che serve a vedere se tutti gli input sono riempiti
+            if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/users/<[user_id]>/edit',
+                    data: {
+                        'name': $('#name').val(),
+                        'surname': $('#surname').val(),
+                        'username': $('#username').val(),
+                        'email_address': $('#email_address').val(),
+                        'phone_number': $('#phone_number').val(),
+                        'groups': $('#groups').val(),
+                        'user_id': $('#id').val()
+                    },
+                    success: function (data) {
+                        let response = JSON.parse(data);
+                        if (response['success']) {
+                            $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['success'] + '</div>');
+                        } else if (response['error']) {
+                            $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['error'] + '</div>');
+                        } else {
+                            $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                                response['warning'] + '</div>');
                         }
-                    });
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/admin/users/<[user_id]>/edit',
-                        data: {
-                            'nome': $('#nome').val(),
-                            'cognome': $('#cognome').val(),
-                            'email': $('#email').val(),
-                            'telefono': $('#telefono').val(),
-                            'gruppi': $('select option[selected]').map(function () {
-                                return this.value;
-                            }).get(),
-                            'id': $('#id').val()
-                        },
-                        success: function (data) {
-                            let response = JSON.parse(data);
-                            if (response['success']) {
-                                $('#edit').val('edit');
-                                $('#edit').html('<span class="fe fe-edit fs-14"></span> Modifica utente');
-                                $('#nome').attr('', function (_, attr) {
-                                    return !attr
-                                });
-                                $('#cognome').attr('', function (_, attr) {
-                                    return !attr
-                                });
-                                $('#email').attr('', function (_, attr) {
-                                    return !attr
-                                });
-                                $('#telefono').attr('', function (_, attr) {
-                                    return !attr
-                                });
-                                $('#edit').parent().after('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                                    response['success'] + '</div>');
-                            } else if (response['error']) {
-                                $('#edit').parent().after('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                                    response['error'] + '</div>');
-                            } else {
-                                $('#edit').parent().after('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
-                                    response['warning'] + '</div>');
-                            }
-                        }
-                    });
-                }
+                    }
+                });
+            }
         });
     });
 </script>

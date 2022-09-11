@@ -4,6 +4,22 @@
     <strong><[group_id]></strong></td>
  <td class="clickable-row" data-href="/admin/groups/<[group_id]>"><[group_name]></td>
  <td class="clickable-row" data-href="/admin/groups/<[group_id]>"><[group_description]></td>
+    <td>
+        <div class="dropdown">
+            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                    data-bs-toggle="dropdown">
+                <i class="bx bx-dots-vertical-rounded"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/admin/groups/<[group_id]>"><i class="bx bx-edit-alt me-1"></i>Edita</a>
+                <a class="dropdown-item" href="/admin/groups/<[group_id]>/delete"
+                   data-bs-toggle="modal"
+                   data-bs-target="#delete_confirmation"
+                   data-id="/admin/groups/<[groups_id]>/delete">
+                    <i class="bx bx-trash me-1"></i>Elimina</a>
+            </div>
+        </div>
+    </td>
 </tr>
 <[/foreach]>
 
@@ -17,29 +33,29 @@
 </script>
 
 <script>
-  $(document).ready(function () {
-    let delid = ''; //global variable
-    $('#delete_confirmation').on('show.bs.modal', function (e) {
-      delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
-    });
+    $(document).ready(function() {
+        let delid = ''; //global variable
+        $('#deleteconfirmation').on('show.bs.modal', function(e) {
+            delid = $(e.relatedTarget).data('id'); //fetch value of `data-id` attribute load it to global variable
+        });
 
-    $('#remove-button').click(function () {
-      $.ajax({
-        url: delid,
-        type: 'POST',
-        success: function (data) {
-          $('#delete_confirmation').modal('hide');
-          let response = JSON.parse(data);
-          if (response['success']) {
-            window.location.href = window.location.pathname + "?" + $.param({'success': 'true'});
-          } else {
-            $('#error .modal-body .text-danger').text(response['error']);
-            $('#error').modal('show');
-          }
-        }
-      });
+        $('#remove-button').click(function() {
+            $.ajax({
+                url: delid,
+                type: 'POST',
+                success: function(data) {
+                    $('#deleteconfirmation').modal('hide');
+                    let response = JSON.parse(data);
+                    if (response['success']) {
+                        window.location.href = window.location.pathname+"?"+$.param({'success':'true', 'utente':'true'});
+                    } else {
+                        $('#error .modal-body .text-danger').text(response['error']);
+                        $('#error').modal('show');
+                    }
+                }
+            });
+        });
     });
-  });
 </script>
 
 <script>
