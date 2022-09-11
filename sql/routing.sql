@@ -25,7 +25,7 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('C
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Wishlist');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/checkout', 'user/cart.php', 'checkout', 'Checkout');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order', 'user/cart.php', 'order', 'Completamento Ordine');
-INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Piazzamento Ordine', '/order/place', 'user/cart.php', 'placeOrder', 'Piazzamento Ordine');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order/place', 'user/cart.php', 'placeOrder', 'Piazzamento Ordine');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/method/create', 'user/profile.php', 'addPaymentMethod', 'Metodo di pagamento');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/address/create', 'user/profile.php', 'addShipmentAddress', 'Indirizzo di spedizione');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Recensione', '/reviews/add', 'user/review.php', 'add', 'Aggiungi Review');
@@ -49,7 +49,7 @@ INSERT INTO service (tag, service_description, url, script, callback) VALUES ('G
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Aggiungi brand', '/admin/brands/create', 'admin/brands.php', 'create');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione brand', 'Visualizza brand', '/admin/brands/%', 'admin/brands.php', 'brand');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza coupon', '/admin/coupon/%', 'admin/coupon.php', 'coupon');
-INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza tutti i coupon', '/admin/coupons', 'admin/coupons.php', 'coupons');
+INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Visualizza coupons', '/admin/coupons', 'admin/coupons.php', 'coupons');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Modifica coupon', '/admin/coupons/%/edit', 'admin/coupons.php', 'edit');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Cancella coupon', '/admin/coupons/%/delete', 'admin/coupons.php', 'delete');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione coupon', 'Aggiungi coupon', '/admin/coupons/create', 'admin/coupons.php', 'create');
