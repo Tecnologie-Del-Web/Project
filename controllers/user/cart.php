@@ -43,6 +43,14 @@ function checkout() {
     $main->close();
 }
 
+function order() {
+    $main = initUser(false);
+    $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/order.html");
+
+    $main->setContent("content", $body->get());
+    $main->close();
+}
+
 /**
  * @param mysqli $mysqli
  * @param $user_id
@@ -354,6 +362,57 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
     exit(json_encode($response));
 }
 
+#[NoReturn] function placeOrder(): void
+{
+    $response = array();
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        global $mysqli;
+
+        $user_id = $_SESSION['user']['user_id'];
+        $total = $_POST['total'];
+        $method_id = $_POST['method_id'];
+        $coupon_code = $_POST['coupon_code'];
+
+        $order_code = $_SESSION['user']['username'] . $method_id . $coupon_code;
+
+        $oid = $mysqli->query("SELECT * FROM user_product_cart WHERE user_id = $user_id");
+
+        $coupon_id = NULL;
+        if (!(strcmp($coupon_code, '') == 0)) {
+            $coupon_id = $mysqli->query("SELECT FROM coupon WHERE coupon_code = $coupon_code")->fetch_assoc()['coupon_id'];
+        }
+
+        if ($oid->num_rows == 0) {
+            // TODO: configurare alert opportunamente!
+        } else {
+            $progress_status = 'Piazzato';
+            $order = $mysqli->query("INSERT INTO `order` (`order_code`, `updated_at`, `total`, `progress_status`, `user_id`, `payment_id`, `coupon_id`) VALUES ($order_code, DATE(NOW()), $total, $progress_status, $user_id, $method_id, $coupon_id);");
+            $order = $order->fetch_assoc();
+            $order_id = $order["order_id"];
+            do {
+                $product = $oid->fetch_assoc();
+                $product_id = $product['product_id'];
+                if ($product) {
+                    try {
+                        $mysqli->query("INSERT INTO order_product (order_id, product_id) VALUES ($order_id, $product_id)");
+                        if ($mysqli->affected_rows == 1) {
+                            $response['success'] = "Elemento rimosso correttamente!";
+                        } else {
+                            $response['warning'] = "Nessuna modifica effettuata";
+                        }
+                    } catch (mysqli_sql_exception $e) {
+                        $response['error'] = "Errore nella rimozione";
+                    }
+                }
+            } while ($product);
+        }
+    }
+
+    exit(json_encode($response));
+}
+
 #[NoReturn] function applyCoupon(): void
 {
     $response = array();
@@ -361,24 +420,23 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         global $mysqli;
 
-        $user_id = $_SESSION['user']['user_id'];
-
         $coupon_code = $_POST['coupon_code'];
 
         $coupon = $mysqli->query("SELECT * FROM coupon WHERE coupon_code = '$coupon_code'");
-        $coupon = $coupon->fetch_assoc();
-        $coupon_percentage = $coupon['percentage'];
 
-        try {
-            if ($mysqli->affected_rows == 1) {
-                $mysqli->query("UPDATE user_product_cart SET subtotal = subtotal - subtotal * $coupon_percentage / 100 WHERE user_id = $user_id");
-                $response['success'] = "Coupon applicato correttamente!";
-            } else {
-                $response['warning'] = "Nessun coupon applicato";
-            }
-        } catch (mysqli_sql_exception $e) {
-            $response['error'] = "Errore nell'applicazione del coupon";
+        if ($coupon->num_rows == 0) {
+            $response['no_coupons'] = "Coupon non trovato!";
         }
+        else {
+            try {
+                $coupon = $coupon->fetch_assoc();
+                $response['percentage'] = $coupon['percentage'];
+                $response['success'] = "Coupon applicato correttamente!";
+            } catch (mysqli_sql_exception $e) {
+                $response['error'] = "Errore nell'applicazione del coupon";
+            }
+        }
+
     }
     exit(json_encode($response));
 }

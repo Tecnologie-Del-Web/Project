@@ -1,11 +1,15 @@
 $(document).ready(() => {
 
+    let couponCode = ''
+
     $("#place-order").click(() => {
         let selectedMethodId = parseInt($("#method-select").val());
         let selectedAddressId = parseInt($("#address-select").val());
 
         if (!(selectedMethodId == 0 || selectedAddressId == 0)) {
-            window.location.href = '/order';
+            placeOrder(selectedMethodId, selectedAddressId, couponCode);
+        } else {
+            // TODO: configurare un alert
         }
     });
 
@@ -26,7 +30,33 @@ $(document).ready(() => {
         addAddress(address, city, province, country, postalCode);
     });
 
+    $("#apply-coupon-button").click(() => {
+        couponCode = $("#coupon-code").val();
+        applyCoupon(couponCode);
+    });
+
 });
+
+function applyCoupon(couponCode) {
+    $.ajax({
+        type: "POST",
+        url: "/cart/coupon/apply",
+        data: {
+            coupon_code: couponCode
+        },
+        success: (data) => {
+            let response = JSON.parse(data);
+            if (response['success']) {
+                let oldPrice = parseFloat($("#total-price").text());
+                let newPrice = oldPrice - oldPrice * response['percentage'] / 100.00;
+                newPrice = newPrice.toFixed(2);
+                $("#total-price").text(newPrice);
+            } else {
+                // TODO: configurare alert
+            }
+        }
+    });
+}
 
 function addMethod(code, type, credentials, validity) {
     $.ajax({
@@ -72,6 +102,28 @@ function addAddress(address, city, province, country, postalCode) {
             }
             window.scrollTo(0, 300);
             $("#existing-address-a").click();
+        }
+    });
+}
+
+function placeOrder(methodId, addressId, couponCode) {
+    let total = parseFloat($("#total-price").text());
+    $.ajax({
+        type: "POST",
+        url: "/order/place",
+        data: {
+            total: total,
+            method_id: methodId,
+            coupon_code: couponCode
+        },
+        success: (data) => {
+            console.log(data);
+            /*
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.href = '/order';
+            }
+            */
         }
     });
 }

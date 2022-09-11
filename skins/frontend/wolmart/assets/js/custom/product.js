@@ -123,22 +123,6 @@ function removeProductFromCart(productToRemoveId) {
     });
 }
 
-function applyCoupon(couponCode) {
-    $.ajax({
-        type: "POST",
-        url: "/cart/coupon/apply",
-        data: {
-            coupon_code: couponCode
-        },
-        success: (data) => {
-            let response = JSON.parse(data);
-            if (response['success']) {
-                window.location.reload();
-            }
-        }
-    });
-}
-
 function addReview(product_id, rating, review) {
     $.ajax({
         type: "POST",

@@ -51,7 +51,7 @@
                     <p>Se hai un codice coupon, inseriscilo qui sotto!</p>
                     <div class="input-wrapper-inline">
                         <input type="text" name="coupon_code" class="form-control form-control-md mr-1 mb-2"
-                               placeholder="Codice Coupon" id="coupon_code">
+                               placeholder="Codice Coupon" id="coupon-code">
                         <button type="button" class="btn button btn-rounded btn-coupon mb-2" id="apply-coupon-button" name="apply_coupon"
                                 value="Apply coupon">Applica Coupon
                         </button>
@@ -216,7 +216,7 @@
                                             <b>Totale</b>
                                         </th>
                                         <td>
-                                            <b>€<[total]></b>
+                                            <b>€</b><b id="total-price"><[total]></b>
                                         </td>
                                     </tr>
                                     </tfoot>
