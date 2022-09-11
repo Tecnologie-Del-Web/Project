@@ -62,7 +62,7 @@ function initUser(bool $dropdown = true)
     if (isset($_SESSION['user'])) {
         $logged_in = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/user/logged-in.html");
         if (isset($_SESSION['user']['script']['/admin'])) {
-            $logged_in->setContent("admin", "<li><a href='/admin'>Amministrazione</a></li>");
+            $logged_in->setContent("admin", "<a href='/admin'>Amministrazione</a>");
         }
         $header->setContent("login_status", $logged_in->get());
     } else {

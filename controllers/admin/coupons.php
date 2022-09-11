@@ -115,20 +115,22 @@ function edit()
 
     $response = array();
     if ($coupon_id != "" && $coupon_code != "") {
+        try{
         $mysqli->query("UPDATE coupon SET
                 coupon_code = '$coupon_code', 
-                description = '$coupon_description',
-                percentage = $coupon_percentage,
+                description = '" . mysqli_real_escape_string($mysqli, $coupon_description) . "',
+                percentage = '$coupon_percentage',
                 start_date = '$coupon_start_date',
                 expiration_date = '$coupon_end_date'
-                WHERE coupon_id = $coupon_id");
-
+                WHERE coupon_id = $coupon_id AND coupon_id NOT IN (SELECT coupon_id FROM `order`);");
         if ($mysqli->affected_rows == 1) {
             $response['success'] = "Coupon {$coupon_code} modificata con successo";
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessun dato modificato";
         } else {
             $response['error'] = "Errore nella modifica del coupon";
+        }}catch (Exception){
+            $response['error'] = "Errore nella modifica del coupon, controllare le date";
         }
     } else {
         $response['error'] = "Errore nella modifica del coupon";
