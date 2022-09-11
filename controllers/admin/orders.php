@@ -83,3 +83,25 @@ function order()
     $main->setContent("content", $content->get());
     $main->close();
 }
+
+function edit(){
+        global $mysqli;
+        $order_id = explode("/", $_SERVER["REQUEST_URI"])[3];
+        $progress_status = $_POST["progress_status"];
+        if ($order_id != "" && $progress_status != "") {
+            $response = array();
+            $mysqli->query("UPDATE `order` SET
+                progress_status='$progress_status' WHERE order_id=$order_id");
+
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Ordine modificato con successo";
+            } elseif ($mysqli->affected_rows == 0) {
+                $response['warning'] = "Nessun dato modificato";
+            } else {
+                $response['error'] = "Errore nella modifica dell'ordine";
+            }
+        } else {
+            $response['error'] = "Errore nella modifica dell'ordine'";
+        }
+        exit(json_encode($response));
+}

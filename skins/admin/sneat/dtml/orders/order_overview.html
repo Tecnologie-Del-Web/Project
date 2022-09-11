@@ -61,9 +61,11 @@
                     <select class="form-control form-select" id="progress_status"
                             name="progress_status" required aria-required="true">
                         <option value="<[progress_status]>"><[progress_status]></option>
-                        <option value="placed">Piazzato</option>
-                        <option value="processing">In processamento</option>
-                        <option value="shipped">Spedito</option>
+                        <option value="Piazzato">Piazzato</option>
+                        <option value="In processamento">In processamento</option>
+                        <option value="Spedito">Spedito</option>
+                        <option value="Rimborsato">Rimborsato</option>
+                        <option value="Annullato">Annullato</option>
                     </select>
                 </div>
             </div>
@@ -78,14 +80,13 @@
         $('#button_edit').click(function () {
             $('body').find('.alert').remove();
             let formData = new FormData();
-            formData.append('category_name', $('#category_name').val());
-            formData.append('category_description', $('#category_description').val());
+            formData.append('progress_status', $('#progress_status').val());
             // Controllo che serve a vedere se tutti gli input sono riempiti
             $.ajax({
                 type: 'POST',
                 processData: false,
                 contentType: false,
-                url: '/admin/orders/<[edit_status]>/status',
+                url: '/admin/orders/<[order_id]>/edit',
                 data: formData,
                 success: function (data) {
                     let response = JSON.parse(data);
@@ -93,6 +94,10 @@
                         $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             response['success'] + '</div>');
+                    } else if (response['warning']) {
+                        $('.card').before('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            response['warning'] + '</div>');
                     } else if (response['error']) {
                         $('.card').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +

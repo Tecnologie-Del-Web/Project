@@ -69,7 +69,6 @@ INSERT INTO service (tag, service_description, url, script, callback) VALUES ('G
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione gruppi', 'Cancella gruppo', '/admin/groups/%/delete', 'admin/groups.php', 'delete');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione ordini', 'Visualizza ordini', '/admin/orders', 'admin/orders.php', 'orders');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione ordini', 'Visualizza ordine', '/admin/orders/%', 'admin/orders.php', 'order');
-INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione ordini', 'Annulla ordine', '/admin/orders/cancel', 'admin/orders.php', 'cancel');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione ordini', 'Modifica ordine', '/admin/orders/%/edit', 'admin/orders.php', 'edit');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti', 'Visualizza  utente', '/admin/users/%', 'admin/users.php', 'user');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti', 'Modifica utente', '/admin/users/%/edit', 'admin/users.php', 'edit');

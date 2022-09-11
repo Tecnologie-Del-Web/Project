@@ -47,7 +47,7 @@ CREATE TABLE `order`
     order_code      VARCHAR(20) UNIQUE                       NOT NULL,
     updated_at      DATETIME                                 NOT NULL,
     total           FLOAT                                    NOT NULL,
-    progress_status ENUM ('placed', 'processing', 'shipped') NOT NULL,
+    progress_status VARCHAR(255) NOT NULL,
     user_id         INTEGER UNSIGNED                         NOT NULL,
     payment_id      INTEGER UNSIGNED                         NOT NULL,
     coupon_id       INTEGER UNSIGNED                         NULL,
