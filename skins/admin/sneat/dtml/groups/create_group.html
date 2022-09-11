@@ -7,7 +7,7 @@
                     <[edit]>
                 </div>
                 <div class="card-body">
-                    <input type="hidden" value="<[group_id]>" name="id" id="id" required aria-required="true">
+                    <input type="hidden" value="<[id]>" name="id" id="id" required aria-required="true">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
@@ -64,7 +64,7 @@
                     // Faccio la chiamata e in base al risultato lo mostro a schermo
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/groups/<[group_id]>/edit',
+                        url: '/admin/groups/<[id]>/edit',
                         data: {
                             'id': $('#id').val(),
                             'nome': $('#nome').val(),
