@@ -187,10 +187,10 @@ CREATE TABLE user_has_group
     PRIMARY KEY (user_id, group_id),
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (group_id)
         REFERENCES `group` (group_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE service
@@ -209,10 +209,10 @@ CREATE TABLE service_has_group (
     PRIMARY KEY (service_id , group_id),
     FOREIGN KEY (service_id)
         REFERENCES service (service_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE,
+        ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (group_id)
         REFERENCES `group` (group_id)
-        ON DELETE NO ACTION ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- contains
