@@ -40,8 +40,13 @@ if ($oid->num_rows > 0) {
             require $controller;
             $callback();
         } else {
-            // Se è autenticato ma non ha accesso alla pagina, reindirizzo alla home
-            Header("Location: /");
+            echo $_SERVER['REQUEST_URI'];
+            if (str_contains($_SERVER['REQUEST_URI'], "admin")) {
+                Header("Location: /admin");
+            } else {
+                // Se è autenticato ma non ha accesso alla pagina, reindirizzo alla home
+                Header("Location: /");
+            }
             exit;
         }
     } else {

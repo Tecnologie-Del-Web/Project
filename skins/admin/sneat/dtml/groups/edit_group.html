@@ -45,6 +45,7 @@
 <script>
     $(document).ready(function () {
         $('#button_edit').click(function () {
+            $('body').find('.alert').remove();
             // Controllo che serve a vedere se tutti gli input sono riempiti
             if ($.grep($('input'), (elem) => elem.checkValidity()).length === $('input').length) {
                 // Faccio la chiamata e in base al risultato lo mostro a schermo

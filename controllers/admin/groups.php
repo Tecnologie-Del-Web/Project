@@ -213,14 +213,14 @@ function create()
 
 function edit()
 {
-    if (!(isset($_POST['id']) && isset($_POST['name']))) {
+    /*if (!(isset($_POST['id']) && isset($_POST['name']))) {
         Header("Location: /admin/groups");
-    }
-
+    }*/
+/*
     if ($_POST["id"] == 1 || $_POST["id"] == 2) {
         $response['error'] = "Impossibile modificare il gruppo predefinito";
         exit(json_encode($response));
-    }
+    }*/
 
     global $mysqli;
     $response = array();
@@ -230,17 +230,16 @@ function edit()
     $description = $_POST["description"];
     $powers = $_POST["powers"] ?? null;
 
-    if ($id != "" && $name != "") {
+    if ($id != "" && $name != "" && $description != "") {
         $oid = $mysqli->query("SELECT group_name FROM `group` WHERE group_id = $id");
         $oid = $oid->fetch_assoc();
         if ($oid['group_name'] != $name) {
-            $mysqli->query("UPDATE `group` SET group_name = '$name', group_description='$description' WHERE group_id = $id");
+            $mysqli->query("UPDATE `group` SET group_name = '$name',group_description= '$description' WHERE group_id = $id");
             if ($mysqli->affected_rows == 0) {
                 $response['error'] = "Errore nella modifica del name del gruppo";
                 exit(json_encode($response));
             }
         }
-
         $oid = $mysqli->query("SELECT service_id FROM service WHERE tag = 'Gestione gruppi'");
         $groups = array();
         do {
@@ -249,7 +248,6 @@ function edit()
                 $groups[] = $groupPowers['service_id'];
             }
         } while ($groupPowers);
-
         $mysqli->query("DELETE FROM service_has_group
                                     WHERE group_id = $id AND service_id                                          
                                     NOT IN ($groups[0], $groups[1], 

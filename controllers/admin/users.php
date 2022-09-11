@@ -47,7 +47,8 @@ function users()
     $main->close();
 }
 
-function user(){
+function user()
+{
     global $mysqli;
     $user_id = explode('/', $_SERVER['REQUEST_URI'])[3];
     $utente = $mysqli->query("SELECT * FROM user WHERE user_id = $user_id");
@@ -91,7 +92,8 @@ function user(){
     }
 }
 
-function edit(){
+function edit()
+{
     global $mysqli;
     $user_id = $_POST["user_id"];
     $name = $_POST["name"];
@@ -101,7 +103,8 @@ function edit(){
     $phone_number = $_POST["phone_number"];
     $response = array();
     if ($user_id != "" && $name != "" && $surname != "" && $email != "" && $phone_number != "" && $username != "") {
-        $mysqli->query("UPDATE user SET 
+        try {
+            $mysqli->query("UPDATE user SET 
                 name = '$name', 
                 surname = '$surname', 
                 username = '$username',
@@ -109,19 +112,24 @@ function edit(){
                 phone_number = '$phone_number'
             WHERE user_id = $user_id");
 
-        if (isset($_POST["groups"])) {
-            $groups = $_POST["groups"];
-            $mysqli->query("DELETE FROM user_has_group WHERE user_id = $user_id");
-            foreach ($groups as $group) {
-                $mysqli->query("INSERT INTO user_has_group (user_id, group_id) VALUES ($user_id, $group)");
+            if (isset($_POST["groups"])) {
+                $groups = $_POST["groups"];
+                $mysqli->query("DELETE FROM user_has_group WHERE user_id = $user_id");
+                foreach ($groups as $group) {
+                    $mysqli->query("INSERT INTO user_has_group (user_id, group_id) VALUES ($user_id, $group)");
+                }
             }
-        }
-        if($mysqli->affected_rows == 1){
-            $response['success'] = "Utente modificato con successo";
-        } elseif($mysqli->affected_rows == 0 ) {
-            $response['warning'] = "Nessun dato modificato";
-        } else {
-            $response['error'] = "Errore nella modifica dell'utente";
+
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Utente modificato con successo";
+            } elseif ($mysqli->affected_rows == 0) {
+                $response['warning'] = "Nessun dato modificato";
+            } else {
+                $response['error'] = "Errore nella modifica dell'utente";
+            }
+        } catch (Exception) {
+            $response['error'] = "Errore nella modifica dell'utente, possibile campi duplicati";
+
         }
 
     } else {

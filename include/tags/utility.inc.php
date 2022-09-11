@@ -8,11 +8,19 @@ function initAdmin()
 {
     startSessionIfNeeded();
     global $mysqli;
-
     $main = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/index.html");
+
+
+
     $header = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/header.html");
     $navbar = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/navbar.html");
     $footer = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/footer.html");
+
+    $user = $mysqli->query("SELECT * FROM user u WHERE u.user_id = '{$_SESSION["user"]["user_id"]}'");
+    $user = $user->fetch_assoc();
+    foreach ($user as $key => $value) {
+        $header->setContent($key, $value);
+    }
 
     $main->setContent("header", $header->get());
     $main->setContent("navbar", $navbar->get());
@@ -73,7 +81,6 @@ function initUser(bool $dropdown = true)
             $footer->setContent($key, $value);
         }
     }
-
 
     $main->setContent("header", $header->get());
     $main->setContent("footer", $footer->get());

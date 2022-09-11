@@ -176,7 +176,7 @@ CREATE TABLE customization
 CREATE TABLE `group`
 (
     group_id          INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    group_name        VARCHAR(20) NOT NULL,
+    group_name        VARCHAR(255) NOT NULL,
     group_description TEXT        NOT NULL
 );
 

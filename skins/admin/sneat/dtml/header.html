@@ -35,7 +35,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
@@ -44,8 +44,9 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block"><[user]></span>
-                                    <small class="text-muted"><[user]></small>
+                                    <span class="fw-semibold d-block"><[username]></span>
+                                    <small class="text-muted"><[name]></small>
+                                    <small class="text-muted"><[surname]></small>
                                 </div>
                             </div>
                         </a>
@@ -54,22 +55,22 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/admin/users/<[user_id]>">
                             <i class="bx bx-user me-2"></i>
                             <span class="align-middle">Profilo</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bx bx-cog me-2"></i>
-                            <span class="align-middle">Impostazioni</span>
-                        </a>
-                    </li>
+                    <!-- <li>
+                         <a class="dropdown-item" href="/admin/users/<[user_id]>">
+                             <i class="bx bx-cog me-2"></i>
+                             <span class="align-middle">Impostazioni</span>
+                         </a>
+                     </li>-->
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/sign-out">
                             <i class="bx bx-power-off me-2"></i>
                             <span class="align-middle">Esci</span>
                         </a>

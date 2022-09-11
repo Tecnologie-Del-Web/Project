@@ -57,7 +57,9 @@
                     },
                     success: function (data) {
                         let response = JSON.parse(data);
-                        if (response['success']) {
+                        if (response['redirect']) {
+                            window.location = response['redirect'];
+                        }else if (response['success']) {
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>\n' +
                                 response['success'] + '</div>');
