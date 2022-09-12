@@ -135,7 +135,6 @@ function setupSide(mysqli $mysqli, $user_id, Template $body)
 
     $number_of_articles = $oid->fetch_assoc();
     $body->setContent("number_of_articles", $number_of_articles['number']);
-
 }
 
 
@@ -216,20 +215,34 @@ function findAddresses(mysqli $mysqli, $user_id, Template $body): void
  */
 function findCheckoutProducts(mysqli $mysqli, $user_id, Template $body)
 {
-    $oid = $mysqli->query("SELECT p.product_name, ROUND(upc.subtotal, 2) as subtotal, upc.quantity
+    $oid = $mysqli->query("SELECT p.product_name, p.product_id, ROUND(upc.subtotal, 2) as subtotal, upc.quantity
                                             FROM user_product_cart upc JOIN product p ON (p.product_id = upc.product_id) 
                                             WHERE upc.user_id = {$user_id}");
 
     if ($oid->num_rows == 0) {
-        echo "Gestire!";
+        Header("Location: /cart");
     } else {
         $total = 0;
         do {
             $product = $oid->fetch_assoc();
             if ($product) {
-                $total += $product['subtotal'];
+                $product_id = $product['product_id'];
+                $offer = $mysqli->query("SELECT *
+                                            FROM offer 
+                                            WHERE product_id = $product_id");
+                if ($offer->num_rows > 0) {
+                    $offer = $offer->fetch_assoc();
+                    $subtotal = floatval($product['subtotal']) - floatval($product['subtotal']) * floatval($offer['percentage']) / 100.00;
+                    $subtotal = number_format($subtotal, 2);
+                }
+                else {
+                    $subtotal = $product['subtotal'];
+                }
+                $total += $subtotal;
                 foreach ($product as $key => $value) {
-                    $body->setContent($key, $value);
+                    if (strcmp($key, "subtotal") != 0)
+                        $body->setContent($key, $value);
+                    else $body->setContent("subtotal", $subtotal);
                 }
             }
         } while ($product);
