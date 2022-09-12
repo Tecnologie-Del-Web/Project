@@ -38,7 +38,7 @@ $(document).ready(() => {
         if (rating !== 0) {
             addReview(product_id, rating, review);
         } else {
-            addAlert('error', $('#msg'), 'Per favore, compila tutti i campi!');
+            alert("Per favore, inserisci una valutazione!");
         }
     });
 

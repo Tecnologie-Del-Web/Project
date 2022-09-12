@@ -11,7 +11,7 @@ function products() {
     $query_uri = explode( '&',(explode('?', $_SERVER['REQUEST_URI'])[1]))[1];
 
     $category = intval(explode( '=', $category_uri)[1]);
-    $query = explode( '=', $query_uri)[1];
+    $query = str_replace('+', ' ', explode( '=', $query_uri)[1]);
 
 
     if ($category == 0) {
