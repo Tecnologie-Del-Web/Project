@@ -41,7 +41,6 @@ function create()
 {
     global $mysqli;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $product_id = explode("/", $_SERVER["REQUEST_URI"])[3];
         $product_name = $_POST["product_name"];
         $product_description = $_POST["description"];
         $product_price = $_POST["price"];
@@ -50,25 +49,7 @@ function create()
         $category_id = $_POST["category_id"];
         $brand_id = $_POST["brand_id"];
         $response = array();
-        if ($product_id != "" && $product_name != "") {
-            if (isset($_FILES["product_images"])) {
-                if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
-                    mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
-                }
-
-                $product_images = $_FILES["product_images"];
-                foreach ($product_images["tmp_name"] as $key => $value) {
-                    $filename = $product_images["name"][$key];
-                    try {
-                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main',$product_id)");
-                        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
-                            move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
-                        }
-                    } catch (Exception) {
-                    }
-                }
-
-            }
+        if ($product_name != "") {
             try {
                 $mysqli->query("INSERT INTO product (product_name, price, quantity_available, product_description, sku, brand_id, category_id) 
                 VALUES (
@@ -79,9 +60,31 @@ function create()
                    '$product_sku',
                    $brand_id,
                    $category_id);");
+                $product_id = $mysqli->insert_id;
+                if (isset($_FILES["product_images"])) {
+                    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
+                        mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
+                    }
+
+                    $product_images = $_FILES["product_images"];
+                    foreach ($product_images["tmp_name"] as $key => $value) {
+                        $filename = $product_images["name"][$key];
+                        try {
+                            if ($mysqli->query("SELECT type FROM product_image WHERE product_id=$product_id AND type='main';")->num_rows == 0) {
+                                $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main', $product_id)");
+                            } else {
+                                $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','standard',$product_id)");
+                            }
+                            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
+                                move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
+                            }
+                        } catch (Exception) {
+                        }
+                    }
+                }
                 $response['success'] = "Prodotto $product_name creato con successo";
             } catch (Exception $e) {
-                $response['error'] = "Errore nella creazione del prodotto " . $product_name . $e;
+                $response['error'] = "Errore nella creazione del prodotto " . $product_name;
             }
         } else {
             $response['error'] = "Errore nella creazione del prodotto" . $product_name;
@@ -155,28 +158,42 @@ function edit()
     $response = array();
     if ($product_id != "" && $product_name != "") {
         $mysqli->query("DELETE FROM product_image WHERE product_id=$product_id");
-        if (isset($_FILES["product_images"])) {
-            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
-                mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
-            }
 
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id")) {
+            mkdir($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id", 7777, true);
+        }
+
+        if (isset($_FILES["product_images"])) {
             $product_images = $_FILES["product_images"];
             foreach ($product_images["tmp_name"] as $key => $value) {
                 $filename = $product_images["name"][$key];
                 try {
-                    $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main',$product_id)");
+                    if ($mysqli->query("SELECT type FROM product_image WHERE product_id=$product_id AND type='main';")->num_rows == 0) {
+                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main', $product_id)");
+                    } else {
+                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','standard',$product_id)");
+                    }
+
                     if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
                         move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
                     }
                 } catch (Exception) {
                 }
             }
-
         }
         if (isset($_POST["uploaded_images"])) {
             foreach ($_POST["uploaded_images"] as $value) {
+                $filename = $value;
                 try {
-                    $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$value','main',$product_id)");
+                    if ($mysqli->query("SELECT type FROM product_image WHERE product_id=$product_id AND type='main';")->num_rows == 0) {
+                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','main', $product_id)");
+                    } else {
+                        $mysqli->query("INSERT INTO product_image(file_name, type, product_id) VALUES ('$filename','standard',$product_id)");
+                    }
+
+                    if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename")) {
+                        move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/products/$product_id/$filename");
+                    }
                 } catch (Exception) {
                 }
             }

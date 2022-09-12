@@ -179,6 +179,9 @@
                     success: function (data) {
                         let response = JSON.parse(data);
                         if (response['success']) {
+                            /*setTimeout(function(){
+                                window.location.reload(true);
+                            }, 3000);*/
                             $('.card').before('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 response['success'] + '</div>');

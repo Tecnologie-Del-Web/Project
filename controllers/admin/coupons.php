@@ -34,9 +34,9 @@ function delete()
     $mysqli->query("DELETE FROM coupon WHERE coupon_id = {$coupon_id};");
     $response = array();
     if ($mysqli->affected_rows == 1) {
-        $response['success'] = "Coupon eliminata con successo.";
+        $response['success'] = "Coupon eliminato con successo.";
     } else {
-        $response['error'] = "Impossibile cancellare una coupon con prodotti associati.";
+        $response['error'] = "Impossibile cancellare una coupon con ordini associati.";
     }
     exit(json_encode($response));
 }
@@ -63,7 +63,7 @@ function create(): void
                     '$coupon_description');");
 
                 if ($mysqli->affected_rows == 1) {
-                    $response['success'] = "Coupon " . $coupon_code . " creata con successo";
+                    $response['success'] = "Coupon " . $coupon_code . " creato con successo";
                 } elseif ($mysqli->affected_rows == 0) {
                     $response['warning'] = "Nessun dato modificato";
                 } else {
@@ -115,21 +115,22 @@ function edit()
 
     $response = array();
     if ($coupon_id != "" && $coupon_code != "") {
-        try{
-        $mysqli->query("UPDATE coupon SET
+        try {
+            $mysqli->query("UPDATE coupon SET
                 coupon_code = '$coupon_code', 
                 description = '" . mysqli_real_escape_string($mysqli, $coupon_description) . "',
                 percentage = '$coupon_percentage',
                 start_date = '$coupon_start_date',
                 expiration_date = '$coupon_end_date'
                 WHERE coupon_id = $coupon_id AND coupon_id NOT IN (SELECT coupon_id FROM `order`);");
-        if ($mysqli->affected_rows == 1) {
-            $response['success'] = "Coupon {$coupon_code} modificata con successo";
-        } elseif ($mysqli->affected_rows == 0) {
-            $response['warning'] = "Nessun dato modificato";
-        } else {
-            $response['error'] = "Errore nella modifica del coupon";
-        }}catch (Exception){
+            if ($mysqli->affected_rows == 1) {
+                $response['success'] = "Coupon {$coupon_code} modificato con successo";
+            } elseif ($mysqli->affected_rows == 0) {
+                $response['warning'] = "Nessun dato modificato";
+            } else {
+                $response['error'] = "Errore nella modifica del coupon";
+            }
+        } catch (Exception) {
             $response['error'] = "Errore nella modifica del coupon, controllare le date";
         }
     } else {

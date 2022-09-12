@@ -36,7 +36,7 @@ function delete()
     if ($mysqli->affected_rows == 1) {
         $response['success'] = "Brand eliminato con successo.";
     } else {
-        $response['error'] = "Impossibile cancellare un Brand con prodotti associati.";
+        $response['error'] = "Impossibile cancellare un brand con prodotti associati.";
     }
     exit(json_encode($response));
 }
@@ -63,7 +63,7 @@ function create()
                 } elseif ($mysqli->affected_rows == 0) {
                     $response['warning'] = "Nessun dato modificato";
                 } else {
-                    $response['error'] = "Errore nella creazione del Brand";
+                    $response['error'] = "Errore nella creazione del brand";
                 }
             } catch (Exception $e) {
                 $response['error'] = "Errore nella creazione del Brand, possibile nome duplicato";
@@ -72,7 +72,7 @@ function create()
 
             }
         } else {
-            $response['error'] = "Errore nella creazione della brand";
+            $response['error'] = "Errore nella creazione del brand";
         }
         exit(json_encode($response));
     } else {
@@ -128,7 +128,7 @@ function edit()
         }
 
         if ($mysqli->affected_rows == 1) {
-            $response['success'] = "Brand {$brand_name} modificata con successo";
+            $response['success'] = "Brand '{$brand_name}' modificato con successo";
         } elseif ($mysqli->affected_rows == 0) {
             $response['warning'] = "Nessun dato modificato";
         } else {
