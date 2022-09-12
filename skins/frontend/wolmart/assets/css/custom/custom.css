@@ -9,3 +9,23 @@
     visibility: visible !important;
     transition: visibility ease-in-out 300ms;
 }
+
+
+/*
+    Semplice modal custom che usiamo per comunicare con l'utente
+    Ad esempio, per chiedergli di inserire una valutazione quando cerca di recensire un prodotto
+ */
+.custom-modal {
+    padding: 7rem;
+    text-align: center;
+    background: white;
+    border: none;
+    box-shadow: 20px 20px 20px grey;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    left: 0;
+    right: 0;
+    top: 30%;
+}
