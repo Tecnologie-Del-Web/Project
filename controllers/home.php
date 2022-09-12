@@ -124,6 +124,17 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
         do {
             $clothing_article = $oid->fetch_assoc();
             if ($clothing_article) {
+                $product_id = $clothing_article['product_id'];
+                $ratings = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                        FROM product p JOIN product_review pr ON (pr.product_id = p.product_id) 
+                                        WHERE p.product_id=$product_id");
+                // Gestire l'eventuale assenza di recensioni del prodotto in questione
+                $ratings = $ratings->fetch_assoc();
+                if (!$ratings['average_rating']) {
+                    $clothing_articles->setContent("average_rating", "ND");
+                } else {
+                    $clothing_articles->setContent("average_rating", $ratings['average_rating']);
+                }
                 foreach ($clothing_article as $key => $value) {
                     $clothing_articles->setContent($key, $value);
                 }
@@ -144,6 +155,17 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
         do {
             $book = $oid->fetch_assoc();
             if ($book) {
+                $product_id = $book['product_id'];
+                $ratings = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                        FROM product p JOIN product_review pr ON (pr.product_id = p.product_id) 
+                                        WHERE p.product_id=$product_id");
+                // Gestire l'eventuale assenza di recensioni del prodotto in questione
+                $ratings = $ratings->fetch_assoc();
+                if (!$ratings['average_rating']) {
+                    $books->setContent("average_rating", "ND");
+                } else {
+                    $books->setContent("average_rating", $ratings['average_rating']);
+                }
                 foreach ($book as $key => $value) {
                     $books->setContent($key, $value);
                 }
@@ -163,7 +185,18 @@ function setupHomePageCategories(mysqli $mysqli, Template $body): void
         $electronics_articles = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/partials/home/home-page-category.html");
         do {
             $electronic_article = $oid->fetch_assoc();
-            if ($electronic_article) {
+                if ($electronic_article) {
+                $product_id = $electronic_article['product_id'];
+                $ratings = $mysqli->query("SELECT ROUND(AVG(pr.rating), 2) as average_rating
+                                        FROM product p JOIN product_review pr ON (pr.product_id = p.product_id) 
+                                        WHERE p.product_id=$product_id");
+                // Gestire l'eventuale assenza di recensioni del prodotto in questione
+                $ratings = $ratings->fetch_assoc();
+                    if (!$ratings['average_rating']) {
+                        $electronics_articles->setContent("average_rating", "ND");
+                    } else {
+                        $electronics_articles->setContent("average_rating", $ratings['average_rating']);
+                    }
                 foreach ($electronic_article as $key => $value) {
                     $electronics_articles->setContent($key, $value);
                 }
