@@ -3,29 +3,29 @@
   <[foreach]>
     <div class="product-wrap">
         <div class="product text-center">
-        <figure class="product-media">
-          <a href="/product/<[product_id]>">
+          <figure class="product-media">
+            <a href="/product/<[product_id]>">
             <img src="/images/products/<[product_id]>/<[file_name]>" alt="Product" style="height: 300px !important;"/>
           </a>
-        </figure>
-      </div>
-        <div class="product-details">
-        <div class="product-cat">
-          <a href="/category/<[category_id]>"><[category_name]></a>
+         </figure>
+          <div class="product-details">
+            <div class="product-cat">
+              <a href="/category/<[category_id]>"><[category_name]></a>
+            </div>
+            <h3 class="product-name">
+              <a href="/product/<[product_id]>"><[product_name]></a>
+            </h3>
+            <div class="ratings-container">
+              <p class="text-dark font-weight-bold mr-1 review-rating" style="margin-bottom: 0 !important;"><[average_rating]></p>
+              <i class="w-icon-star-full"></i>
+            </div>
+            <div class="product-pa-wrapper">
+              <div class="product-price" style="color: black !important;">
+                €<[price]>
+              </div>
+            </div>
         </div>
-        <h3 class="product-name">
-          <a href="/product/<[product_id]>"><[product_name]></a>
-        </h3>
-        <div class="ratings-container">
-          <p class="text-dark font-weight-bold mr-1 review-rating" style="margin-bottom: 0 !important;"><[average_rating]></p>
-          <i class="w-icon-star-full"></i>
         </div>
-        <div class="product-pa-wrapper">
-          <div class="product-price" style="color: black !important;">
-            €<[price]>
-          </div>
-        </div>
-      </div>
     </div>
   <[/foreach]>
 

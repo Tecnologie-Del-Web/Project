@@ -1,4 +1,5 @@
-<body>
+<script src="/skins/frontend/wolmart/assets/js/custom/search.js"></script>
+
 <div class="page-wrapper">
     <h1 class="d-none">TDW</h1>
 
@@ -11,7 +12,7 @@
                 <ul class="breadcrumb bb-no">
                     <li><a href="/">Home</a></li>
                     <li><a href="/categories">Shop</a></li>
-                    <li>Search</li>
+                    <li>Cerca</li>
                 </ul>
             </div>
         </nav>
@@ -22,65 +23,7 @@
             <div class="container">
 
                 <!-- Start of Shop Content -->
-                <div class="shop-content row gutter-lg mt-6 mb-10">
-                    <!-- Start of Sidebar, Shop Sidebar -->
-                    <aside class="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">
-                        <!-- Start of Sidebar Overlay -->
-                        <div class="sidebar-overlay"></div>
-                        <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
-
-                        <!-- Start of Sidebar Content -->
-                        <div class="sidebar-content scrollable">
-                            <!-- Start of Sticky Sidebar -->
-                            <div class="sticky-sidebar">
-                                <div class="filter-actions">
-                                    <label>Filter :</label>
-                                    <a href="#" class="btn btn-dark btn-link filter-clean">Clean All</a>
-                                </div>
-
-                                <!-- Start of Collapsible Widget -->
-                                <div class="widget widget-collapsible">
-                                    <h3 class="widget-title"><span>Price</span></h3>
-                                    <div class="widget-body">
-                                        <ul class="filter-items search-ul">
-                                            <li><a href="#">$0.00 - $100.00</a></li>
-                                            <li><a href="#">$100.00 - $200.00</a></li>
-                                            <li><a href="#">$200.00 - $300.00</a></li>
-                                            <li><a href="#">$300.00 - $500.00</a></li>
-                                            <li><a href="#">$500.00+</a></li>
-                                        </ul>
-                                        <form class="price-range">
-                                            <input type="number" name="min_price" class="min_price text-center"
-                                                   placeholder="$min"><span class="delimiter">-</span><input
-                                                type="number" name="max_price" class="max_price text-center"
-                                                placeholder="$max"><a href="#"
-                                                                      class="btn btn-primary btn-rounded">Go</a>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- End of Collapsible Widget -->
-
-                                <!-- Start of Collapsible Widget -->
-                                <div class="widget widget-collapsible">
-                                    <h3 class="widget-title"><span>Brand</span></h3>
-                                    <ul class="widget-body filter-items item-check mt-1">
-                                        <li><a href="#">Elegant Auto Group</a></li>
-                                        <li><a href="#">Green Grass</a></li>
-                                        <li><a href="#">Node Js</a></li>
-                                        <li><a href="#">NS8</a></li>
-                                        <li><a href="#">Red</a></li>
-                                        <li><a href="#">Skysuite Tech</a></li>
-                                        <li><a href="#">Sterling</a></li>
-                                    </ul>
-                                </div>
-                                <!-- End of Collapsible Widget -->
-
-                            </div>
-                            <!-- End of Sidebar Content -->
-                        </div>
-                        <!-- End of Sidebar Content -->
-                    </aside>
-                    <!-- End of Shop Sidebar -->
+                <div class="shop-content row gutter-lg mt-6 mb-10" style="display: flex; align-items: center; justify-content: center;">
 
                     <!-- Start of Shop Main Content -->
                     <div class="main-content">
@@ -90,34 +33,17 @@
                                         btn-icon-left d-block d-lg-none"><i
                                         class="w-icon-category"></i><span>Filters</span></a>
                                 <div class="toolbox-item toolbox-sort select-box text-dark">
-                                    <label>Sort By :</label>
-                                    <select name="orderby" class="form-control">
-                                        <option value="default" selected="selected">Default sorting</option>
-                                        <option value="popularity">Sort by popularity</option>
-                                        <option value="rating">Sort by average rating</option>
-                                        <option value="date">Sort by latest</option>
-                                        <option value="price-low">Sort by pric: low to high</option>
-                                        <option value="price-high">Sort by price: high to low</option>
+                                    <label>Ordina per :</label>
+                                    <select id="sorting-select" name="orderby" class="form-control" style="width: 250px;">
+                                        <option value="default" selected="selected">Ordinamento di Default</option>
+                                        <option value="rating">Ordina per Valutazione</option>
+                                        <option value="price-low">Ordina per prezzo (crescente)</option>
+                                        <option value="price-high">Ordina per prezzo (decrescente)</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="toolbox-right">
-                                <div class="toolbox-item toolbox-show select-box">
-                                    <select name="count" class="form-control">
-                                        <option value="9">Show 9</option>
-                                        <option value="12" selected="selected">Show 12</option>
-                                        <option value="24">Show 24</option>
-                                        <option value="36">Show 36</option>
-                                    </select>
-                                </div>
-                                <div class="toolbox-item toolbox-layout">
-                                    <a href="categories.html" class="icon-mode-grid btn-layout active">
-                                        <i class="w-icon-grid"></i>
-                                    </a>
-                                    <a href="shop-list.html" class="icon-mode-list btn-layout">
-                                        <i class="w-icon-list"></i>
-                                    </a>
-                                </div>
+
                             </div>
                         </nav>
 
@@ -125,26 +51,8 @@
 
                         <div class="toolbox toolbox-pagination justify-content-between">
                             <p class="showing-info mb-2 mb-sm-0">
-                                Showing<span>1-12 of 60</span>Products
+                                <span><[number_of_products]></span>Prodotti Trovati
                             </p>
-                            <ul class="pagination">
-                                <li class="prev disabled">
-                                    <a href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                        <i class="w-icon-long-arrow-left"></i>Prev
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="next">
-                                    <a href="#" aria-label="Next">
-                                        Next<i class="w-icon-long-arrow-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                     <!-- End of Shop Main Content -->
@@ -158,99 +66,6 @@
 
 </div>
 <!-- End of Page Wrapper -->
-
-<!-- Start of Sticky Footer -->
-<div class="sticky-footer sticky-content fix-bottom">
-    <a href="/" class="sticky-link active">
-        <i class="w-icon-home"></i>
-        <p>Home</p>
-    </a>
-    <a href="/categories" class="sticky-link">
-        <i class="w-icon-category"></i>
-        <p>Shop</p>
-    </a>
-    <a href="profile.html" class="sticky-link">
-        <i class="w-icon-account"></i>
-        <p>Account</p>
-    </a>
-    <div class="cart-dropdown dir-up">
-        <a href="cart.html" class="sticky-link">
-            <i class="w-icon-cart"></i>
-            <p>Cart</p>
-        </a>
-        <div class="dropdown-box">
-            <div class="products">
-                <div class="product product-cart">
-                    <div class="product-detail">
-                        <h3 class="product-name">
-                            <a href="product-detail.html">Beige knitted elas<br>tic
-                                runner shoes</a>
-                        </h3>
-                        <div class="price-box">
-                            <span class="product-quantity">1</span>
-                            <span class="product-price">$25.68</span>
-                        </div>
-                    </div>
-                    <figure class="product-media">
-                        <a href="#">
-                            <img src="/skins/frontend/wolmart/assets/images/cart/product-1.jpg" alt="product" height="84" width="94"/>
-                        </a>
-                    </figure>
-                    <button class="btn btn-link btn-close" aria-label="button">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="product product-cart">
-                    <div class="product-detail">
-                        <h3 class="product-name">
-                            <a href="https://www.portotheme.com/html/wolmart/product.html">Blue utility pina<br>fore
-                                denim dress</a>
-                        </h3>
-                        <div class="price-box">
-                            <span class="product-quantity">1</span>
-                            <span class="product-price">$32.99</span>
-                        </div>
-                    </div>
-                    <figure class="product-media">
-                        <a href="#">
-                            <img src="/skins/frontend/wolmart/assets/images/cart/product-2.jpg" alt="product" width="84" height="94"/>
-                        </a>
-                    </figure>
-                    <button class="btn btn-link btn-close" aria-label="button">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="cart-total">
-                <label>Subtotal:</label>
-                <span class="price">$58.67</span>
-            </div>
-
-            <div class="cart-action">
-                <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
-            </div>
-        </div>
-        <!-- End of Dropdown Box -->
-    </div>
-
-    <div class="header-search hs-toggle dir-up">
-        <a href="#" class="search-toggle sticky-link">
-            <i class="w-icon-search"></i>
-            <p>Search</p>
-        </a>
-        <form action="#" class="input-wrapper">
-            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
-                   required/>
-            <button class="btn btn-search" type="submit">
-                <i class="w-icon-search"></i>
-            </button>
-        </form>
-    </div>
-</div>
-<!-- End of Sticky Footer -->
 
 <!-- Start of Scroll Top -->
 <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i>

@@ -142,8 +142,6 @@ function placeOrder(methodId, addressId, couponCode) {
     });
 }
 
-// Aggiunge un alert con il messaggio passato e lo inserisce dopo il selettore parent passato.
-// L'alert sparisce in automatico dopo X secondi
 function addAlert(type, parent, message) {
     let color;
     switch (type) {
