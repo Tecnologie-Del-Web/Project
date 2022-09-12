@@ -20,6 +20,7 @@
     text-align: center;
     background: white;
     border: none;
+    border-radius: 10px;
     box-shadow: 20px 20px 20px grey;
     position: absolute;
     margin-left: auto;

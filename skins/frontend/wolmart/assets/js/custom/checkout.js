@@ -12,7 +12,8 @@ $(document).ready(() => {
         if (!(selectedMethodId == 0 || selectedAddressId == 0)) {
             placeOrder(selectedMethodId, selectedAddressId, couponCode);
         } else {
-            // TODO: configurare un alert
+            window.scrollTo(0, 0);
+            addAlert('error', $("#category"), "Per favore, seleziona un metodo di pagamento e un indirizzo");
         }
     });
 
@@ -53,6 +54,7 @@ function applyCoupon(couponCode, oldPrice) {
                 let newPrice = oldPrice - oldPrice * response['percentage'] / 100.00;
                 newPrice = newPrice.toFixed(2);
                 $("#total-price").text(newPrice);
+                addAlert('success', $("#category"), "Coupon aggiunto correttamente!");
             } else {
                 // TODO: configurare alert
             }
@@ -137,4 +139,31 @@ function placeOrder(methodId, addressId, couponCode) {
             }
         }
     });
+}
+
+// Aggiunge un alert con il messaggio passato e lo inserisce dopo il selettore parent passato.
+// L'alert sparisce in automatico dopo X secondi
+function addAlert(type, parent, message) {
+    let color;
+    switch (type) {
+        case 'error':
+            color = '#c02323';
+            break;
+        case 'success':
+            color = '#23c02b';
+            break;
+        default:
+            color = 'black';
+    }
+
+    $("body").after('' +
+        '<div class="alert alert-dismissible fade show m-0 form custom-modal" role="alert" style="color:' + color + ';">'
+        + '<p class="text-primary subtitle">' + message + '</p>' +
+        '<button type="button" class="btn btn-primary w-100 br-sm" data-bs-dismiss="alert" aria-hidden="true" style="display: block; margin: 0 auto;" onclick="$(\'div.alert\').slideUp(200).alert(\'close\');">Ok</button>' +
+        '</div>'
+    );
+
+    setTimeout(function () {
+        $('div.alert').slideUp(200).alert('close');
+    }, 3000);
 }
