@@ -133,3 +133,28 @@ function findAddresses($mysqli, Template $body, $user_id)
     exit(json_encode($response));
 
 }
+
+#[NoReturn] function removeShipmentAddress(): void
+{
+    global $mysqli;
+
+    $address_id = $_POST['address_id'];
+    $user_id = $_SESSION['user']['user_id'];
+
+    try {
+        $mysqli->query("DELETE FROM shipment_address WHERE address_id = $address_id;");
+
+        if ($mysqli->affected_rows == 1) {
+            $response['success'] = "Indirizzo rimosso con successo";
+        } elseif ($mysqli->affected_rows == 0) {
+            $response['warning'] = "Nessun indirizzo rimosso";
+        } else {
+            $response['error'] = "Errore durante la rimozione";
+        }
+    } catch (mysqli_sql_exception $e) {
+        $response['error'] = $e->getMessage();
+    }
+
+    exit(json_encode($response));
+
+}

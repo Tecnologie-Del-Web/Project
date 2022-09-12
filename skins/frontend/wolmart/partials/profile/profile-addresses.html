@@ -1,3 +1,5 @@
+<script src="/skins/frontend/wolmart/assets/js/custom/profile.js"></script>
+
 <p>I seguenti indirizzi saranno usati nel checkout di default.</p>
 <div class="row">
   <[foreach]>
@@ -30,7 +32,7 @@
           </tbody>
         </table>
       </address>
-      <a href="#" class="btn btn-link btn-underline btn-icon-right text-primary">Modifica indirizzo<i class="w-icon-long-arrow-right"></i></a>
+      <a id="rm-<[address_id]>" class="btn btn-link btn-underline btn-icon-right text-primary remove-address-button">Rimuovi indirizzo<i class="w-icon-long-arrow-right"></i></a>
     </div>
   </div>
   <[/foreach]>

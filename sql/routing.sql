@@ -30,6 +30,7 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('O
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order/place', 'user/cart.php', 'placeOrder', 'Piazzamento Ordine');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/method/create', 'user/profile.php', 'addPaymentMethod', 'Metodo di pagamento');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/address/create', 'user/profile.php', 'addShipmentAddress', 'Indirizzo di spedizione');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/address/remove', 'user/profile.php', 'removeShipmentAddress', 'Rimozione Indirizzo di spedizione');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Recensione', '/reviews/add', 'user/review.php', 'add', 'Aggiungi Review');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione utenti' , 'Visualizza utenti', '/admin/users', 'admin/users.php', 'users');
 INSERT INTO service (tag, service_description, url, script, callback) VALUES ('Gestione gruppi', 'Visualizza gruppi', '/admin/groups', 'admin/groups.php', 'groups');
