@@ -14,9 +14,7 @@ function category()
                                     WHERE c.category_id = $id;");
 
     if ($category->num_rows == 0) {
-        // TODO: gestire!
-        echo "\n" . "Ricordati di gestire questo caso!";
-        // header("Location: /products");
+
     } else {
         $category = $category->fetch_assoc();
         foreach ($category as $key => $value) {
@@ -60,6 +58,8 @@ function category()
         } while ($product);
         $body->setContent("products", $products->get());
     }
+
+    $body->setContent("number_of_products", $oid->num_rows);
 
     $main->setContent("content", $body->get());
     $main->close();

@@ -1,5 +1,9 @@
 USE tdw;
 
+-- Inserisco una personalizzazione iniziale
+-- Passo preliminare obbligatorio!
+INSERT INTO customization (customization_id, phone_number, email_address, personal_address, logo, site_name) VALUES (1, '39', 'wolmart@email.it', 'Via del Corso, Roma', 'logo.png', 'Wolmart');
+
 -- Inserisci gli utenti
 # User admin Password admin
 INSERT INTO `user` (`user_id`, `name`,`surname`, `phone_number`, `email_address`, `password`) VALUES (1, 'admin', 'admin', '1234567890', 'admin@wolmart.it', '67f43efc5701784db1504e4993d7e393');

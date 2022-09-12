@@ -86,9 +86,7 @@ function findBrandInfo(mysqli $mysqli, mixed $brand_id, Template $body)
                                     WHERE b.brand_id = $brand_id;");
 
     if ($brand->num_rows == 0) {
-        // TODO: gestire!
-        echo "\n" . "Ricordati di gestire questo caso!";
-        // header("Location: /products");
+
     } else {
         $brand = $brand->fetch_assoc();
         foreach ($brand as $key => $value) {

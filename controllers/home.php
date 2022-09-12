@@ -31,6 +31,7 @@ function home()
     }
     $main->setContent("content", $body->get());
     $main->close();
+
 }
 
 

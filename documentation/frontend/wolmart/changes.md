@@ -5,7 +5,6 @@
 - Dettaglio prodotto
 - Categorie
 - Prodotti di una categoria
-- Offerte del giorno (?)
 - About us
 - Contatti
 - Sign In/Sign Up (vista indipendente?)

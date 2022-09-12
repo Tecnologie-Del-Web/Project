@@ -72,7 +72,7 @@ function initUser(bool $dropdown = true)
     }
 
     // Customization
-    $customization = $mysqli->query("SELECT phone_number, email_address, about_info, personal_address, logo, site_name FROM customization");
+    $customization = $mysqli->query("SELECT * FROM customization WHERE customization_id = 1");
     if ($customization->num_rows > 0) {
         $customization = $customization->fetch_assoc();
         foreach ($customization as $key => $value) {

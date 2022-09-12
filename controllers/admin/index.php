@@ -4,7 +4,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/include/template2.inc.php";
 
 function admin(): void
 {
+
     global $mysqli;
+
     $main = initAdmin();
     $analytics = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/admin/sneat/dtml/analytics.html");
 
@@ -18,12 +20,14 @@ function admin(): void
     $analytics->setContent("earnings", mysqli_fetch_row($earnings)[0]);
 
     $top_categories = $mysqli->query("SELECT category_name, 
-       category_image, p.category_id,
-       category_description, SUM(op.quantity) as category_qty
+        category_image, p.category_id,
+        category_description, SUM(op.quantity) as category_qty
         FROM category 
-         JOIN product p on category.category_id = p.category_id
-         JOIN order_product op on p.product_id = op.product_id ORDER BY category_qty
-         LIMIT 5;");
+        JOIN product p on category.category_id = p.category_id
+        JOIN order_product op on p.product_id = op.product_id 
+        GROUP BY p.category_id
+        ORDER BY category_qty
+        LIMIT 5;");
 
     while ($top_category = $top_categories->fetch_assoc()) {
         foreach ($top_category as $key => $value) {
@@ -31,13 +35,16 @@ function admin(): void
         }
     }
 
+
     $top_brands = $mysqli->query("SELECT brand_name, 
-       brand_image, 
-    SUM(op.quantity) as brand_qty
-        FROM brand 
-            JOIN product p on brand.brand_id = p.brand_id
-         JOIN order_product op on p.product_id = op.product_id ORDER BY brand_qty
-         LIMIT 5;");
+        brand_image,
+        SUM(op.quantity) as brand_qty
+        FROM brand b
+        JOIN product p ON (b.brand_id = p.brand_id)
+        JOIN order_product op ON (p.product_id = op.product_id)
+        GROUP BY b.brand_id
+        ORDER BY brand_qty
+        LIMIT 5;");
 
     while ($top_brand = $top_brands->fetch_assoc()) {
         foreach ($top_brand as $key => $value) {
@@ -46,10 +53,12 @@ function admin(): void
     }
 
     $top_products = $mysqli->query("SELECT product_name, p.product_id,
-    SUM(op.quantity) as product_qty
+        SUM(op.quantity) as product_qty
         FROM product as p
-         JOIN order_product op on p.product_id = op.product_id ORDER BY product_qty
-         LIMIT 5;");
+        JOIN order_product op on p.product_id = op.product_id
+        GROUP BY product_id
+        ORDER BY product_qty
+        LIMIT 5;");
 
     while ($top_product = $top_products->fetch_assoc()) {
         foreach ($top_product as $key => $value) {

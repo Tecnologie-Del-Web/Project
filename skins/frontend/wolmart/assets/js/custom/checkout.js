@@ -54,6 +54,7 @@ function applyCoupon(couponCode, oldPrice) {
                 let newPrice = oldPrice - oldPrice * response['percentage'] / 100.00;
                 newPrice = newPrice.toFixed(2);
                 $("#total-price").text(newPrice);
+                window.scrollTo(0, 0);
                 addAlert('success', $("#category"), "Coupon aggiunto correttamente!");
             } else {
                 // TODO: configurare alert
