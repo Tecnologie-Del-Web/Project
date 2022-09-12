@@ -1,3 +1,4 @@
+use tdw;
 DELIMITER $$
 
 CREATE PROCEDURE adjust_price(u_id INTEGER UNSIGNED, p_id INTEGER UNSIGNED, increment TINYINT)
