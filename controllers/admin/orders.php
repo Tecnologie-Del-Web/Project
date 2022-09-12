@@ -66,7 +66,7 @@ function order()
     $column_names = array(
         "Nome",
         "Quantità",
-        "Prezzo",
+        "Prezzo listino",
     );
     foreach ($column_names as $value) {
         $content->setContent("column_name", $value);
