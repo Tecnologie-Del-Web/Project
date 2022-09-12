@@ -19,15 +19,37 @@ function product()
                                     WHERE product_id = $id");
 
     if ($product->num_rows == 0) {
-        // TODO: gestire!
-        echo "\n" . "Ricordati di gestire questo caso!";
-        // header("Location: /products");
+        Header("Location: /categories");
     } else {
         $product = $product->fetch_assoc();
         $brand_id = $product['brand_id'];
         $category_id = $product['category_id'];
         foreach ($product as $key => $value) {
             $body->setContent($key, $value);
+        }
+        $offer = $mysqli->query("SELECT *
+                                    FROM offer
+                                    WHERE product_id = $id");
+        if ($offer->num_rows > 0) {
+            $offer = $offer->fetch_assoc();
+            $new_price = floatval($product['price']) - floatval($product['price']) * floatval($offer['percentage']) / 100.00;
+            $new_price = number_format($new_price, 2);
+            $body->setContent("product_price", '
+                <div class="product-price">
+                    <p class="new-price ls-50">
+                            €<span id="old-price" class="new-price ls-50" style="text-decoration: line-through !important;">' . $product['price'] . '</span>
+                            -<span id="percentage" class="new-price ls-50">' . $offer['percentage'] . '</span>%
+                    </p>
+                    <div class="product-variation-price">
+                        <p class="product-price" id="new-price">€' . $new_price . '</p>
+                    </div>
+                </div>
+            ');
+        }
+        else {
+            $body->setContent("product_price", '
+                <div class="product-price"><ins class="new-price">€' . $product['price'] . '</ins></div>
+            ');
         }
     }
 
