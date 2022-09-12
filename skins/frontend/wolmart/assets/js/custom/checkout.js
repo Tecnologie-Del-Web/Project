@@ -2,6 +2,7 @@ $(document).ready(() => {
 
     let reload = ($("#method-select").length + $("#address-select").length) < 2;
 
+    let oldTotal = parseFloat($("#total-price").text());
     let couponCode = ''
 
     $("#place-order").click(() => {
@@ -34,12 +35,12 @@ $(document).ready(() => {
 
     $("#apply-coupon-button").click(() => {
         couponCode = $("#coupon-code").val();
-        applyCoupon(couponCode);
+        applyCoupon(couponCode, oldTotal);
     });
 
 });
 
-function applyCoupon(couponCode) {
+function applyCoupon(couponCode, oldPrice) {
     $.ajax({
         type: "POST",
         url: "/cart/coupon/apply",
@@ -49,7 +50,6 @@ function applyCoupon(couponCode) {
         success: (data) => {
             let response = JSON.parse(data);
             if (response['success']) {
-                let oldPrice = parseFloat($("#total-price").text());
                 let newPrice = oldPrice - oldPrice * response['percentage'] / 100.00;
                 newPrice = newPrice.toFixed(2);
                 $("#total-price").text(newPrice);
