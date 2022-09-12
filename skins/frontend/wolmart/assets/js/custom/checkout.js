@@ -130,6 +130,7 @@ function placeOrder(methodId, addressId, couponCode) {
             coupon_code: couponCode
         },
         success: (data) => {
+            console.log(data);
             let response = JSON.parse(data);
             if (response['success']) {
                 window.location.href = '/order?order_id=' + response['id'];

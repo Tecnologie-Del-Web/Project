@@ -94,7 +94,7 @@ function findCartProducts(mysqli $mysqli, $user_id, Template $body)
             $product = $oid->fetch_assoc();
             if ($product) {
                 foreach ($product as $key => $value) {
-                    if (strcmp($key, "price") != 0) {
+                    if (strcmp($key, "price") != 0 && strcmp($key, "subtotal") != 0) {
                         $cart_products->setContent($key, $value);
                     }
                 }
@@ -106,13 +106,16 @@ function findCartProducts(mysqli $mysqli, $user_id, Template $body)
                     $offer = $offer->fetch_assoc();
                     $discount_percentage = $offer['percentage'];
                     $new_price = $old_price - $old_price * ($discount_percentage / 100);
+                    $new_price = number_format($new_price, 2);
                     $cart_products->setContent("price", '
                         <td class="product-price">€' . $old_price . ' -' . $discount_percentage . '% = ' . '<span class="amount">€' . $new_price . '</span></td>
                     ');
+                    $cart_products->setContent("subtotal", number_format($new_price * $quantity, 2));
                 } else {
                     $cart_products->setContent("price", '
                         <td class="product-price"><span class="amount">€' . $old_price . '</span></td>
                     ');
+                    $cart_products->setContent("subtotal", number_format($product['subtotal'], 2));
                 }
             }
         } while ($product);
