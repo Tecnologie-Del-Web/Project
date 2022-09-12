@@ -112,7 +112,7 @@ function product()
        b.brand_name,
        c.category_name 
        FROM product JOIN category c on product.category_id = c.category_id
-       JOIN brand b on product.brand_id = b.brand_id WHERE product_id=$id");
+       JOIN brand b on product.brand_id = b.brand_id WHERE product_id = $id");
     if ($product->num_rows === 0) {
         header("Location: /admin/products"); //No product found, redirect to offer page
     } else {
@@ -125,8 +125,8 @@ function product()
         foreach ($product as $key => $value) {
             $content->setContent($key, $value);
         }
-        $content->setContent("category_selected", $product['category_name']);
-        $content->setContent("brand_selected", $product['brand_name']);
+        $content->setContent("category_selected", $product["category_name"]);
+        $content->setContent("brand_selected", $product["brand_name"]);
 
         $result = $mysqli->query("SELECT image_id, file_name FROM product_image WHERE product_id = $id LIMIT 1");
         $content->setContent("contains_images", $result->fetch_assoc());

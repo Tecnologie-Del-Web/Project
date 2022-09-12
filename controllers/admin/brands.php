@@ -55,7 +55,7 @@ function create()
                         $filename = $brand_image["name"][$key];
                         move_uploaded_file($value, $_SERVER['DOCUMENT_ROOT'] . "/images/brands/" . $filename);
                         $mysqli->query("INSERT INTO brand (brand_name, brand_image)
-            VALUES ('" . $brand_name . "', '" . $filename . "');");
+            VALUES ('" . mysqli_real_escape_string($mysqli, $brand_name) . "', '" . $filename . "');");
                     }
                 }
                 if ($mysqli->affected_rows == 1) {
@@ -114,7 +114,7 @@ function edit()
             foreach ($brand_image["tmp_name"] as $key => $value) {
                 $filename = $brand_image["name"][$key];
                 $mysqli->query("UPDATE brand SET
-                brand_name = '$brand_name', 
+                brand_name = '" . mysqli_real_escape_string($mysqli, $brand_name) . "', 
                 brand_image = '$filename'
                 WHERE brand_id = $brand_id");
                 if (!file_exists("/images/brands/" . $filename)) {
@@ -123,7 +123,7 @@ function edit()
             }
         } else {
             $mysqli->query("UPDATE brand SET
-                brand_name = '$brand_name'
+                 brand_name = '" . mysqli_real_escape_string($mysqli, $brand_name) . "'
                 WHERE brand_id = $brand_id");
         }
 
