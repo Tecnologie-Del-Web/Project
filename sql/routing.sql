@@ -23,6 +23,8 @@ INSERT INTO service (tag, url, script, callback, service_description) VALUES ('C
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/cart/remove', 'user/cart.php', 'remove', 'Rimuovi prodotto');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/cart/coupon/apply', 'user/cart.php', 'applyCoupon', 'Applica Coupon');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist', 'user/wishlist.php', 'wishlist', 'Wishlist');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist/add', 'user/wishlist.php', 'add', 'Aggiungi prodotto alla Wishlist');
+INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Wishlist', '/wishlist/remove', 'user/wishlist.php', 'remove', 'Rimuovi prodotto dalla Wishlist');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Carrello', '/checkout', 'user/cart.php', 'checkout', 'Checkout');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Ordine', '/order', 'user/cart.php', 'order', 'Completamento Ordine');
 INSERT INTO service (tag, url, script, callback, service_description) VALUES ('Piazzamento Ordine', '/order/place', 'user/cart.php', 'placeOrder', 'Piazzamento Ordine');

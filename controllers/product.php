@@ -281,7 +281,7 @@ function setupAddToCart(mysqli $mysqli, string $id, Template $body)
 {
     if (isset($_SESSION['auth']) && $_SESSION['auth'] = true) {
         $body->setContent("add_to_cart", '
-            <button id="add-to-wihslist-button" class="btn btn-secondary w-100 br-sm mb-2">
+            <button id="add-to-wishlist-button" class="btn btn-secondary w-100 br-sm mb-2">
                 <i class="w-icon-heart"></i>
                 <span>Aggiungi alla Wishlist</span>
             </button>

@@ -15,12 +15,11 @@
     <div class="p-relative">
       <a href="/product/<[product_id]>">
         <figure>
-          <img src="/images/<[product_id]>/<[file_name]>" alt="product" width="300"
+          <img src="/images/products/<[product_id]>/<[file_name]>" alt="product" width="300"
                height="338">
         </figure>
       </a>
-      <button type="submit" class="btn btn-close"><i
-              class="w-icon-return"></i></button>
+      <button type="submit" class="btn btn-close"><i id="rm-<[product_id]>" class="w-icon-return remove-icon"></i></button>
     </div>
   </td>
   <td class="product-name">
@@ -29,16 +28,14 @@
     </a>
   </td>
   <td class="product-price">
-    <ins class="new-price"><[price]></ins>
+    <ins class="new-price">€<[price]></ins>
   </td>
   <td class="product-stock-status">
     <span class="wishlist-in-stock"><[availability]></span>
   </td>
   <td class="wishlist-action">
-    <div class="d-lg-flex">
-      <a href="#"
-         class="btn btn-quickview btn-outline btn-default btn-rounded btn-sm mb-2 mb-lg-0">Vedi Prodotto</a>
-      <a href="#" class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Aggiungi al Carrello</a>
+    <div class="d-lg-flex" style="align-items: center; justify-content: center;">
+      <a href="/product/<[product_id]>" class="btn btn-default btn-outline btn-rounded btn-sm mb-2 mb-lg-0">Vedi Prodotto</a>
     </div>
   </td>
 </tr>

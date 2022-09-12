@@ -18,3 +18,23 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE FUNCTION add_order(order_code VARCHAR(20), total FLOAT, u_id INTEGER UNSIGNED, pay_id INTEGER UNSIGNED, a_id INTEGER UNSIGNED) RETURNS INTEGER UNSIGNED DETERMINISTIC
+BEGIN
+	INSERT INTO `order` (`order_code`, `updated_at`, `total`, `progress_status`, `user_id`, `payment_id`, `address_id`) VALUES (order_code, NOW(), total, 'Piazzato', u_id, pay_id, a_id);
+    RETURN last_insert_id();
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE FUNCTION add_order_coupon(order_code VARCHAR(20), total FLOAT, u_id INTEGER UNSIGNED, pay_id INTEGER UNSIGNED, c_id INTEGER UNSIGNED, a_id INTEGER UNSIGNED) RETURNS INTEGER UNSIGNED DETERMINISTIC
+BEGIN
+	INSERT INTO `order` (`order_code`, `updated_at`, `total`, `progress_status`, `user_id`, `payment_id`, `coupon_id`, `address_id`) VALUES (order_code, NOW(), total, 'Piazzato', u_id, pay_id, c_id, a_id);
+    RETURN last_insert_id();
+END$$
+
+DELIMITER ;

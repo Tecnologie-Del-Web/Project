@@ -8,6 +8,10 @@ $(document).ready(() => {
         addToCart(product_id);
     });
 
+    $("#add-to-wishlist-button").click(() => {
+        addToWishlist(product_id);
+    });
+
     $("#clear-cart-button").click(() => {
         clearCart();
     });
@@ -71,6 +75,22 @@ function addToCart(product_id) {
             let response = JSON.parse(data);
             if (response['success']) {
                 window.location.href = '/cart';
+            }
+        }
+    });
+}
+
+function addToWishlist(product_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/wishlist/add',
+        data: {
+            'product_id': product_id
+        },
+        success: function (data) {
+            let response = JSON.parse(data);
+            if (response['success']) {
+                window.location.href = '/wishlist';
             }
         }
     });

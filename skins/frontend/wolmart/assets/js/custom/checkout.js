@@ -1,5 +1,7 @@
 $(document).ready(() => {
 
+    let reload = ($("#method-select").length + $("#address-select").length) < 2;
+
     let couponCode = ''
 
     $("#place-order").click(() => {
@@ -18,7 +20,7 @@ $(document).ready(() => {
         let type = $("#type").val();
         let credentials = $("#credentials").val();
         let validity = $("#validity").val();
-        addMethod(code, type, credentials, validity);
+        addMethod(code, type, credentials, validity, reload);
     });
 
     $("#insert-address-button").click(() => {
@@ -27,7 +29,7 @@ $(document).ready(() => {
         let province = $("#province").val();
         let country = $("#country").val();
         let postalCode = $("#postal-code").val();
-        addAddress(address, city, province, country, postalCode);
+        addAddress(address, city, province, country, postalCode, reload);
     });
 
     $("#apply-coupon-button").click(() => {
@@ -58,7 +60,7 @@ function applyCoupon(couponCode) {
     });
 }
 
-function addMethod(code, type, credentials, validity) {
+function addMethod(code, type, credentials, validity, reload) {
     $.ajax({
         type: "POST",
         url: "/method/create",
@@ -71,17 +73,22 @@ function addMethod(code, type, credentials, validity) {
         success: (data) => {
             let response = JSON.parse(data);
             if (response['success']) {
-                $('#method-select').append($('<option>', {
-                    value: response['insert_id'],
-                    text: code + ", " + validity
-                }));
+                if (reload) {
+                    window.location.reload();
+                }
+                else {
+                    $('#method-select').append($('<option>', {
+                        value: response['insert_id'],
+                        text: code + ", " + validity
+                    }));
+                    $("#existing-method-a").click();
+                }
             }
-            $("#existing-method-a").click();
         }
     });
 }
 
-function addAddress(address, city, province, country, postalCode) {
+function addAddress(address, city, province, country, postalCode, reload) {
     $.ajax({
         type: "POST",
         url: "/address/create",
@@ -95,13 +102,18 @@ function addAddress(address, city, province, country, postalCode) {
         success: (data) => {
             let response = JSON.parse(data);
             if (response['success']) {
-                $('#address-select').append($('<option>', {
-                    value: response['insert_id'],
-                    text: address + ", " + city + ", " + postalCode
-                }));
+                if (reload) {
+                    window.location.reload();
+                }
+                else {
+                    $('#address-select').append($('<option>', {
+                        value: response['insert_id'],
+                        text: address + ", " + city + ", " + postalCode
+                    }));
+                    window.scrollTo(0, 300);
+                    $("#existing-address-a").click();
+                }
             }
-            window.scrollTo(0, 300);
-            $("#existing-address-a").click();
         }
     });
 }
@@ -114,16 +126,14 @@ function placeOrder(methodId, addressId, couponCode) {
         data: {
             total: total,
             method_id: methodId,
+            address_id: addressId,
             coupon_code: couponCode
         },
         success: (data) => {
-            console.log(data);
-            /*
             let response = JSON.parse(data);
             if (response['success']) {
-                window.location.href = '/order';
+                window.location.href = '/order?order_id=' + response['id'];
             }
-            */
         }
     });
 }

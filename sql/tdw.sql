@@ -51,6 +51,7 @@ CREATE TABLE `order`
     user_id         INTEGER UNSIGNED                         NOT NULL,
     payment_id      INTEGER UNSIGNED                         NOT NULL,
     coupon_id       INTEGER UNSIGNED                         NULL,
+    address_id      INTEGER UNSIGNED NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES `user` (user_id)
         ON DELETE NO ACTION ON UPDATE CASCADE,
@@ -59,6 +60,9 @@ CREATE TABLE `order`
         ON DELETE NO ACTION ON UPDATE CASCADE,
     FOREIGN KEY (coupon_id)
         REFERENCES coupon (coupon_id)
+        ON DELETE NO ACTION ON UPDATE CASCADE,
+	FOREIGN KEY (address_id)
+        REFERENCES shipment_address (address_id)
         ON DELETE NO ACTION ON UPDATE CASCADE
 );
 

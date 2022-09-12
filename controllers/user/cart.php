@@ -44,8 +44,27 @@ function checkout() {
 }
 
 function order() {
+
+    $order_id = intval(explode('=', explode('?', $_SERVER['REQUEST_URI'])[1])[1]);
+
+    global $mysqli;
+
     $main = initUser(false);
     $body = new Template($_SERVER['DOCUMENT_ROOT'] . "/skins/frontend/wolmart/order.html");
+
+    $order = $mysqli->query("SELECT * FROM `order` o JOIN shipment_address sa ON (o.user_id = sa.user_id) WHERE order_id = $order_id");
+
+    if ($order->num_rows == 0) {
+        // TODO: gestire!
+    }
+    else {
+        $order = $order->fetch_assoc();
+        if ($order) {
+            foreach ($order as $key => $value) {
+                $body->setContent($key, $value);
+            }
+        }
+    }
 
     $main->setContent("content", $body->get());
     $main->close();
@@ -373,40 +392,42 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
         $user_id = $_SESSION['user']['user_id'];
         $total = $_POST['total'];
         $method_id = $_POST['method_id'];
+        $address_id = $_POST['address_id'];
         $coupon_code = $_POST['coupon_code'];
 
         $order_code = $_SESSION['user']['username'] . $method_id . $coupon_code;
 
-        $oid = $mysqli->query("SELECT * FROM user_product_cart WHERE user_id = $user_id");
-
-        $coupon_id = NULL;
         if (!(strcmp($coupon_code, '') == 0)) {
-            $coupon_id = $mysqli->query("SELECT FROM coupon WHERE coupon_code = $coupon_code")->fetch_assoc()['coupon_id'];
+            $coupon_id = $mysqli->query("SELECT coupon_id FROM coupon WHERE coupon_code = '$coupon_code'")->fetch_assoc()['coupon_id'];
+            $order = $mysqli->query("SELECT add_order_coupon('$order_code', $total, $user_id, $method_id, $coupon_id, $address_id) as order_id")->fetch_assoc();
         }
+        else {
+            $order = $mysqli->query("SELECT add_order('$order_code', $total, $user_id, $method_id, $address_id) as order_id")->fetch_assoc();
+        }
+
+        $oid = $mysqli->query("SELECT * FROM user_product_cart WHERE user_id = $user_id");
 
         if ($oid->num_rows == 0) {
             // TODO: configurare alert opportunamente!
         } else {
-            $progress_status = 'Piazzato';
-            $order = $mysqli->query("INSERT INTO `order` (`order_code`, `updated_at`, `total`, `progress_status`, `user_id`, `payment_id`, `coupon_id`) VALUES ($order_code, DATE(NOW()), $total, $progress_status, $user_id, $method_id, $coupon_id);");
-            $order = $order->fetch_assoc();
-            $order_id = $order["order_id"];
+            $order_id = $order['order_id'];
             do {
                 $product = $oid->fetch_assoc();
-                $product_id = $product['product_id'];
                 if ($product) {
+                    $product_id = $product['product_id'];
+                    $quantity = $product['quantity'];
+                    $price = $product['subtotal'];
                     try {
-                        $mysqli->query("INSERT INTO order_product (order_id, product_id) VALUES ($order_id, $product_id)");
-                        if ($mysqli->affected_rows == 1) {
-                            $response['success'] = "Elemento rimosso correttamente!";
-                        } else {
-                            $response['warning'] = "Nessuna modifica effettuata";
-                        }
+                        $mysqli->query("INSERT INTO order_product (order_id, product_id, quantity, price) VALUES ($order_id, $product_id, $quantity, $price)");
                     } catch (mysqli_sql_exception $e) {
-                        $response['error'] = "Errore nella rimozione";
+                        $response['error'] = "Errore nella rimozione " . $e->getMessage();
+                        exit(json_encode($response));
                     }
                 }
             } while ($product);
+            $mysqli->query("DELETE FROM user_product_cart WHERE user_id = $user_id");
+            $response['success'] = "Ordine piazzato correttamente";
+            $response['id'] = $order_id;
         }
     }
 
