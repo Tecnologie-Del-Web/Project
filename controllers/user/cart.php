@@ -2,7 +2,8 @@
 
 use JetBrains\PhpStorm\NoReturn;
 
-function cart() {
+function cart()
+{
 
     global $mysqli;
 
@@ -22,7 +23,8 @@ function cart() {
     $main->close();
 }
 
-function checkout() {
+function checkout()
+{
 
     global $mysqli;
 
@@ -43,7 +45,8 @@ function checkout() {
     $main->close();
 }
 
-function order() {
+function order()
+{
 
     $order_id = intval(explode('=', explode('?', $_SERVER['REQUEST_URI'])[1])[1]);
 
@@ -56,8 +59,7 @@ function order() {
 
     if ($order->num_rows == 0) {
         // TODO: gestire!
-    }
-    else {
+    } else {
         $order = $order->fetch_assoc();
         if ($order) {
             foreach ($order as $key => $value) {
@@ -234,8 +236,7 @@ function findCheckoutProducts(mysqli $mysqli, $user_id, Template $body)
                     $offer = $offer->fetch_assoc();
                     $subtotal = floatval($product['subtotal']) - floatval($product['subtotal']) * floatval($offer['percentage']) / 100.00;
                     $subtotal = number_format($subtotal, 2);
-                }
-                else {
+                } else {
                     $subtotal = $product['subtotal'];
                 }
                 $total += $subtotal;
@@ -411,13 +412,16 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
         $address_id = $_POST['address_id'];
         $coupon_code = $_POST['coupon_code'];
 
-        $order_code = $_SESSION['user']['username'] . $method_id . $coupon_code;
+        try {
+            $order_code = random_int(10000, 100000) . '-' . random_int(10000, 1000000);
+        } catch (Exception $e) {
+            $order_code = $_SESSION['user']['username'] . $method_id . $coupon_code;
+        }
 
         if (!(strcmp($coupon_code, '') == 0)) {
             $coupon_id = $mysqli->query("SELECT coupon_id FROM coupon WHERE coupon_code = '$coupon_code'")->fetch_assoc()['coupon_id'];
             $order = $mysqli->query("SELECT add_order_coupon('$order_code', $total, $user_id, $method_id, $coupon_id, $address_id) as order_id")->fetch_assoc();
-        }
-        else {
+        } else {
             $order = $mysqli->query("SELECT add_order('$order_code', $total, $user_id, $method_id, $address_id) as order_id")->fetch_assoc();
         }
 
@@ -434,6 +438,7 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
                     $quantity = $product['quantity'];
                     $price = $product['subtotal'];
                     try {
+                        $mysqli->query("UPDATE product SET quantity_available = product.quantity_available-$quantity WHERE product_id=$product_id");
                         $mysqli->query("INSERT INTO order_product (order_id, product_id, quantity, price) VALUES ($order_id, $product_id, $quantity, $price)");
                     } catch (mysqli_sql_exception $e) {
                         $response['error'] = "Errore nella rimozione " . $e->getMessage();
@@ -463,8 +468,7 @@ function setupCouponApplication(mysqli $mysqli, $brand_id, Template $body): void
 
         if ($coupon->num_rows == 0) {
             $response['no_coupons'] = "Coupon non trovato!";
-        }
-        else {
+        } else {
             try {
                 $coupon = $coupon->fetch_assoc();
                 $response['percentage'] = $coupon['percentage'];

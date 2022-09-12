@@ -16,7 +16,7 @@ function admin(): void
     $orders = $mysqli->query("SELECT COUNT(order_id) FROM `order`;");
     $analytics->setContent("orders", mysqli_fetch_row($orders)[0]);
 
-    $earnings = $mysqli->query("SELECT SUM(quantity*price) FROM order_product;");
+    $earnings = $mysqli->query("SELECT ROUND(SUM(quantity*price),2) FROM order_product;");
     $analytics->setContent("earnings", mysqli_fetch_row($earnings)[0]);
 
     $top_categories = $mysqli->query("SELECT category_name, 
